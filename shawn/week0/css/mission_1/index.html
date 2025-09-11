@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu Example</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- 햄버거 버튼 -->
+    <button class="hamburger" aria-label="메뉴 열기">☰</button>
+
+    <!-- 네비게이션 (PC 화면에서는 가로 메뉴) -->
+    <ul class="nav" aria-label="주 메뉴">
+      <li><a class="nav-item active" href="/">Home</a></li>
+      <li><a class="nav-item" href="/projects">Projects</a></li>
+      <li><a class="nav-item" href="/members">Members</a></li>
+      <li><a class="nav-item" href="/faq">FAQ</a></li>
+    </ul>
+
+    <!-- 사이드바 메뉴 (모바일에서만 보임) -->
+    <div class="sidebar" id="sidebar">
+      <button class="close-btn" aria-label="메뉴 닫기">&times;</button>
+      <ul>
+        <li><a href="/" class="nav-item active">Home</a></li>
+        <li><a href="/projects" class="nav-item">Projects</a></li>
+        <li><a href="/members" class="nav-item">Members</a></li>
+        <li><a href="/faq" class="nav-item">FAQ</a></li>
+      </ul>
+    </div>
+
+    <div class="content">
+      <img class="logo" src="logo.webp" alt="Placeholder Image" />
+    </div>
+    <script>
+      const sidebar = document.getElementById("sidebar");
+      const hamburger = document.querySelector(".hamburger");
+      const closeBtn = document.querySelector(".close-btn");
+
+      hamburger.addEventListener("click", () => {
+        sidebar.classList.add("open");
+      });
+
+      closeBtn.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+      });
+    </script>
+  </body>
+</html>
+s
