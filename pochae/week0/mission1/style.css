@@ -1,0 +1,93 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #eef3f9;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+}
+
+/* 헤더 */
+header {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+/* 입력창 */
+input {
+  display: block;
+  width: 60%;
+  max-width: 600px;
+  margin: 0 auto 30px auto;
+  padding: 12px;
+  border: 2px solid black;
+  font-size: 1rem;
+}
+
+input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* todo-container (해야 할 일 / 해낸 일) */
+.todo-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  width: 60%;
+  max-width: 800px;
+}
+
+/* 각 section */
+.todo-container section {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* section 제목 */
+.todo-container h4 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #dbe1eb;
+  padding-bottom: 8px;
+}
+
+/* 리스트 */
+.todo-container ul {
+  list-style: none;
+}
+
+.todo-container li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 3px solid #eee;
+}
+
+/* 완료 / 삭제 버튼 */
+button {
+  border: none;
+  background: #e5ebf5;
+  color: #333;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background: #cdd8ea;
+}
