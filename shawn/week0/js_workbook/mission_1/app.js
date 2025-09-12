@@ -4,7 +4,9 @@ const doneList = document.getElementById("done-list");
 
 function addTodo(text) {
   const li = document.createElement("li");
-  li.textContent = text;
+
+  const span = document.createElement("span");
+  span.textContent = text;
 
   const completeBtn = document.createElement("button");
   completeBtn.textContent = "완료";
@@ -13,6 +15,7 @@ function addTodo(text) {
     completeTodo(li, text);
   };
 
+  li.appendChild(span);
   li.appendChild(completeBtn);
   todoList.appendChild(li);
 }
@@ -33,7 +36,7 @@ function completeTodo(li, text) {
   doneList.appendChild(doneLi);
 }
 
-todoInput.addEventListener("keydown", function (e) {
+todoInput.addEventListener("keyup", function (e) {
   if (e.key === "Enter") {
     const value = todoInput.value.trim();
     if (value) {
