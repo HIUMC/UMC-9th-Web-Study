@@ -1,0 +1,106 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+.container{
+    width: 500px;
+}
+.title{
+    display: flex;
+    justify-content: center;
+    padding:100px;
+}
+.TodoList{
+    width: 100%;
+}
+.TodoList__form{
+    display: flex;
+}
+.TodoList__searchbar{
+    flex:1;
+    padding:8px;
+    border-radius: 6px;
+    height: 30px;
+    border: 1px solid black;
+    font-size:14px;
+}
+.TodoList__submitButton{
+    background-color: #28a745;
+    color:white;
+    border:none;
+    border-radius: 6px;
+}
+.TodoList__list{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 20px;
+}
+.TodoList__list p{
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    border-bottom:2px solid black;
+}
+.TodoList__todo{
+    display: flex;
+    width: 200px;
+    flex-direction: column;
+}
+.TodoList__todo ul{
+    padding:0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.TodoList__done{
+    display: flex;
+    width: 200px;
+    flex-direction: column;
+}
+.TodoList__done ul{
+    padding:0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#todo-list li{
+    display: flex;
+    justify-content: space-between;
+    margin:0;
+    width: 70%;
+    padding:20px;
+    border-radius: 6px;
+    background-color: bisque;
+    list-style-type: none;
+    border-bottom: 2px solid black;
+}
+#todo-list button{
+    background-color:skyblue;
+    border: none;
+    padding:8px 16px;
+    border-radius: 6px;
+}
+#done-list li{
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+    padding:20px;
+    list-style-type: none;
+    border-radius: 6px;
+    background-color: bisque;
+    border-bottom: 2px solid black;
+}
+#done-list button{
+    background-color:skyblue;
+    border: none;
+    padding:8px 16px;
+    border-radius: 6px;
+}
