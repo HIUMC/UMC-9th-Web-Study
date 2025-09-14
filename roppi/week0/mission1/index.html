@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>smumc</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="hamburger">☰</div>
+      <nav class="navbar">
+      
+        <ul>
+          <li>logo</li>
+          <li>Project</li>
+          <li>Members</li>
+          <li>FAQ</li>
+        </ul>
+      </nav>
+    </div>
+    <main>
+        <img class="main__img" src="logo(1).webp" alt=""logo />
+        <p class="main__content">앱&웹 서비스 런칭에 도전하는 대학생 IT 연합동아리</p>
+        <div class="main_btnContainer">
+          <button class="main_btn">9기 모집 완료</button>
+        </div>
+      </main>  
+  </div>
+    <!-- 오른쪽에서 나올 사이드바 -->
+  <div class="sidebar">
+    <ul>
+      <li>Home</li>
+      <li>Project</li>
+      <li>Members</li>
+      <li>FAQ</li>
+    </ul>
+  </div>
+
+  <script>
+  const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.querySelector('.sidebar');
+
+    hamburger.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      hamburger.classList.toggle('active');
+
+      // 글자 바꾸기 (☰ ↔ ✖)
+      if (hamburger.classList.contains('active')) {
+        hamburger.textContent = '✖';
+      } else {
+        hamburger.textContent = '☰';
+      }
+    });
+  </script>
+</body>
+</html>
