@@ -1,0 +1,87 @@
+body{
+    color : white;
+}
+.container{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4,20%);
+    grid-template-rows: repeat(8,12.5%);
+    height: 100vh;
+    
+}
+.header{
+    grid-column : span 1;
+    background-color: darkblue;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu{
+    grid-column : span 3;
+    background-color: brown;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero{
+    grid-column : span 4;
+    grid-row: span 3;
+    background-color: aqua;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main{
+    background-color: darkblue;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 5;
+    grid-row-end: 8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.empty{
+    background-color: white;
+    grid-column-start: 3;
+    grid-column-end: 3;
+    grid-row-start: 5;
+    grid-row-end: 8; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.image{
+    background-color: mediumaquamarine;
+    grid-column-start: 4;
+    grid-column-end: 4;
+    grid-row-start: 5;
+    grid-row-end: 6.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.extra{
+    background-color: mediumturquoise;
+    grid-column-start: 4;
+    grid-column-end: 4;
+    grid-row-start: 6;
+    grid-row-end: 8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner{
+    background-color: yellow;
+    grid-column-start: 1;
+    grid-column-end : 5;
+    grid-row-start : 8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,96 @@
+
+body {
+    font-family: sans-serif;
+    background-color: white; 
+    color: #333;
+    padding-top: 50px;
+}
+
+.content-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 50px auto; 
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* 제목 */
+.app-header {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    color: #444;
+}
+
+/* 입력창 */
+.app-input {
+    width: 85%;
+    display: block;
+    margin : auto;
+    padding-bottom: 10px;
+    font-size: 24px;
+    border: 2px solid #ddd;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+.app-input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+
+.lists-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 40px; 
+    margin-top: 10px;
+}
+
+.list-wrapper{
+    text-align : center;
+}
+
+.list-wrapper__title {
+    font-size: 20px;
+    color: #555;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    display: inline-block;
+    border-bottom: 2px solid lightgrey;
+}
+
+
+.todo-list {
+    list-style: none;
+    padding: 0;
+}
+.todo-list__item {
+    text-align: left;
+    width: 50%;
+    margin: auto;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    padding: 9px;
+    border-bottom: 3px solid lightgray;
+}
+.todo-list__text {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.todo-list__btn {
+    border : none;
+    background-color: lightgray;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px ;
+}
+.todo-list__btn--complete { color: black; }
+.todo-list__btn--delete { color: black; }
+.todo-list__btn:hover{transform: scale(0.9);}
+
+
+#todo-list .todo-list__btn--delete { display: none; }
+#done-list .todo-list__btn--complete { display: none; }
