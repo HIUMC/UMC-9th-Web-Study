@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Animation</title>
+    <style>
+      .container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      @keyframes moveCircle {
+        0% {
+          transform: scaleX(1) translateY(-250px);
+        }
+        100% {
+          transform: scaleX(1.2) translateY(0);
+        }
+      }
+      .box {
+        width: 100px;
+        height: 100px;
+        /* 원 만들고 */
+        border-radius: 50%;
+        background-color: purple;
+        /* 계속 튀기는 애니메이션 */
+        animation: moveCircle 1s infinite ease-in alternate both running;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="box"></div>
+    </div>
+  </body>
+</html>
