@@ -1,58 +1,79 @@
-
+// 1. 필요한 HTML 요소들 선택하기
 const todoInput = document.getElementById('todo-input');
-const todoList = document.getElementById('todo-list');
-const doneList = document.getElementById('done-list');
+const todoList = document.getElementById('todo-list'); // '해야 할 일' 목록
+const doneList = document.getElementById('done-list'); // '해낸 일' 목록
 
-todoInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-        const todoText = todoInput.value.trim();
-        if (todoText !== '') {
-            addTodo(todoText);
-            todoInput.value = '';
-        }
-    }
-});
+function addTodo(text){
 
-function createTodoItem(text) {
-    const li = document.createElement('li');
-    li.className = 'todo-list__item';
+    const li = document.createElement("li");
+    li.classList.add('render-container__item');
 
-    const span = document.createElement('span');
-    span.className = 'todo-list__text';
+    const span = document.createElement("span");
+    span.classList.add('render-container__text');
     span.textContent = text;
 
-    const completeBtn = document.createElement('button');
-    completeBtn.className = 'todo-list__btn todo-list__btn--complete';
+    const completeBtn = document.createElement("button");
     completeBtn.textContent = '완료';
-    completeBtn.addEventListener('click', completeTodo);
+    completeBtn.classList.add("render-container__button");
 
-    const deleteBtn = document.createElement('button');
-    deleteBtn.className = 'todo-list__btn todo-list__btn--delete';
-    deleteBtn.textContent = '삭제';
-    deleteBtn.addEventListener('click', deleteTodo);
-    
+    completeBtn.addEventListener("click", () => {
+        completeTodo(li,text);
+    });
+
+
     li.appendChild(span);
     li.appendChild(completeBtn);
-    li.appendChild(deleteBtn);
-
-    return li;
+    todoList.appendChild(li);
 }
 
 
-function addTodo(text) {
-    const newTodo = createTodoItem(text);
-    todoList.appendChild(newTodo);
+function completeTodo(li, text){ 
+    li.remove();
+    const doneTask = document.createElement("li");
+    doneTask.classList.add("render-container__item");
+
+    const span  = document.createElement("span");
+    span.classList.add("rander-container__text");
+    span.textContent = text;
+    
+    const deleteBtn = document.createElement("button");
+    deleteBtn.classList.add("render-container__button");
+    deleteBtn.textContent = "삭제";
+    deleteBtn.addEventListener("click", () => deleteTask(doneTask));
+
+    doneTask.appendChild(span);
+    doneTask.appendChild(deleteBtn);
+    doneList.appendChild(doneTask);
+
+
+
+    const done = document.createElement("li");
+    done.textContent = text;
 }
 
 
-function completeTodo() {
-    const item = this.parentElement;
-    item.classList.add('todo-list__item');
-    doneList.appendChild(item); 
+
+function deleteTask(li){
+    li.remove();
 }
 
+// enter키 입력 이벤트 처리
+todoInput.addEventListener("keydown",(event)=>{
+    if (event.key == "Enter"){
+        addTodo(todoInput.value);
+        todoInput.value = "";
+    }
+    
+});
 
-function deleteTodo() {
-    const item = this.parentElement;
-    item.remove();
-}
+/*
+if (event.key== "Enter"){
+        const value = todoInput.value.trim();
+        if (value) {
+            addTodo(value)
+            todoInput.value = "";
+        }
+        
+    }
+
+    */

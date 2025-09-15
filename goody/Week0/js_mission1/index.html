@@ -1,33 +1,35 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="./style.css"/>
+        <script src="app.js" defer></script>
         <title>UMC Study Plan</title>
-        <link rel="stylesheet" href="style.css">
     </head>
+
     <body>
+        <div class="todo">
+            <div class="todo-header">UMC Study Plan</div>
+        </div>
+        
+        <div class="todo-bar">
+            <input class='todo-bar__input' id="todo-input" placeholder="스터디 계획을 작성해보세요!" />
+        </div>
+        <div class="todo-container">
+            <div class="render-container">
+                
+                <div class="render-container__section">
+                    <h2 class="render-container__title">해야 할 일</h2>
+                    <ul id="todo-list" class="render-container__list"></ul>
+                </div>
 
-        <main class="content-container">
-            <header class="app-header">
-                <h1>UMC Study Plan</h1>
-            </header>
-
-            <input type="text" id="todo-input" class="app-input" placeholder="스터디 계획을 작성해보세요!">
-
-            <div class="lists-container">
-                <section class="list-wrapper">
-                    <h2 class="list-wrapper__title">해야 할 일</h2>
-                    <ul id="todo-list" class="todo-list"></ul>
-                </section>
-
-                <section class="list-wrapper">
-                    <h2 class="list-wrapper__title">해낸 일</h2>
-                    <ul id="done-list" class="todo-list"></ul>
-                </section>
+                <div class="render-container__section">
+                    <h2 class="render-container__title">해낸 일</h2>
+                    <ul id="done-list" class="render-container__list"></ul>
+                </div>
             </div>
-        </main>
-
-    <script src="app.js" defer></script>
+        </div>
     </body>
 </html>
+
