@@ -7,53 +7,97 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
+<body class="home-bg">
   <div class="container">
     <div class="header">
       <div class="hamburger">☰</div>
       <nav class="navbar">
       
         <ul>
-          <li>logo</li>
-          <li>Project</li>
-          <li>Members</li>
-          <li>FAQ</li>
+          <li><a data-target="home" class="active">Home</a></li>
+             <li><a data-target="project">Project</a></li>
+          <li><a data-target="members">Members</a></li>
+          <li><a data-target="faq">FAQ</a></li>
         </ul>
       </nav>
     </div>
+  
+    <!-- 콘텐츠 뷰 -->
     <main>
-        <img class="main__img" src="logo(1).webp" alt=""logo />
-        <p class="main__content">앱&웹 서비스 런칭에 도전하는 대학생 IT 연합동아리</p>
-        <div class="main_btnContainer">
-          <button class="main_btn">9기 모집 완료</button>
+        <div id="home" class="view active">
+          <img class="main__img" src="logo(1).webp" alt=""logo />
+          <p class="main__content">앱&웹 서비스 런칭에 도전하는 대학생 IT 연합동아리</p>
+          <div class="main__btnContainer">
+          <button class="main__btn">9기 모집 완료</button>
         </div>
+          <div id="project" class="view">
+        <h2>Project</h2>
+        <p>이곳에서 프로젝트 정보를 보여줄 수 있습니다.</p>
+      </div>
+
+      <div id="members" class="view">
+        <h2>Members</h2>
+        <p>멤버 소개 페이지</p>
+      </div>
+
+      <div id="faq" class="view">
+        <h2>FAQ</h2>
+        <p>자주 묻는 질문 페이지</p>
+      </div>
       </main>  
   </div>
     <!-- 오른쪽에서 나올 사이드바 -->
   <div class="sidebar">
     <ul>
-      <li>Home</li>
-      <li>Project</li>
-      <li>Members</li>
-      <li>FAQ</li>
+      <li data-target="home">Home</li>
+      <li data-target="project">Project</li>
+      <li data-target="members">Members</li>
+      <li data-target="faq">FAQ</li>
     </ul>
   </div>
 
   <script>
   const hamburger = document.querySelector('.hamburger');
-    const sidebar = document.querySelector('.sidebar');
+  const sidebar = document.querySelector('.sidebar');
+  const navLinks = document.querySelectorAll('.navbar a, .sidebar li');
+  const views = document.querySelectorAll('.view');
+
 
     hamburger.addEventListener('click', () => {
       sidebar.classList.toggle('active');
       hamburger.classList.toggle('active');
 
       // 글자 바꾸기 (☰ ↔ ✖)
-      if (hamburger.classList.contains('active')) {
-        hamburger.textContent = '✖';
-      } else {
-        hamburger.textContent = '☰';
-      }
+     hamburger.textContent = hamburger.classList.contains('active') ? '✖' : '☰';
     });
+
+    // 메뉴 클릭 시 뷰 전환
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const targetId = link.getAttribute('data-target');
+
+        // 모든 뷰 숨기기
+        views.forEach(view => view.classList.remove('active'));
+        // 선택한 뷰만 보이기
+        document.getElementById(targetId).classList.add('active');
+
+        // 모든 메뉴 비활성화
+        navLinks.forEach(l => l.classList.remove('active'));
+        // 클릭된 메뉴 활성화
+        document.querySelectorAll(`[data-target="${targetId}"]`)
+          .forEach(l => l.classList.add('active'));
+
+        
+        document.body.className= ''; // 기존 클래스 제거
+        document.body.classList.add(`${targetId}-bg`); // 배경 클래스 추가
+
+        // 모바일 사이드바 닫기
+        sidebar.classList.remove('active');
+        hamburger.textContent = '☰';
+        hamburger.classList.remove('active');
+      });
+    });
+
   </script>
 </body>
 </html>

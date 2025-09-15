@@ -1,25 +1,49 @@
 body {
-  background-color: #1e1e1e;
+  /* background-color: #1e1e1e; */
   overflow-x: hidden; /* 사이드바 나올 때 스크롤 안 생기게 */
+  transition: background-color 0.3s ease;
 
 }
+
+/* 뷰별 배경 */
+body.home-bg {
+  background-color: #1e1e1e;
+  color: white;
+}
+
+body.project-bg {
+  background-color: #1e1e1e;
+  color: white;
+}
+
+body.members-bg {
+  background-color: rgb(241, 255, 241);
+  color: white;
+}
+
+body.faq-bg {
+  background-color: white;
+  color: black;
+}
+
 .container {
 display: flex;
 flex-direction: column;
 align-items: center;
+position: relative;
 
 }
+
 .header {
   margin: 20px 10px;
   width: calc(100% - 40px);
   display: flex;
   justify-content: center;
-  position: relative;
+  position: absolute;
+  top:10px
 }
 
-nav {
-width: 388px;
-}
+
 
 .navbar ul {
   width: 100%;
@@ -59,13 +83,13 @@ main {
   color: #eeeeee;
 }
 
-.main_btnContainer {
+.main__btnContainer {
   display: flex;
   justify-content: center;
   
 }
 
-.main_btn {
+.main__btn {
   width: 134px;
   height: 48px;
   border-radius: 10px;
@@ -83,6 +107,29 @@ main {
       right: 10px;
     }
 
+.navbar a, .sidebar a {
+    padding: 10px;
+}
+
+    .navbar a.active {
+      background: rgb(43, 123, 43);
+      padding: auto;;
+      border-radius: 20px;
+    }
+
+    .sidebar ul{
+      display: none;
+    }
+
+    /* 콘텐츠 영역 */
+    .view {
+      display: none;
+      padding: 2rem;
+    }
+    .view.active {
+      display: block;
+    }
+
  /* 모바일에서 스타일 바꾸기 */
     @media (max-width: 640px) {
       .navbar{
@@ -91,7 +138,7 @@ main {
       }
 
       .navbar ul {
-        display: none; /* 처음엔 안 보이게 */
+      display: none; /* 처음엔 안 보이게 */
         flex-direction: column;
         gap: 10px;
         background: #1e1e1e;
@@ -102,9 +149,6 @@ main {
         border-radius: 8px;
       }
 
-      .navbar ul.active {
-        display: flex; /* 햄버거 클릭하면 나타남 */
-      }
 
       .hamburger {
         display: block;
@@ -132,13 +176,20 @@ main {
     }
 
     .sidebar ul {
+      display: flex;
+      flex-direction: column;
       list-style: none;
       padding: 0;
+      margin-top: 40px;
+      margin-left: 20px;
+      gap: 30px
     }
+  
 
     .sidebar ul li {
-      margin: 1rem 0;
       cursor: pointer;
+      font-size: 30px;
+      font-weight: bold;
     }
 
    /* 햄버거 → X 토글 */
