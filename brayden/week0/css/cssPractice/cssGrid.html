@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box1 {
+      width: 800px;
+      height: 800px;
+      background-color: red;
+      box-sizing: border-box;
+      position: relative;
+      display: grid;
+      grid-template-columns: 160px 160px 160px 160px 160px;
+      grid-template-rows: 160px 160px 160px 160px 160px; 
+      /* gap: 20px; */
+    }
+    .box2 {
+      width: 100px;
+      height: 100px;
+      box-sizing: border-box;
+      background-color: orange;
+      position: relative;
+      transform: translate(30px, 30px);
+      grid-column: 3;
+      grid-row: 3;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box1">
+    <div class="box2"></div>
+  </div>    
+</body>
+
+</html>
