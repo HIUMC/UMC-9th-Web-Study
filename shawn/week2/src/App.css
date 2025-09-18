@@ -1,42 +1,127 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+/* App 전체 */
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+.todo-app {
+  font-family: "Arial", sans-serif;
+  background: white;
   padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 500px;
+  margin: 8rem auto;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.todo-app__title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.todo-app__section {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* 입력 폼 */
+.todo-form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  gap: 0.5rem;
 }
 
-.card {
-  padding: 2em;
+.todo-form__input {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
 }
 
-.read-the-docs {
-  color: #888;
+.todo-form__input:focus {
+  border-color: #4caf50;
+}
+
+.todo-form__button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #4caf50;
+  color: white;
+  transition: background 0.2s;
+}
+
+.todo-form__button:hover {
+  background: #43a047;
+}
+
+/* 섹션 */
+.todo-section {
+  flex: 1;
+}
+
+.todo-section__title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.todo-section__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* 아이템 */
+.todo-item {
+  background: #f9f9f9;
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.6rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todo-item__text {
+  font-size: 1rem;
+}
+
+.todo-item__button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+/* Modifier */
+.todo-item__button--complete {
+  background: #4caf50;
+  color: #fff;
+}
+
+.todo-item__button--complete:hover {
+  background: #43a047;
+}
+
+.todo-item__button--delete {
+  background: #e53935;
+  color: #fff;
+}
+
+.todo-item__button--delete:hover {
+  background: #c62828;
 }
