@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>background</title>
+  <link rel="stylesheet" href="nav.css">
+</head>
+
+<body style="margin: 0;">
+  <div class="nav-container">
+    <div class="hamburgerbutton" onclick="document.querySelector('.nav-menu').classList.toggle('active')">
+      <div class="hamburgerline"></div>
+      <div class="hamburgerline"></div>
+      <div class="hamburgerline"></div>
+    </div>
+    <nav class="nav-menu">
+    <div class="navbutton button__main">
+      <a href="main.html">
+        <div>
+          <img class="button__main--image" src="https://cdn-icons-png.flaticon.com/512/4535/4535728.png" width="20" alt="X">
+        </div>
+        <div class="button__main--text">
+          Home
+        </div>
+      </a>
+    </div>
+    <div class="navbutton button__projects">
+      <a href="projects.html">
+        Projects
+      </a>
+    </div>
+    <div class="navbutton button__members">
+      <a href="members.html">
+        Members
+      </a>
+    </div>
+    <div class="navbutton button__faq navbutton--enabled">
+      <a href="faq.html">
+        FAQ
+      </a>
+    </div>
+    </nav>
+    
+  </div>
+</body>
+
+</html>
