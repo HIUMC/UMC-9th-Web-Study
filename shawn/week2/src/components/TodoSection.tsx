@@ -1,4 +1,4 @@
-import type { Todo } from "../../../week1/chapter-2/src/App";
+import type { Todo } from "../App";
 
 type TodoSectionProps = {
   title: string;
