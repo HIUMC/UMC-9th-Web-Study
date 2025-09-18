@@ -2,6 +2,7 @@ import { useState } from "react";
 import TodoForm from "./components/TodoForm";
 import TodoSection from "./components/TodoSection";
 
+//TypeScript + React로 TodoList 구현
 export type Todo = {
   id: number;
   text: string;
