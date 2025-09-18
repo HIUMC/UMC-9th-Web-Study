@@ -1,0 +1,62 @@
+body {
+    margin: 0;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+}
+.container div {
+    font-size: 28px;
+    text-align: center;
+    align-content: center;
+}
+.headerblock {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+.headerblock div {
+    height: 100px;
+}
+.headerblock__header {
+    background-color: rgb(11, 9, 37);
+    color: white;
+}
+.headerblock__menu {
+    background-color: rgb(209, 60, 60);
+    color: white;
+}
+.mainblock {
+    display: grid;
+    grid-template-areas: 
+    "hero hero hero hero"
+    "hero hero hero hero"
+    "main main . image"
+    "main main . extra";
+    grid-auto-rows: 150px 150px 150px 150px;
+    grid-auto-columns: 25% 25% auto 150px;
+}
+.mainblock__hero {
+    background-color: rgb(81, 181, 228);
+    color: white;
+    grid-area: hero;
+}
+.mainblock__main {
+    background-color: rgb(34, 40, 71);
+    color: white;
+    grid-area: main;
+}
+.mainblock__image {
+    background-color: rgb(202, 234, 248);
+    color: black;
+    grid-area: image;
+}
+.mainblock__extra {
+    background-color: rgb(76, 211, 148);
+    color: black;
+    grid-area: extra;
+}
+.footerblock__banner {
+    background-color: rgb(248, 227, 110);
+    color: black;
+    height: 100px;
+}
