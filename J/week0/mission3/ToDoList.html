@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Todo List</title>
+  <style>
+    header {
+      margin-top: 20px;
+      text-align: center; 
+    }
+
+    header h1 {
+      display: inline-block;
+      position: relative;
+      padding-bottom: 80px;
+    }
+
+    header h1::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 350%;
+      height: 1px;
+      background-color: #b4c2d2;
+    }
+
+    body {
+      font-family: sans-serif;
+      display: flex;
+      background-color: rgb(228, 235, 238);
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input {
+      padding: 10px;
+      width: 600px;
+      border: 2px solid black;
+      transition: border-color 0.3s;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: rgb(82, 127, 205);
+      border-radius: 3px;
+    }
+
+    button {
+      border: none;
+      padding: 3px;
+      margin-left: 5px;
+      background-color: #cfdae8;
+    }
+    section {
+      text-align: center;
+      width: 420px;
+      margin-top: 10px;
+    }
+    section strong {
+      display: inline-block;
+      position: relative;
+      padding-bottom: 1px;
+    }
+    section strong::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: #b4c2d2;
+    }
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+    }
+    li {
+      font-weight: bold;
+      font-size: large;
+      width: 200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 2px solid #b4c2d2;
+      margin-bottom: 5px;
+    }
+    
+  </style>
+</head>
+<body>
+  <header><h1>UMC Study Plan</h1></header>
+  <div><input type="text" id="input" placeholder="스터디 계획을 작성해보세요!"></div>
+
+  <div style="display: flex; justify-content: center; align-items: flex-start;">
+  <section>
+    <strong>해야 할 일</strong>
+    <ul id="todoList"></ul>
+  </section>
+
+  <section>
+    <strong>해낸 일</strong>
+    <ul id="doneList"></ul>
+  </section>
+  </div>
+
+  <script>
+    const input = document.getElementById("input");
+    const todoList = document.getElementById("todoList");
+    const doneList = document.getElementById("doneList");
+
+    input.addEventListener("keyup", (e) => {
+      if (e.key === "Enter") {
+      const text = input.value.trim();
+      if (!text) return;
+
+      const li = document.createElement("li");
+      li.textContent = text;
+
+      const completeBtn = document.createElement("button");
+      completeBtn.textContent = "완료";
+      completeBtn.addEventListener("click", () => {
+        todoList.removeChild(li);
+        doneList.appendChild(li);
+        li.removeChild(completeBtn);
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "삭제";
+        deleteBtn.addEventListener("click", () => {
+          doneList.removeChild(li);
+        });
+        li.appendChild(deleteBtn);
+      });
+
+      li.appendChild(completeBtn);
+      todoList.appendChild(li);
+      input.value = "";
+    };
+  });
+  </script>
+
+</body>
+</html>
