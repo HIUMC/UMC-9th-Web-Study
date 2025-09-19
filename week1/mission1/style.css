@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(243, 243, 243);
+}
+.todo-container {
+    background-color: white;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(10, 10, 10, 0.1);
+    width: 400px;
+    text-align: center;
+}
+.todo-container__header {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+.todo-container__form {
+    display: flex;
+    gap: 15px;
+}
+.todo-container__input {
+    width: 200px;
+    height: 30px;
+    border: 1px solid darkgray;
+    border-radius: 6px;
+    padding: 8px;
+    flex: 1;
+    font-size: 14px;
+}
+.todo-container__add-button {
+    background-color: rgb(102, 185, 81);
+    color: white;
+    border: 1px solid darkgray;
+    border-radius: 6px;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.todo-container__add-button:hover {
+    background-color: rgb(86, 150, 68);
+}
+.render-container {
+    display: flex;
+    justify-content: space-between;
+}
+.render-container__section {
+    margin-top: 20px;
+    width: 100%;
+    text-align: left;
+}
+.render-container__title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+.render-container__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.render-container__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid rgb(219, 219, 219);
+    background-color: rgb(236, 236, 236);
+    border-radius: 6px;
+    width: 100%;
+}
+.render-container__item-text {
+    flex: 1;
+}
+.render-container__item-button {
+    background-color: rgb(236, 82, 82);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+}
+.render-container__item-button:hover {
+    background-color: rgb(206, 70, 70);
+}
