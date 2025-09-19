@@ -33,6 +33,7 @@ const renderTasks = (): void => {
 const getTodoText = (): string => {
     return todoInput.value.trim();
 } 
+
 // 4. 할 일 추가 처리 함수
 const addTodo = (text:string) : void => {
     todos.push({id : Date.now() , text});
