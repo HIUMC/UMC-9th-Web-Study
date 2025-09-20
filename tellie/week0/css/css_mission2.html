@@ -17,27 +17,34 @@
     }
     .structure {
         display: grid;
-        grid-template-columns: repeat(4, 1fr); /* 가로 4등분 */
-        grid-template-rows: 1fr 3fr 3fr 1fr; /* 세로 4등분 (1:3:3:1) */
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: 1fr 3fr 3fr 1fr;
         width: 100%;
         height: 100%;
         box-sizing: border-box;
 
     }
+    .structure > * {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 1.75rem;
+    }
     .header__Header {
-        background-color: black;
+        background-color: #0f2236;
         color: white;
         grid-column: 1/2;
         grid-row: 1/2; 
     }
     .header__Menu {
-        background-color: red;
+        background-color: #ef4450;
         color:white;
         grid-column: 2/5;
         grid-row: 1/2;
     }
     .main__Hero {
-        background-color: rgb(90, 114, 188);
+        background-color: #5b7fc7;
         color: white;
         grid-column: 1/5;
         grid-row: 2/3;
@@ -46,29 +53,52 @@
         grid-column: 1/5;
         grid-row: 3/4;
         display: flex;
-        justify-content: space-between
-    }
-    .main__Main {
-        background-color: rgb(4, 14, 48);
-        color: white;
-        width: 50%;
+        justify-content: space-between;
+        align-items: stretch;
         height: 100%;
     }
+    .main__Main {
+        background-color: #0f2542;
+        color: white;
+        flex: 2 1 0%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+    }
+    .main__gutter {
+        flex: 1 1 0%;
+        background: white;
+        height: 100%;
+    }
+
     .main__same-column {
-        width: 25%;
+        flex: 1 1 0%;
         display: grid;
         grid-template-rows: repeat(2, 1fr);
+        align-items: stretch;
+        justify-items: stretch;
+        height: 100%;
+        gap: 0;
+    }
+    .main__same-column > * {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 1.75rem;
     }
     .main__Image {
-        background-color: lightblue;
+        background-color: #d3f0f2;
         color: black;
     }
     .main__Extra {
-        background-color: rgb(37, 110, 23);
+        background-color: #3db887;
         color: black;
     }
     .footer__Banner {
-        background-color: yellow;
+        background-color: #ffd76b;
         color: black;
         grid-column: 1/5;
         grid-row: 4/5;
@@ -82,6 +112,7 @@
         <div class="main__Hero">HERO</div>
         <div class="main__Flex">
             <div class="main__Main">MAIN</div>
+            <div class="main__gutter"></div>
             <div class="main__same-column">
                 <div class="main__Image">IMAGE</div>
                 <div class="main__Extra">EXTRA</div>

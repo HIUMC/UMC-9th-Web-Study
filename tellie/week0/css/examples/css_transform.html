@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title> transform </title>
+  <style>
+    .box {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        background-color: orange;
+    }
+    .box1 {
+      border: 1px solid black;
+      background-color: transparent; /* 내부 투명 */
+    }
+    .box2 {
+      background-color: orange;
+      transform: matrix(1,0,0,1,10,20);
+
+    }
+  </style>
+</head>
+<body>
+    <div class="box box1"></div>
+    <div class="box box2"></div>
+</body>
+</html>

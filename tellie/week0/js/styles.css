@@ -5,7 +5,7 @@ body, html {
 }
 
 body {
-    background-color: rgb(212, 238, 248);
+    background-color: #e9eef1;
     display: flex;
     flex-direction: column;
     align-items: center;

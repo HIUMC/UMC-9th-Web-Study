@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title> block, inline, inline-block의 차이 </title>
+  <style>
+    .block {
+      display: block;
+      background: skyblue;
+      width: 250px;
+      height: 100px;
+      margin: 10px;
+    }
+
+    .inline {
+      display: inline;
+      background: purple;
+      width: 250px;  /* inline에서는 width 무시됨 */
+      height: 100px;  /* inline에서는 height 무시됨 */
+      margin: 10px;
+    }
+
+    .inline-block {
+      display: inline-block;
+      background: coral;
+      width: 250px;
+      height: 100px;
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2> block 요소 </h2>
+  <div class="block"> block 1 </div>
+  <div class="block"> block 2 </div>
+
+  <h2> inline 요소 </h2>
+  <span class="inline"> inline 1 </span>
+  <span class="inline"> inline 2 </span>
+
+  <h2> inline-block 요소 </h2>
+  <span class="inline-block"> inline-block 1 </span>
+  <span class="inline-block"> inline-block 2 </span>
+</body>
+</html>
