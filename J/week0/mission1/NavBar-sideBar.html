@@ -54,15 +54,28 @@
     }
 
     @media (max-width: 768px) {
+      body {
+        display: flex;
+        justify-content: flex-end;
+      }
       .navbar {
         display: flex;
         justify-content: flex-end;
+        background-color: rgb(66, 64, 64);
+        z-index: 1;
       }
 
       .hamburger {
         display: flex;
-      }
+        z-index: 1;
 
+      }
+      .hamburger::before {
+        content: "☰";
+      }
+      #menu-toggle:checked + .hamburger::before {
+        content: "✕";
+      }
       .nav-items {
         position: fixed;
         top: 0;
@@ -74,13 +87,22 @@
         justify-content: flex-start;
         align-items: center;
         padding-top: 60px;
-        transition: right 0.3s ease-in-out;
+        z-index: 0;
+        transition: right 0.3s;
       }
 
       .nav-items li {
+        font-size: x-large;
         margin: 15px 0;
       }
 
+      .nav-items li a:hover {
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .nav-items li a:focus {
+        color: #2aa154;
+        background-color: transparent;
+      }
       #menu-toggle:checked ~ .nav-items {
         right: 0;
       }
@@ -91,7 +113,7 @@
 <body>
   <nav class="navbar">
     <input type="checkbox" id="menu-toggle">
-    <label for="menu-toggle" class="hamburger">☰</label>
+    <label for="menu-toggle" class="hamburger"></label>
       <ul class="nav-items">
         <li><a href="#">Home</a></li>
         <li><a href="#">Projects</a></li>
