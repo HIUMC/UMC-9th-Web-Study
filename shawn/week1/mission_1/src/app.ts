@@ -14,7 +14,7 @@ function createButton(
   return btn;
 }
 
-function addTodo(text: string) {
+function addTodo(text: string) : void {
   const li = document.createElement("li");
   const span = document.createElement("span");
   span.textContent = text;
@@ -26,7 +26,7 @@ function addTodo(text: string) {
   todoList.appendChild(li);
 }
 
-function completeTodo(li: HTMLLIElement, text: string) {
+function completeTodo(li: HTMLLIElement, text: string) : void {
   li.remove();
   const doneLi = document.createElement("li");
   doneLi.textContent = text;
