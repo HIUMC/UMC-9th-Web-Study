@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY TODO</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="./dist/script.js" defer></script>
+</head>
+<body>
+    <div class="todo-container">
+        <div class="todo-container__header">
+            <h1>MY TODO</h1>
+        </div>
+        <form class="todo-container__form" id="todo-form">
+            <input type="text" class="todo-container__input" id="todo-input" placeholder="할 일 입력" required>
+            <button type="submit" class="todo-container__add-button">할 일 추가</button>
+        </form>
+        <div class="render-container">
+            <div class="render-container__section">
+                <h2 class="render-container__title">
+                    할 일
+                </h2>
+                <ul id="todo-list" class="render-container__list">
+                </ul>
+            </div>
+            <div class="render-container__section">
+                <h2 class="render-container__title">
+                    완료
+                </h2>
+                <ul id="done-list" class="render-container__list">
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
