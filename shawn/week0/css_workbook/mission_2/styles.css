@@ -1,0 +1,80 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+.container {
+  width: 100%;
+  display: grid;
+  grid-template-areas:
+    "header menu menu menu"
+    "hero hero hero hero"
+    "main main empty sidebar "
+    "banner banner banner banner";
+  grid-template-columns: 1fr 1fr 1fr 1fr; /* main | white space | sidebar */
+  grid-template-rows: auto 300px 400px auto;
+  height: 100vh;
+}
+
+.header {
+  grid-area: header;
+  background: #1a2238;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.menu {
+  grid-area: menu;
+  background: #e63946;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.hero {
+  grid-area: hero;
+  background: #457b9d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.main {
+  grid-area: main;
+  background: #0d1b2a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.empty {
+  grid-area: empty;
+  background: white; /* 흰색 공간 */
+}
+.sidebar {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+}
+.image {
+  flex: 1;
+  background: #a8dadc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.extra {
+  flex: 1;
+  background: #2a9d8f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.banner {
+  grid-area: banner;
+  background: #f4a261;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

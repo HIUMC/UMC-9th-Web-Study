@@ -1,0 +1,9 @@
+# TypeScript build output
+dist/
+
+# Node modules (만약 나중에 npm install 쓰면 생김)
+node_modules/
+
+# OS / Editor files
+.DS_Store
+.vscode/

@@ -1,0 +1,116 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #111;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 100px;
+}
+
+.logo {
+  width: 600px;
+}
+/* 네비게이션 바 (PC 화면 기본) */
+.nav {
+  position: sticky;
+  top: 1rem;
+  margin: 0 auto;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(17, 24, 39, 0.4);
+  backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  padding: 0.5rem;
+  list-style: none;
+  width: fit-content;
+  z-index: 100;
+}
+
+/* 공통 버튼 스타일 */
+.nav-item {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  text-decoration: none;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+/* hover 효과 */
+.nav-item:hover {
+  background-color: #16a34a;
+  color: #d1d5db;
+}
+
+/* 현재 선택된 메뉴 */
+.nav-item.active {
+  background-color: #16a34a;
+  color: white;
+}
+
+/* 햄버거 버튼 (모바일 전용) */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 101;
+}
+
+/* 사이드바 (초기 숨김 상태) */
+/* 사이드바 (기본 숨김: 오른쪽 바깥 + 투명) */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -250px; /* 화면 밖으로 숨김 */
+  width: 250px;
+  height: 100%;
+  background-color: rgba(17, 24, 39, 0.95);
+  padding: 1rem;
+  transition: right 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  z-index: 200;
+  opacity: 0; /* 안 보이게 */
+}
+
+/* 사이드바 열릴 때 */
+.sidebar.open {
+  right: 0; /* 오른쪽에서 슬라이드 */
+  opacity: 1;
+}
+.sidebar .close-btn {
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+/* 반응형: 작은 화면일 때 Navbar 숨기고 햄버거 버튼 보이기 */
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+  .hamburger {
+    display: block;
+  }
+}
+@media screen and (min-width: 768px) {
+  .nav {
+    display: flex;
+  }
+}
