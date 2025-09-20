@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Block과 Inline과 Inline-block의 차이점</title>
+        <style>
+            .example {
+                background: lightpink;
+            }
+            .block { /* 항상 줄바꿈 */
+                display: block;
+                width: 120px;
+                height: 50px;
+            }
+            .inline { /* 옆으로 나란히 배치 */
+                display: inline;
+                width: 120px; /* height, width 적용 안됨. text 크기 만큼만 영역 차지*/
+                height: 50px;
+            }
+            .inline-block {
+                display: inline-block; /* 옆으로 나란히 배치됨 (inline 처럼) */
+                width: 120px; /* width, height 적용됨 (block 처럼) */
+                height: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Block</h2>
+        <div class="example block">Block 1</div>
+        <div class="example block">Block 2</div>
+        <div class="example block">Block 3</div>
+
+        <h2>Inline</h2>
+        <span class="example inline">Inline 1</span>
+        <span class="example inline">Inline 2</span>
+        <span class="example inline">Inline 3</span>
+
+        <h2>Inline-block</h2>
+        <span class="example inline-block">Inline-block 1</span>
+        <span class="example inline-block">Inline-block 2</span>
+        <span class="example inline-block">Inline-block 3</span>
+
+    </body>
+</html>
