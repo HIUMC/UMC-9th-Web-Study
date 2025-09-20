@@ -38,18 +38,67 @@
     .nav-items li a:focus {
       background-color: #2aa154;
     }
+    .hamburger {
+      display: none;
+      color: white;
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      padding: 0 10px;
+      border-radius: 50%;
+      justify-content: center;
+      align-items: center;
+    }
+    #menu-toggle {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-items {
+        position: fixed;
+        top: 0;
+        right: -250px;
+        height: 100%;
+        width: 250px;
+        background-color: #807b7b;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 60px;
+        transition: right 0.3s ease-in-out;
+      }
+
+      .nav-items li {
+        margin: 15px 0;
+      }
+
+      #menu-toggle:checked ~ .nav-items {
+        right: 0;
+      }
+    }
   </style>
 </head>
 
 <body>
   <nav class="navbar">
-  <ul class="nav-items">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Projects</a></li>
-    <li><a href="#">Members</a></li>
-    <li><a href="#">FAQ</a></li>
-  </ul>
-</nav>
+    <input type="checkbox" id="menu-toggle">
+    <label for="menu-toggle" class="hamburger">☰</label>
+      <ul class="nav-items">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Members</a></li>
+        <li><a href="#">FAQ</a></li>
+    </ul>
+  </nav>
 </body>
 
 </html>
