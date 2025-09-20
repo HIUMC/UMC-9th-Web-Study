@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Navbar</title>
+    
+</head>
+<body>
+
+  <button class="nav-toggle" aria-label="메뉴 열기/닫기">☰</button>
+
+  <nav class="nav">
+    <ul class="nav__menu">
+      <li><a class="nav__link nav__link--active" href="/">Home</a></li>
+      <li><a class="nav__link" href="/projects">Projects</a></li>
+      <li><a class="nav__link" href="/members">Members</a></li>
+      <li><a class="nav__link" href="/notice">FAQ</a></li>
+    </ul>
+  </nav>
+
+  <nav class="sidebar">
+    <div class="sidebar__inner">
+      <button class="nav-toggle" aria-label="메뉴 열기/닫기">☰</button>
+      <ul class="nav__list">
+        <li><a class="nav__link nav__link--active" href="/">Home</a></li>
+        <li><a class="nav__link" href="/projects">Projects</a></li>
+        <li><a class="nav__link" href="/members">Members</a></li>
+        <li><a class="nav__link" href="/notice">FAQ</a></li>
+      </ul>
+
+    </div>
+  </nav>
+
+  <script>
+    const toggleBtn = document.querySelector('.nav-toggle');
+    const sidebar = document.querySelector('.sidebar');
+
+    toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('sidebar--open');
+    });
+  </script>
+</body>
+</html>
