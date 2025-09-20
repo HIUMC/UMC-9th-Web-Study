@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>미션2</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing: border-box;
+    }
+    .center{
+      display:flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .header{
+      width:100%;
+      height:10vh;
+      display:flex;
+      align-items: center;
+    }
+    .header__brand{
+      width:30%;
+      height:100%;
+      background-color:black;
+      color:white;
+    }
+    .header__nav{
+      width:70%;
+      height:100%;
+      background-color: salmon;
+      color:white;
+    }
+
+    .main{
+      width:100%;
+      height:80vh;
+      display:grid;
+      grid-template-columns: repeat(4,25%);
+      grid-template-rows: repeat(4,25%);
+    }
+    .main__hero{
+      background-color: aqua;
+      color: white;
+      grid-row:1/3;
+      grid-column: 1/5;
+    }
+    .main__article{
+      background-color: purple;
+      color:white;
+      grid-row:3/5;
+      grid-column:1/3;
+    }
+    .main__image{
+      background-color:lightgray;
+      grid-row:3/4;
+      grid-column:4/5;
+    }
+    .main__extra{
+      background-color: lightseagreen;
+      grid-row:4/5;
+      grid-column:4/5;
+    }
+    .banner{
+      width:100%;
+      height:10vh;
+      background-color: yellowgreen;
+      color:black;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header__brand center">HEADER</div>
+    <nav class="header__nav center">MENU</nav>
+  </header>
+  
+  <main class="main">
+    <section class="main__hero center">HERO</section>
+    <section class="main__article center">MAIN</section>
+    <section class="main__image center">IMAGE</section>
+    <section class="main__extra center">EXTRA</section>
+    
+  </main>
+
+  <aside class="banner center">BANNER</aside>
+</body>
+</html>

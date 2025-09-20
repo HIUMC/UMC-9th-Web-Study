@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UMC Study Plan</title>
+  <link rel="stylesheet" href="미션3.css">
+  <script src="미션3.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>UMC Study Plan</h1>
+  </header>
+  <main class="main">
+    <form>
+      <input id="todo-input" class="main__input" type="text" placeholder="스터디 계획을 작성해보세요!" />
+    </form>
+
+    <div class="main__list">
+      <section class="needto task-list">
+        <h3>해야 할 일</h3>
+        <ul id="todo-list">
+
+        </ul>
+      </section>
+      <section class="done task-list">
+        <h3>해낸 일</h3>
+        <ul id="done-list">
+          
+        </ul>
+      </section>
+    </div>
+  
+    <!-- 해야 할 일(li: 완료 버튼) -->
+    <template id="tpl-todo-item">
+      <li class="item">
+        <span class="text"></span>
+        <div class="actions">
+          <button type="button" class="btn btn-complete" data-action="complete">완료</button>
+        </div>
+      </li>
+    </template>
+
+    <!-- 해낸 일(li: 삭제 버튼) -->
+    <template id="tpl-done-item">
+      <li class="item">
+        <span class="text"></span>
+        <div class="actions">
+          <button type="button" class="btn btn-delete" data-action="delete">삭제</button>
+        </div>
+      </li>
+    </template>
+
+
+  </main>
+</body>
+</html>
