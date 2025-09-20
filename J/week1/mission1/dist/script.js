@@ -25,7 +25,7 @@ const addTodo = (text) => {
     todoInput.value = "";
     renderTasks();
 };
-const completeTodo = (todo) => {
+const compleTodo = (todo) => {
     todos = todos.filter((t) => t.id !== todo.id);
     doneTasks.push(todo);
     renderTasks();
@@ -36,10 +36,10 @@ const deleteTodo = (todo) => {
 };
 const createTodoElement = (todo, isDone) => {
     const li = document.createElement("li");
-    li.classList.add("render-container__item");
+    li.classList.add("render-container_item");
     li.textContent = todo.text;
     const button = document.createElement("button");
-    button.classList.add("render-container__item-button");
+    button.classList.add("render-container_item-button");
     if (isDone) {
         button.textContent = "삭제";
         button.style.backgroundColor = "#dc3545";
@@ -53,7 +53,7 @@ const createTodoElement = (todo, isDone) => {
             deleteTodo(todo);
         }
         else {
-            completeTodo(todo);
+            compleTodo(todo);
         }
     });
     li.appendChild(button);
