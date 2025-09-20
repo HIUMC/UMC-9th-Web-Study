@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📍Todo List</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="todo__header">🐸 Todo List 🐸</header>
+
+  <div class="todo">
+    <input type="text" class="todo__input" placeholder="스터디 계획을 작성해보세요"/>
+    <div class="todo__container">
+      <section class="todo__section">
+        <h2 class="todo__title">해야 할 일</h2>
+        <ul class="todo__list todo__list--todo"></ul>
+      </section>
+  
+      <section class="todo__section">
+        <h2 class="todo__title">해낸 일</h2>
+        <ul class="todo__list todo__list--done"></ul>
+      </section>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
