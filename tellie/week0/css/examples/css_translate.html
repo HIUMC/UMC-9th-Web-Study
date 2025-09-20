@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>translate 가운데 정렬</title>
+<style>
+    .background {
+        background-color: skyblue;
+        position: relative;
+        width: 500px;
+        height: 500px;
+    }
+
+    .box {
+        position: absolute;
+        width: 120px;
+        height: 80px;
+        background: coral;
+        text-align: center;
+        line-height: 80px;
+    }
+    
+    .box1 {
+        top: 25%;
+        left: 25%;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+    
+    .box2 {
+        bottom: 30%;
+        right: 30%;
+        transform: translate(50px, 50px) rotate(45deg);
+    }
+</style>
+</head>
+
+<body>
+  <div class="background">
+    <div class="box box1"> translate1 </div>
+    <div class="box box2"> translate2 </div>
+  </div>
+</body>
+</html>

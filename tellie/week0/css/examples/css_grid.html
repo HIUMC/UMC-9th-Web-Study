@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title> grid 가운데 정렬 </title>
+  <style>
+    .wrap {
+        height: 100vh; /* 화면 높이 기준 100% */
+        display: grid;
+        place-items: center; /* grid item들을 가로·세로 모두 중앙에 정렬 */
+        gap: 10px; /* item 사이의 간격 */
+        grid-template-columns: repeat(2, auto); /* grid를 2열로 나눠서 아이템을 배치 */
+    }
+    .box {
+        border: 1px solid black;
+        text-align: center;
+        background-color: skyblue;
+    }
+    .box1 { 
+        width: 100px; 
+        height: 100px; 
+    }
+    .box2 { 
+        width: 200px; 
+        height: 200px; 
+    }
+  </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="box box1"> grid1 </div>
+        <div class="box box2"> grid2 </div>
+        <div class="box box1"> grid1 </div>
+    </div>
+</body>
+</html>
