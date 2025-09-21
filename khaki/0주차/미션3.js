@@ -36,7 +36,7 @@ form.addEventListener('submit', (e) => {
   input.focus();
 });
 
-// 완료/삭제 (이벤트 위임)
+// 완료/삭제 (이벤트 위임) --> 이거는 자주쓰이는 문법(잘 알아두기!!)
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('button[data-action]');
   if (!btn) return;

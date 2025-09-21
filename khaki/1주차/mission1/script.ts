@@ -1,10 +1,20 @@
 // 1. HTML 요소 선택
 const todoInput = document.getElementById('todo-input') as HTMLInputElement;  
-const todoForm = document.getElementById('todo-form') as HTMLFormElement;
+const todoForm = document.querySelector<HTMLFormElement>('#todo-form');
+if (!todoForm) throw new Error('폼 요소 없음');
 const todoList = document.getElementById('todo-list') as HTMLUListElement;
 const doneList = document.getElementById('done-list') as HTMLUListElement;
-// TS에서는 이렇게 이 태그가 뭐하는 태그인지 알려줘야 함!
-// 이걸 통해 이 태그를 쓸 때 뭘 쓸수 있는지를 알려줌
+/* TS에서는 이렇게 이 태그가 뭐하는 태그인지 알려줘야 함!
+ 이걸 통해 이 태그를 쓸 때 뭘 쓸 수 있는지를 알려줌
+ DOM에서 필요한 요소를 찾아와서 타입까지 확정해 두는 단계
+
+  <쓰는 이유>
+  1. DOM 접근을 1번만 하고 재사용
+  2. TS에게 이 요소가 정확히 뭐인지를 알려줌으로써 자동완성, 타입체크를 제대로 해주게 한다. (as HTML~~ 부분)
+  3. 가독성과 의도 표현
+
+  <
+*/
 
 
 // 2. 할 일이 어떻게 생긴애인지 Type을 정의
