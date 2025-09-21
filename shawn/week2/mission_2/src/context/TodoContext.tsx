@@ -42,8 +42,7 @@ export function TodoProvider({ children }: { children: ReactNode }) {
 export function useTodo() {
   const context = useContext(TodoContext);
   if (!context) {
-    throw new Error("useTodo must be used whithin TodoProvider");
+    throw new Error("useTodo must be used within TodoProvider");
   }
-
   return context;
 }
