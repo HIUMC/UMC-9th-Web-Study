@@ -1,4 +1,5 @@
 @import "tailwindcss";
+/* html 태그 안에 dark: 으로 할 시 */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @media (prefers-color-scheme: light) {
@@ -9,4 +10,8 @@
   a:hover {
     color: #747bff;
   }
+}
+
+body {
+  @apply bg-gray-50 text-gray-900;
 }
