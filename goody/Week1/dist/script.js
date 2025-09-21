@@ -22,7 +22,7 @@ const getTodoText = () => {
 };
 const addTodo = (text) => {
     todos.push({ id: Date.now(), text });
-    todoInput.value = '';
+    todoInput.value = "";
     renderTasks();
 };
 const completeTodo = (todo) => {
@@ -42,11 +42,11 @@ const creteTodoElement = (todo, isDone) => {
     button.classList.add('render-container__item-button');
     if (isDone) {
         button.textContent = '삭제';
-        button.style.backgroundColor = '#dc3545';
+        button.classList.add("render-container__item-button--delete");
     }
     else {
         button.textContent = '완료';
-        button.style.backgroundColor = '#28a745';
+        button.classList.add("render-container__item-button--complete");
     }
     button.addEventListener('click', () => {
         if (isDone) {
