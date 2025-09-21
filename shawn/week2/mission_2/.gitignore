@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+.DS_Store
+9th_Git_Workbook/
 
 # Editor directories and files
 .vscode/*
