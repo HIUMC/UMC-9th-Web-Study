@@ -67,11 +67,11 @@ const creteTodoElement = (todo : Todo, isDone: boolean) : HTMLElement =>{
 
     if(isDone) {
         button.textContent = '삭제';
-        button.style.backgroundColor = '#dc3545';
+        button.classList.add("render-container_item-button--delete")
     } 
     else{
         button.textContent = '완료';
-        button.style.backgroundColor = '#28a745'
+        button.classList.add("render-container_item-button__complete")
     }
     button.addEventListener('click',() : void => {
         if(isDone){
@@ -96,3 +96,4 @@ todoForm.addEventListener('submit',(event: Event) : void => {
 });
 
 renderTasks();
+

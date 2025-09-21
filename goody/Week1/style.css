@@ -50,6 +50,8 @@ body{
     border-radius: 6px;
     transition: background-color 0.3s ease;
 }
+
+
 .todo-container__button:hover{
     background-color: #218838;
 }
@@ -107,10 +109,21 @@ body{
 }
 
 
-.render-container__item-button:hover{
+.render-container__item-button--delete{
+    background-color: red;
+}
+
+.render-container__item-button--delete:hover{
     background-color: #c82333;
 }
 
+.render-container__item-button--complete{
+    background-color: green;
+}
+
+.render-container__item-button--complete:hover{
+    background-color: #218838;
+}
 
 
 
