@@ -1,4 +1,4 @@
-// context 도입 전 버전
+// context 도입 전 버전 
 
 import { useState } from 'react';
 import type { TTodo } from '../types/todo.ts'; // 타입전용 import를 구분해야함
