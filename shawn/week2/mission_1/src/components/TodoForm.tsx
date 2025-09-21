@@ -1,17 +1,15 @@
 import { useState } from "react";
+import { useTodo } from "../context/TodoContext";
 
-type Props = {
-  onAdd: (text: string) => void;
-};
-
-export default function TodoForm({ onAdd }: Props) {
+export default function TodoForm() {
   const [value, setValue] = useState("");
+  const { addTodo } = useTodo();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // 폼 제출 시 새로고침 방지
     const trimmed = value.trim();
     if (trimmed) {
-      onAdd(trimmed);
+      addTodo(trimmed);
       setValue(""); // 입력창 초기화
     }
   };
