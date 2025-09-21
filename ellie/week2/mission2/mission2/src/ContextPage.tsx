@@ -1,3 +1,5 @@
+// 페이지 레이아웃
+
 import { ThemeProvider } from "./context/ThemeProvider";
 import Navbar from "./Navbar";
 import ThemeContent from "./ThemeContent";

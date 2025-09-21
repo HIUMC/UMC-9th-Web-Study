@@ -1,10 +1,15 @@
 import clsx from "clsx";
 import { THEME, useTheme } from "./context/ThemeProvider";
 
+// ** 본문 콘텐츠 영역
 export default function ThemeContent() {
+  // 1) Context 값 가져오기
   const {theme} =useTheme();
 
+  // 2) 현재 테마가 라이트 모드인지 여부
   const isLightMode = theme ===THEME.LIGHT;  
+
+  // 3) 렌더링
   return <div className={clsx(
     'p-4 h-dvh', isLightMode ? 'bg-white' : 'bg-black'
   )}>
