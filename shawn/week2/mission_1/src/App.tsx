@@ -2,13 +2,6 @@ import TodoForm from "./components/TodoForm";
 import TodoSection from "./components/TodoSection";
 import { TodoProvider } from "./context/TodoContext";
 
-//TypeScript + React로 TodoList 구현
-export type Todo = {
-  id: number;
-  text: string;
-  isDone: boolean;
-};
-
 export default function App() {
   return (
     <TodoProvider>
