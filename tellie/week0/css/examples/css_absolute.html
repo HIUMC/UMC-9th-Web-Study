@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /** 전체 선택자 기본적으로 설정된 마진을 없앰. */
+    * {
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .box1 {
+      width: 500px;
+      height: 500px;
+      background-color: purple;
+      color: white;
+      position: relative;
+    }
+
+    .box2 {
+      width: 200px;
+      height: 200px;
+      background-color: yellow;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box1">BOX1</div>
+  <h1 class="box2">BOX2</h1>
+</body>
+
+</html>

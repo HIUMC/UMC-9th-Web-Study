@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title> css - mission1 </title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #111;
+      color: #fff;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      z-index: 1000;
+      padding: 12px 24px;
+    }
+
+    .navbar__menu {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 16px 32px;
+      align-items: center;
+      gap: 32px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(8px);
+      border-radius: 100px;
+    }
+
+    .navbar__item a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 18px;
+      padding: 8px 16px;
+      border-radius: 100px;
+      transition: all 0.2s;
+    }
+
+    .navbar__item a:hover {
+      background: #00ff7f;
+      color: #111;
+    }
+
+    #navToggle {
+      display: none;
+    }
+
+    .navbar__hamburger {
+      display: none;
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      font-size: 24px;
+      color: #fff;
+      z-index: 1200;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 8px;
+    }
+
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s;
+      pointer-events: none;
+      z-index: 1100;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 320px;
+      height: 100vh;
+      background: #111;
+      padding: 64px 32px 32px;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1150;
+    }
+
+    .drawer__close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      font-size: 24px;
+      color: #fff;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 8px;
+    }
+
+    .drawer ul {
+      list-style: none;
+      padding: 24px 0 0;
+      margin: 0;
+    }
+
+    .drawer li {
+      padding: 18px 0;
+    }
+
+    .drawer a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 22px;
+      transition: color 0.2s;
+    }
+
+    .drawer a:hover {
+      color: #00ff7f;
+    }
+
+    #navToggle:checked ~ .drawer-overlay {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    #navToggle:checked ~ .drawer {
+      transform: translateX(0);
+    }
+
+    @media (max-width: 768px) {
+      .navbar__menu {
+        display: none;
+      }
+      .navbar__hamburger {
+        display: block;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <input type="checkbox" id="navToggle" style="display:none">
+
+  <nav class="navbar">
+    <ul class="navbar__menu">
+      <li class="navbar__item"><a href="#">Home</a></li>
+      <li class="navbar__item"><a href="#">Projects</a></li>
+      <li class="navbar__item"><a href="#">Members</a></li>
+      <li class="navbar__item"><a href="#">FAQ</a></li>
+    </ul>
+    <label class="navbar__hamburger" for="navToggle">☰</label>
+  </nav>
+
+  <label class="drawer-overlay" for="navToggle"></label>
+
+  <aside class="drawer">
+    <label class="drawer__close" for="navToggle">✕</label>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Projects</a></li>
+      <li><a href="#">Members</a></li>
+      <li><a href="#">FAQ</a></li>
+    </ul>
+  </aside>
+</body>
+
+</html>

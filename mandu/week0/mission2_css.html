@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mission2</title>
+  <style>
+    body, html {
+            margin: 0;
+            height: 100%;
+        }
+    .page{
+        display: grid;
+        grid-template-rows: 100px 250px 250px 130px;
+    }
+    .header{
+        display: flex;
+        width: 100%;
+    }
+    .header__header{
+        width: 25%;
+        background-color: navy;
+        color: white;
+        align-content: center;
+    }
+    .header__menu{
+        background-color: red;
+        width: 75%;
+        color: white;
+        align-content: center;
+    }
+    .hero{
+        height: 250px;
+        background-color: skyblue;
+        color:white;
+        align-content: center;
+    }
+    .content{
+        display: flex;
+        justify-content: space-between;
+    }
+    .content__main{
+        background-color: blue;
+        width: 50%;
+    }
+    .content__subcontent{
+        width: 25%;
+    }
+    .content__img{
+        background-color: aqua;
+        height: 50%;
+    }
+    .content__extra{
+        background-color: green;
+        height: 50%;
+    }
+    .banner{
+        background-color: sandybrown;
+    }
+  </style>
+</head>
+
+<body>
+    <div class="page">
+        <div class="header">
+            <div class="header__header">HEADER</div>
+            <div class="header__menu">MENU</div>
+        </div>
+        <div class="hero">HERO</div>
+        <div class="content">
+            <div class="content__main">MAIN</div>
+            <div class="content__subcontent">
+                <div class="content__img">IMAGE</div>
+                <div class="content__extra">EXTRA</div>
+            </div>
+        </div>
+        <div class="banner">BANNER</div>
+    </div>
+</body>
+
+</html>

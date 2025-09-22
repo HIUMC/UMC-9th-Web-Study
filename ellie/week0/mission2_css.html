@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mission2</title>
+  <style>
+    body, html {
+      margin: 0;
+      height: 100%;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+    }
+    .layout {
+      width: 40%; 
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      height: 100%;
+    }
+    .layout__header-left {
+      background-color: rgb(1, 1, 58);
+      grid-column: 1/2;
+      grid-row: 1/2;
+    }
+    .layout__header-right {
+      background-color: rgb(255, 0, 89);
+      grid-column: 2/5;
+      grid-row: 1/2;
+    }
+    .layout__hero {
+      background-color: rgb(14, 113, 194);
+      grid-column: 1/5;
+      grid-row: 2/5;
+    }
+    .layout__content {
+      grid-column: 1/5;
+      grid-row: 5/8;
+      display: flex;
+      justify-content: space-between;
+    }
+    .layout__main {
+      background-color: rgb(1, 1, 58);
+      width: 50%;
+    }
+    .layout__sidebar {
+      width: 25%;
+      display: grid;
+      grid-template-rows: repeat(2, 1fr);
+    }
+    .layout__sidebar-item:first-child {
+      background-color: rgb(181, 255, 230);
+    }
+    .layout__sidebar-item:last-child {
+      background-color: rgb(93, 213, 173);
+    }
+    .layout__footer {
+      background-color: rgb(255, 255, 156);
+      grid-column: 1/5;
+      grid-row: 8/9;
+    }
+    .layout__text--white {
+      color: white;
+      text-align: center;
+    }
+    .layout__text--black {
+      color: black;
+      text-align: center;
+    }
+    .layout__text--black , .layout__text--white {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 500%;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <div class="layout__header-left layout__text--white">HEADER</div>
+    <div class="layout__header-right layout__text--white">MENU</div>
+    <div class="layout__hero layout__text--white">HERO</div>
+    <div class="layout__content">
+      <div class="layout__main layout__text--white">MAIN</div>
+      <div class="layout__sidebar">
+        <div class="layout__sidebar-item layout__text--black">IMAGE</div>
+        <div class="layout__sidebar-item layout__text--black">EXTRA</div>
+      </div>
+    </div>
+    <div class="layout__footer layout__text--black">BANNER</div>
+  </div>
+</body>
+</html>

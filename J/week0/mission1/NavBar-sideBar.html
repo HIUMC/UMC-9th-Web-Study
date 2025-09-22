@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>navbar</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+    }
+
+    .navbar {
+      background-color: #807b7b;
+      border-radius: 50px;
+      padding: 20px 10px;
+    }
+
+    .nav-items {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+      justify-content: space-between;
+    }
+
+    .nav-items li a {
+      text-decoration: none;
+      color: white;
+      padding: 10px 20px;
+      margin-left: 5px;
+      margin-right: 5px;
+      border-radius: 25px;
+      transition: color 0.3s, background-color 0.1s;
+    }
+    .nav-items li a:hover {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    .nav-items li a:focus {
+      background-color: #2aa154;
+    }
+    .hamburger {
+      display: none;
+      color: white;
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      padding: 0 10px;
+      border-radius: 50%;
+      justify-content: center;
+      align-items: center;
+    }
+    #menu-toggle {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .navbar {
+        display: flex;
+        justify-content: flex-end;
+        background-color: rgb(66, 64, 64);
+        z-index: 1;
+      }
+
+      .hamburger {
+        display: flex;
+        z-index: 1;
+
+      }
+      .hamburger::before {
+        content: "☰";
+      }
+      #menu-toggle:checked + .hamburger::before {
+        content: "✕";
+      }
+      .nav-items {
+        position: fixed;
+        top: 0;
+        right: -250px;
+        height: 100%;
+        width: 250px;
+        background-color: #807b7b;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 60px;
+        z-index: 0;
+        transition: right 0.3s;
+      }
+
+      .nav-items li {
+        font-size: x-large;
+        margin: 15px 0;
+      }
+
+      .nav-items li a:hover {
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .nav-items li a:focus {
+        color: #2aa154;
+        background-color: transparent;
+      }
+      #menu-toggle:checked ~ .nav-items {
+        right: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <input type="checkbox" id="menu-toggle">
+    <label for="menu-toggle" class="hamburger"></label>
+      <ul class="nav-items">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Members</a></li>
+        <li><a href="#">FAQ</a></li>
+    </ul>
+  </nav>
+</body>
+
+</html>

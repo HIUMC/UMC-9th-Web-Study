@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>transition</title>
+  <style>
+    .square {
+        margin: 70px 200px;
+        width: 150px;
+        height: 150px;
+        background-color: lightpink;
+        transform: rotate(45deg);
+    }
+    .square:hover {
+      background-color: rgb(165, 74, 165);
+      transition: background-color 0.25s;
+    }
+  </style>
+</head>
+<body>
+  <div class="square"></div>
+  <div class="square"></div>
+  <div class="square"></div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TodoList</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./dist/app.js" defer></script>
+  <style>
+  </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">UMC Study Plan</h1>
+        <div class="TodoList">
+            <form id="todo-form" class="TodoList__form">
+                <input type="text" id="todoInput" class="TodoList__searchbar" placeholder="스터디 계획을 작성해보세요!"></input>
+                <button type="submit" class="TodoList__submitButton">할 일 추가</button>
+            </form>
+            <div class="TodoList__list">
+                <div class="TodoList__todo">
+                    <p>해야 할 일</p>
+                    <ul id="todo-list"></ul>
+                </div>
+                <div class="TodoList__done">
+                    <p>해낸 일</p>
+                    <ul id="done-list"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

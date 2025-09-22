@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>animation</title>
+    <style>
+    .circle {
+        margin: 70px 200px;
+        width: 150px;
+        height: 150px;
+        background-color: purple;
+        border-radius: 150px;
+        animation: bounce 1s ease-in infinite alternate; /* ease-in으로 시작을 느리게 하며 내려갈수록 빨라져 보이는 효과, alternate로 홀수 번째는 normal, 짝수 번째는 reverse로 진행시켜 왕복의 효과 */
+    }
+    @keyframes bounce {
+        from {
+            transform: translateY(0);
+        }
+        to {
+            transform: translateY(300px) scaleX(1.2); /* y축이 아래로 증가, 바닥으로 내려갈 수록 x축 1.2배 */
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="circle"></div>  
+</body>
+</html>

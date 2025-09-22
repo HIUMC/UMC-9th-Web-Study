@@ -1,0 +1,80 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #e9eef1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+h1 {
+    margin-top: 50px;
+    margin-bottom: 70px;
+}
+
+.divide {
+    width: min(900px);
+    height:1px;
+}
+
+h4 {
+    border-bottom: 1px solid gray ;
+}
+
+input {
+    width: 750px;
+    height: 40px;
+    padding: auto 10px;
+}
+
+input::placeholder {
+    color: rgb(185, 180, 180);
+}
+
+.lists {
+    justify-content: space-between;
+    display: flex;
+    font-weight: bold;
+    width: 750px;
+}
+
+.todo, .done, #todoList, #doneList {
+    display: flex; /* 세로 스택 컨테이너로 만듬, 가운데로 배치 */
+    align-items: center; 
+    flex-direction: column;
+}
+
+.todo, .done { 
+    width: 50%; /* 총 2개 칼럼 좌우로 반씩 차지 */
+}
+
+#todoList , #doneList{
+    padding: 0;
+    margin: 0;
+    width: 100%; /* .todo, .done 너비만큼 꽉 채움 */
+    gap: 10px; /* li 간의 간격 */
+}
+
+/*리스트 내 아이템 스타일 */
+#todoList li , #doneList li{
+    display: flex; /* 텍스트와 버튼 가로로 배치 */
+    justify-content: space-between; /* 텍스트(좌) 버튼(우) 양끝 정렬 */
+    width: 200px; /* 항목들의 가로 너비 고정 */
+    margin: 0;
+    list-style: none; /* 글머리기호 X */
+    border-bottom: 3px solid rgb(185, 183, 183);
+    padding: 10px 0; /* 상하 패딩 10px, 좌우 0px */
+} 
+
+/* 리스트 내부 버튼 스타일 */
+#todoList li button , #doneList li button { 
+    border-radius: 0%; 
+    border: none;
+    height: 30px;
+    width: 45px;
+    background-color: rgb(217, 213, 213);
+}

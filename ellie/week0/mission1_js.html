@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UMC Study Plan</title>
+  <style>
+    body , html {
+      margin: 0;
+      height: 100%;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      font-size: 50px;
+      padding: 40px;
+    }
+    input {
+      width: 700px;
+      height: 40px;
+      padding: auto 30px;
+    }
+    input::placeholder {
+      color: rgb(200, 196, 196);
+    }
+    .container {
+      display: flex;
+      justify-content: space-between;
+      width: 700px;
+    }
+    .todo , .finish {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 50%;
+    }
+    #todoList , #finishList{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      gap: 5px;
+    }
+    #todoList li , #finishList li{
+      list-style: none;
+      border-bottom: solid 4px rgb(200, 196, 196);
+      padding: 15px; 
+      display: flex;
+      justify-content: space-between;
+      width: 200px;
+      margin: 0;
+      padding: 10px 0;
+    } 
+    #todoList li button , #finishList li button {
+      border-radius: 0%;
+      border: none;
+      height: 25px;
+      width: 40px;
+      background-color: rgb(200, 196, 196);
+    }
+  </style>
+</head>
+<body>
+  <h1>UMC Study Plan</h1>
+  <form action="">
+    <label for="plan"></label>
+    <input type="text" id="plan" autofocus placeholder="스터디 계획을 작성해보세요">
+  </form>
+  <div class="container">
+    <div class="todo">
+      <p>해야할 일</p>
+      <ul id="todoList"></ul>
+    </div>
+    <div class="finish">
+      <p>해낸 일</p>
+      <ul id="finishList"></ul>
+    </div>
+  </div>
+  <script>
+    function registerToDo() {
+      const newItem = document.createElement('li');
+      const task = document.querySelector("#plan");
+      const newText = document.createTextNode(task.value);
+      newItem.appendChild(newText);
+
+      const doneBtn = document.createElement("button");
+      doneBtn.textContent = "완료";
+      newItem.appendChild(doneBtn);
+
+      const itemList = document.querySelector("#todoList");
+      itemList.appendChild(newItem);
+
+      doneBtn.addEventListener("click",function() {
+        doneBtn.remove();
+        const finishList = document.querySelector("#finishList");
+        finishList.appendChild(newItem);
+
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "삭제";
+        newItem.appendChild(removeBtn);
+
+        removeBtn.addEventListener("click",function() {
+        newItem.remove();
+        });
+        
+      });
+
+      task.value="";
+    };
+
+    document.addEventListener("keydown",function(event){
+      if (event.key==='Enter') {
+        event.preventDefault();
+        registerToDo();
+      }
+    });
+
+  </script>
+</body>
+</html>

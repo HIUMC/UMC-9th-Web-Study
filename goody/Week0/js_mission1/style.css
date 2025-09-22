@@ -1,0 +1,134 @@
+/* --- 기본 & 전체 레이아웃 설정 --- */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: white; /* 이미지와 유사한 배경색 */
+}
+.todo{
+    display: flex;
+    width: 80%;
+    margin: 10px;
+    border-bottom: 2px solid lightgray;
+    justify-content: center;
+}
+
+.todo-header {
+    border : none;
+    font-size: 36px;
+    font-weight: bold;
+    margin: 100px;
+    text-align: center;
+}
+
+/* 입력 바 */
+.todo-bar {
+    width: 60%;
+    display: flex;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.todo-bar__input{
+    flex : 1;
+    width: 70%;
+    border : 2px solid black; 
+    padding: 10px;
+    font-size: 18px;
+    transition: border-color ease 0.3s;
+}
+
+.todo-bar__input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+
+
+
+.todo-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 20px;
+    text-align: center;
+}
+
+
+.list-container{
+    display: flex;
+    justify-content: space-between;
+    gap : 40px;
+    width: 60%
+}
+
+.render-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 400px;
+}
+
+.render-container__title {
+    min-width: 200px;
+    text-align: center;
+    font-size: 20px;
+    color: black;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid lightgray;
+}
+
+.render-container__section {
+    width: 100%;
+    text-align: left;
+}
+
+
+.render-container__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding : 0;
+}
+
+/*  목록 아이템  */
+.render-container__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: white;
+    padding: 15px;
+    border-bottom: 2px solid gray;
+    margin-bottom: 10px;
+}
+
+.render-container__item-text {
+    flex: 1;
+}
+
+.render-container__button {
+    border: none;
+    background-color: lightgray;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    transition: all 0.3 ease;
+    justify-content: right;
+}
+
+.render-container__button:hover{
+    background: gray;
+    transform : scale(0.9);
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title> flex 가운데 정렬 </title>
+    <style>
+        .wrap{
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .box {
+          border: 1px solid black;
+          text-align: center;
+          background-color: skyblue;
+        }
+        .box1 {
+          width: 200px;
+          height: 100px;
+        }
+        .box2 {
+          width: 400px;
+          height: 200px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="box box1"> flex1 </div>
+      <div class="box box2"> flex2 </div>
+      <div class="box box1"> flex1 </div>
+    </div>
+  </body>
+</html>
