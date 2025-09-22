@@ -4,7 +4,7 @@ import ThemeToggleButton from "./ThemeToggleButton";
 
 
 const Navbar = () => {
-  const {theme} = useTheme();
+  const {theme} = useTheme(); 
   const isLightMode = (theme === 'LIGHT');
 
 

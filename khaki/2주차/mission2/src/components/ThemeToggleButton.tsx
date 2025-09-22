@@ -3,9 +3,11 @@ import clsx from 'clsx';
 
 const ThemeToggleButton = () => {
   const {theme, toggleTheme} = useTheme(); //구조분해 할당
-
   const isLightMode = (theme === 'LIGHT');  
-  // isLightMode에는 boolean이 담긴다
+  // isLightMode의 존재 이유:
+  //    - theme자체를 이용해 조건식을 쓰면 길어지고 중복코드 발생
+  //    - 따라서 미리 boolean값을 만들어 더 간편하게 사용
+  //      이를 '불리언 플래그'라고 한다.
   
   return (
     <button onClick={toggleTheme}
@@ -15,6 +17,7 @@ const ThemeToggleButton = () => {
       })}
     >
       {isLightMode? '🌙다크모드':'☀️라이트모드'}
+      {/*lIGHT일때는 '다크모드' 버튼, DARK일때는 '라이트모드'버튼*/}
     </button>
   )
 }
