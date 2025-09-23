@@ -8,7 +8,7 @@ export enum THEME {
 type TTheme = THEME.LIGHT | THEME.DARK;
 
 interface IThemeContext {
-    theme: THEME.LIGHT | THEME.DARK;
+    theme: TTheme;
     toggleTheme: () => void;
 }
 
