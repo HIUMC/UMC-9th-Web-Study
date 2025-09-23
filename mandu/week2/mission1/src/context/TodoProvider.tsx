@@ -24,7 +24,7 @@ export const TodoProvider = ({ children }: { children: ReactNode }) => {
       text: todoText,
       isDone: false
     };
-    setTodos([...todos, nextTodo]);
+    setTodos(prev => [...prev, nextTodo]);
   }
 
   const completeTodo = (todoId: number) =>{
