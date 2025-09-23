@@ -1,5 +1,4 @@
 import { useTodo } from "../context/TodoContext";
-import { useTheme } from "../context/ThemeContext";
 
 type TodoSectionProps = {
   title: string;
@@ -8,55 +7,39 @@ type TodoSectionProps = {
 
 export default function TodoSection({ title, isDone }: TodoSectionProps) {
   const { todos, completeTodo, deleteTodo } = useTodo();
-  const { darkMode } = useTheme();
 
   const filtered = todos.filter((todo) => todo.isDone === isDone);
 
   return (
     <section className="flex-1">
-      <h2
-        className={`text-lg font-bold mb-4 ${
-          darkMode ? "text-gray-100 " : "text-gray-900 bg-transparent"
-        }`}
-      >
+      <h2 className="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">
         {title}
       </h2>
       <ul className="list-none p-0 m-0">
         {filtered.map((todo) => (
           <li
             key={todo.id}
-            className={`px-4 py-2 mb-2 rounded-lg flex justify-between items-center ${
-              darkMode ? "bg-gray-700" : "bg-gray-100"
-            }`}
+            className="px-4 py-2 mb-2 rounded-lg flex justify-between items-center
+              bg-gray-100 dark:bg-gray-700 transition-colors duration-300"
           >
-            <span
-              className={`text-base ${
-                darkMode ? "text-gray-100" : "text-gray-900"
-              }`}
-            >
+            <span className="text-base text-gray-900 dark:text-gray-100">
               {todo.text}
             </span>
-            {todo.isDone ? (
+            {isDone ? (
               <button
-                className={`px-3 py-1 rounded-md text-sm font-semibold cursor-pointer 
-                  ${
-                    darkMode
-                      ? "bg-red-700 hover:bg-red-800"
-                      : "bg-red-600 hover:bg-red-700"
-                  } text-white`}
                 onClick={() => deleteTodo(todo.id)}
+                className="px-3 py-1 rounded-md text-sm font-semibold cursor-pointer text-white
+                  bg-red-600 hover:bg-red-700
+                  dark:bg-red-700 dark:hover:bg-red-800 transition-colors duration-300"
               >
                 삭제
               </button>
             ) : (
               <button
-                className={`px-3 py-1 rounded-md text-sm font-semibold cursor-pointer 
-                  ${
-                    darkMode
-                      ? "bg-green-600 hover:bg-green-700"
-                      : "bg-green-500 hover:bg-green-600"
-                  } text-white`}
                 onClick={() => completeTodo(todo.id)}
+                className="px-3 py-1 rounded-md text-sm font-semibold cursor-pointer text-white
+                  bg-green-500 hover:bg-green-600
+                  dark:bg-green-600 dark:hover:bg-green-700 transition-colors duration-300"
               >
                 완료
               </button>
