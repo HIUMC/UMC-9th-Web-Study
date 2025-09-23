@@ -3,25 +3,24 @@ const todoForm = document.getElementById('todo-form') as HTMLFormElement;
 const todoList = document.getElementById('todo-list') as HTMLUListElement;
 const doneList = document.getElementById('done-list') as HTMLUListElement;
 
-type Todo = {
-    id: number;
-    text: string;
+interface Todo {
+  id: number;
+  text: string;
+  isDone: boolean;
 }
 
-let todos: Todo[]=[];
-let doneTodos: Todo[]=[];
+let todos: Todo[] = [];
 
 const renderTask = ():void =>{
     todoList.innerHTML = '';
     doneList.innerHTML = '';
 
     todos.forEach((todo):void => {
-        const li = createTodoElement(todo, false);
-        todoList.appendChild(li);
-    })
-    doneTodos.forEach((todo):void=>{
-        const li = createTodoElement(todo, true);
-        doneList.appendChild(li);
+        const li = createTodoElement(todo);
+        if(todo.isDone){
+            doneList.appendChild(li);
+        }
+        else{todoList.appendChild(li);}
     })
 }
 
@@ -30,36 +29,38 @@ const getTodoText = (): string =>{
 }
 
 const addTodo = (text: string): void=>{
-    todos.push({id:Date.now(),text});
+    todos.push({id:Date.now(),text,isDone:false});
     todoInput.value = '';
     renderTask();
 }
 
 const completeTodo = (todo: Todo):void=>{
-    todos = todos.filter((t):boolean => t.id !== todo.id);
-    doneTodos.push(todo);
+    const nowTodo = todos.find((t) => t.id === todo.id);
+    if(nowTodo){
+        nowTodo?.isDone = !nowTodo.isDone;
+    }
     renderTask();
 }
 
-const deleteTodo = (todo: Todo):void=>{
-    doneTodos = doneTodos.filter((t):boolean => t.id !== todo.id);
+const deleteTodo = (id: number):void=>{
+    todos = todos.filter((t):boolean => t.id !== id);
     renderTask();
 }
 
-const createTodoElement = (todo:Todo, isDone:boolean):HTMLLIElement =>{
+const createTodoElement = (todo:Todo):HTMLLIElement =>{
     const li = document.createElement('li');
     li.textContent = todo.text;
     const button = document.createElement('button');
 
-    if(isDone){
+    if(todo.isDone){
         button.textContent = "삭제";
     }
     else{
         button.textContent = "완료";
     }
     button.addEventListener('click', ():void =>{
-        if(isDone){
-            deleteTodo(todo);
+        if(todo.isDone){
+            deleteTodo(todo.id);
         } else{
             completeTodo(todo);
         }
