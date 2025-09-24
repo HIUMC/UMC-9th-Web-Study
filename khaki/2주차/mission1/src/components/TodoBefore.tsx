@@ -64,7 +64,7 @@ const Todo = () => {
           <ul id="todo-list" className="render-container__list">
             {
               // 3. 상태기반으로 렌더링
-              todos.map((todo):any => (
+              todos.map((todo) => (
                 
                 // key는 리액트가 리스트를 렌더링할 때 각 요소를 구별하기 위한 고유 식별자(map을 사용한다면 필수!)
                 <li key={todo.id} className="render-container__item">
@@ -89,7 +89,7 @@ const Todo = () => {
           <h2 className="render-container__title">완료</h2>
           <ul id="todo-list" className="render-container__list">
              {
-              doneTodos.map((doneTodo):any => (
+              doneTodos.map((doneTodo) => (
                 // key는 리액트가 리스트를 렌더링할 때 각 요소를 구별하기 위한 고유 식별자(map을 사용한다면 필수!)
                 <li key={doneTodo.id} className="render-container__item">
                   <span className="render-container__item-text">
