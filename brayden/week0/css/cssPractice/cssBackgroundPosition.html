@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bouncing Ball Animation with Squash</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      @keyframes bounce {
+        0% {
+          transform: translateY(0) scaleX(1.2) scaleY(0.8);
+        }
+        50% {
+          transform: translateY(-200px) scale(1);
+        }
+        100% {
+          transform: translateY(0) scaleX(1.2) scaleY(0.8);
+        }
+      }
+
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: puraple;
+        border-radius: 100%;
+
+        animation: bounce 2s ease-in infinite;
+        animation-direction: alternate;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+  </body>
+</html>
