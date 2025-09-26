@@ -67,11 +67,11 @@ const creteTodoElement = (todo : Todo, isDone: boolean) : HTMLElement =>{
 
     if(isDone) {
         button.textContent = '삭제';
-        button.classList.add("render-container_item-button--delete")
+        button.classList.add("render-container__item-button--delete")
     } 
     else{
         button.textContent = '완료';
-        button.classList.add("render-container_item-button__complete")
+        button.classList.add("render-container__item-button--complete")
     }
     button.addEventListener('click',() : void => {
         if(isDone){
