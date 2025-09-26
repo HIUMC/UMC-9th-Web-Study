@@ -17,6 +17,7 @@ export const TodoProvider = ({children}: PropsWithChildren) => {
 
   const addTodo = (text: string) => {
     const newTodo: TTodo = { id: Date.now(), text };
+    console.log(Date.now());
     setTodos((prevTodos): TTodo[] => [...prevTodos, newTodo]);
     
   }

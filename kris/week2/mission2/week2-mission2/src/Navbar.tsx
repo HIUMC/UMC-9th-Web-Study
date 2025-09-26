@@ -8,7 +8,6 @@ export default function Navbar() {
 
     const isLightMode = theme === THEME.LIGHT;
 
-    console.log(theme)
     return (
         <nav className={clsx(
             'p-4 w-full flex justify-end',

@@ -1,9 +1,8 @@
-import type { TTodo } from "../types/todo";
-import { useTodo } from "../context/TodoContext";
+import { type TTodo } from "../types/todo";
 
 interface TodoListProps {
   title: string;
-  todos?: TTodo[];
+  todos: TTodo[];
   buttonLabel: string;
   buttonColor: string;
   onClick: (todo: TTodo) => void;
@@ -12,7 +11,7 @@ interface TodoListProps {
 const TodoList = ({title, todos, buttonLabel, buttonColor, onClick}: TodoListProps) => {
   return (
     <div className="render-container__section">
-      <h2 className="render-container__title">할 일</h2>
+      <h2 className="render-container__title">{title}</h2>
         <ul id='todo-list' className="render-container__list">
           {todos?.map((todo, idx): any => (
             <li key={todo.id} className="render-container__item">
