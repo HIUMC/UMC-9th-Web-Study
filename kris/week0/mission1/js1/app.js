@@ -4,7 +4,7 @@ const completed_list = document.querySelector('.todoul--completed');
 
 input_add.addEventListener('keydown', (e) => {
     if(e.key == 'Enter' && input_add.value !== '') {
-        addTodo(input_add.value);
+        addTodo(input_add.value.trim());
         input_add.value = '';        
     }
 });
