@@ -4,66 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UMC Study Plan</title>
-  <style>
-    body , html {
-      margin: 0;
-      height: 100%;
-    }
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    h1 {
-      font-size: 50px;
-      padding: 40px;
-    }
-    input {
-      width: 700px;
-      height: 40px;
-      padding: auto 30px;
-    }
-    input::placeholder {
-      color: rgb(200, 196, 196);
-    }
-    .container {
-      display: flex;
-      justify-content: space-between;
-      width: 700px;
-    }
-    .todo , .finish {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 50%;
-    }
-    #todoList , #finishList{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0;
-      margin: 0;
-      width: 100%;
-      gap: 5px;
-    }
-    #todoList li , #finishList li{
-      list-style: none;
-      border-bottom: solid 4px rgb(200, 196, 196);
-      padding: 15px; 
-      display: flex;
-      justify-content: space-between;
-      width: 200px;
-      margin: 0;
-      padding: 10px 0;
-    } 
-    #todoList li button , #finishList li button {
-      border-radius: 0%;
-      border: none;
-      height: 25px;
-      width: 40px;
-      background-color: rgb(200, 196, 196);
-    }
-  </style>
+  <link rel="stylesheet" href="./missiion1_js.css">
 </head>
 <body>
   <h1>UMC Study Plan</h1>
@@ -85,7 +26,8 @@
     function registerToDo() {
       const newItem = document.createElement('li');
       const task = document.querySelector("#plan");
-      const newText = document.createTextNode(task.value);
+      const text = task.value.trim();
+      const newText = document.createTextNode(text);
       newItem.appendChild(newText);
 
       const doneBtn = document.createElement("button");
@@ -113,10 +55,10 @@
       task.value="";
     };
 
-    document.addEventListener("keydown",function(event){
-      if (event.key==='Enter') {
-        event.preventDefault();
-        registerToDo();
+    document.addEventListener("keydown",function(event){ // 키가 눌리면 함수를 실행
+      if (event.key==='Enter') { // 이벤트 키가 엔터일 때
+        event.preventDefault(); // 새로고침 방지
+        registerToDo(); // 앞에서 구현한 요소 추가 함수 호출
       }
     });
 

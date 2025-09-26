@@ -1,0 +1,113 @@
+    body {
+     margin: 0;
+     display: flex;
+     justify-content: center; /* 가로 가운데 */
+    }
+    .navbar {
+      width: 30%;
+      background: black;
+      border-radius: 9999px;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      top: 10px;
+    }
+    .navbar__menu ul {
+      list-style: none;
+      display: flex;              
+      justify-content: center;    
+      align-items: center;       
+      margin: 0;
+      padding: 0;
+      gap: 10px;                 
+    }
+    .navbar__menu {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar__item {
+      width: 100px;
+    }
+    .navbar__item a:focus {
+      border-radius: 9999px;
+      background-color: rgb(33,193,33);
+
+    }
+    .navbar__link {
+      display:block;
+      font-size: 14px;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      padding: 10px 20px;
+      border-radius: 9999px;
+    }
+    .navbar__link:hover {
+      color: rgb(174,174,174);
+    }
+    /*사이드바*/
+    #menu-toggle {
+      display: none;
+    }
+    .navbar__hamburger {
+      width: 30px;
+      height: 22px;
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      cursor: pointer;
+      display: none;
+    }
+    #menu-toggle:checked + .navbar__hamburger .open {
+      display: none;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: black;
+      padding-top: 60px;
+      transition: right 0.3s;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .sidebar__link {
+      color: white;
+      text-decoration: none;
+      font-size: 40px;
+      font-weight: 700;
+      padding: 10px 20px;
+    }
+    .sidebar__link:hover {
+      transform: scale(0.9);
+    }
+    .sidebar__link:focus {
+      color: rgb(33,193,33);
+    }
+    #menu-toggle:checked ~ .sidebar {
+      right: 0;
+    }
+    .sidebar__close {
+      color: white;
+      font-size: 28px;
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      cursor: pointer;
+    }
+    @media (max-width:768px) {
+      .navbar {
+        display: none;
+      }
+      .navbar__hamburger {
+        display: block;
+        font-size: 28px;
+        color: black;
+      }
+    }
