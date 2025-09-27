@@ -56,11 +56,12 @@ export const TodoProvider = ({ children }: PropsWithChildren) => {
   // :value 안에 todos, doneTodos, addTodo, completeTodo, deleteTodo를 
   // 담아서 하위 컴포넌트에 전달
   // -> useTodo()만 호출하면 이 값들 사용 o
+  // 컴포넌트 안의 정의된 부분(title, onClick...)을 한 번에 넘겨줄 수 있음 Children으로 감쌈 ..
   return (
     <TodoContext.Provider
       value={{ todos, doneTodos, addTodo, completeTodo, deleteTodo }}
     >
-      {children}
+      {children} 
     </TodoContext.Provider>
   );
 };
