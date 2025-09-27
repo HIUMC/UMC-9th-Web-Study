@@ -14,17 +14,21 @@ export default function MoviePage() {
   const [isError, setIsError] =useState(false);
   // 3. 페이지
   const [page,setPage] = useState(1);
-
+  
+  // URL 파라미터 사용
+  // useParams 훅으로 :category 값 추출
+  // ex. /movies/popular => category = "popular"
   const {category} = useParams<{
     category : string;
   }>();
 
-  
-
+  // useEffect(() => { ... }, [page, category]) : 두 번째 인자(page,category)가 바뀔 때마다 재실행
   useEffect(() => {
+    // 비동기 함수 정의 -> 실제 영화 데이터를 API에서 가져옴
     const fetchMovies = async () => {
+      // 로딩중(true) -> <LoadingSpinner /> 가 보임
       setIsPending(true);
-      
+      // API에게 요청 시도 -> 실패할 경우 catch
       try {
         const {data} = await axios(`https://api.themoviedb.org/3/movie/${category}?language=en-US&page=${page}`,
         {
@@ -37,15 +41,17 @@ export default function MoviePage() {
       
       setMovies(data.results);
       } catch {
-        setIsError(true);
-        setIsPending(false);
+        setIsError(true); // 에러 메시지 표시
+        setIsPending(false); // 로딩 종료
       } finally {
-        setIsPending(false);
+        setIsPending(false); // 성공하든 실패하든 무조건 로딩 종료 -> 안쓰면 try성공해도 로딩 안끝남
       }
     };
     fetchMovies();
   },[page,category]);
 
+  // 에러처리 1
+  // 에러 발생 시 경고문 표시
   if (isError) {
     return (
       <div>
@@ -54,12 +60,17 @@ export default function MoviePage() {
     )
   } 
   
+  // 에러처리 2
+  // 페이지가 1미만이면 에러처리
   if (page < 1) {
     setIsError(true);
     setIsPending(false);
     return;
   }
 
+  // <BackButton /> : 페이지 이동 버튼 컴포넌트
+  // 로딩중? -> <LoadingSpinner /> 표시
+  // 로딩 완료 -> <MovieCard /> 보여줌
   return (
    <>
     <BackButton page={page} setPage={setPage}/>
