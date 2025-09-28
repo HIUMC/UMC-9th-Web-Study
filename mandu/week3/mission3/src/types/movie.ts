@@ -22,6 +22,8 @@ export interface Details {
   poster_path: string;
   release_date: string;
   runtime: number;
+  tagline: string;
+  vote_average: number;
 }
 
 export interface CastResponse {
@@ -31,5 +33,7 @@ export interface CastResponse {
 export interface Cast{
   id:number;
   name:string;
+  character:string;
   profile_path:string;
+  original_name:string;
 }

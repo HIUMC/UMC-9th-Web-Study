@@ -9,7 +9,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex flex-row gap-4">
+    <nav className="flex flex-row gap-4 p-4">
       <NavLink to="/" className={getLinkClass}>홈</NavLink>
       <NavLink to="/movies" className={getLinkClass}>인기 영화</NavLink>
       <NavLink to="/now_playing" className={getLinkClass}>상영 중</NavLink>

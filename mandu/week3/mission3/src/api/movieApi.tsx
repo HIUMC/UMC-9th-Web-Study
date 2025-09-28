@@ -69,7 +69,7 @@ export const useLoadDetail = (movieId:string|undefined, setDetails:React.SetStat
         const [detailsResponse, creditsResponse] = await axios.all([getDetails(), getCredits()]);
 
         setDetails(detailsResponse.data);
-        setCasts(creditsResponse.data);
+        setCasts(creditsResponse.data.cast);
       } catch (err) {
         setIsError(err as Error);
         console.error("영화 상세 정보 로딩 오류:", err);
