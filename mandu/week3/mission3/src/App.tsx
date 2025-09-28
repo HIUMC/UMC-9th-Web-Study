@@ -7,6 +7,7 @@ import RootLayout from './layout/root-layout';
 import NowPlaying from './pages/nowPlaying';
 import TopRated from './pages/topRated';
 import UpComing from './pages/upComing';
+import MovieDetail from './pages/movieDetail';
 
 
 const router = createBrowserRouter([
@@ -38,6 +39,11 @@ const router = createBrowserRouter([
       {
         path: 'up_coming',
         element: <UpComing />,
+        errorElement: <NotFound />,
+      },
+      {
+        path: 'movie/:movieId',
+        element: <MovieDetail />,
         errorElement: <NotFound />,
       },
     ]
