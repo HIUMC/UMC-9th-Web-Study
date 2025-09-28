@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import type { Movie, MovieResponse } from "../types/movie";
 import axios from "axios";
 
@@ -148,9 +149,10 @@ const MoviesPage = ({ category }: MoviesPageProps) => {
         {/* 영화 그리드 */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mb-8">
           {movies.map((movie) => (
-            <div
+            <Link
               key={movie.id} // React key (고유 식별자)
-              className="relative rounded-lg overflow-hidden cursor-pointer transition-all duration-300 group"
+              to={`/movies/${movie.id}`}
+              className="relative rounded-lg overflow-hidden cursor-pointer transition-all duration-300 group block"
             >
               {/* 이미지 로딩 스피너 */}
               {imageLoading[movie.id] && (
@@ -181,8 +183,12 @@ const MoviesPage = ({ category }: MoviesPageProps) => {
                 </h2>
                 {/* 영화 줄거리 (4줄로 제한) */}
                 <p className="text-sm line-clamp-4">{movie.overview}</p>
+                {/* 상세보기 버튼 */}
+                <div className="mt-4 px-4 py-2 bg-gradient-to-r from-pink-300 to-pink-400 text-white rounded-lg text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  상세보기
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
