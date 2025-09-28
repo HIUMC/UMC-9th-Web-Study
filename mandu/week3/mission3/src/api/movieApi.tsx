@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Movie, MovieResponse } from "../types/movie";
+import type { Cast, CastResponse, Details, Movie, MovieResponse } from "../types/movie";
 import axios from "axios";
 
 const base_url = axios.create({})
@@ -31,4 +31,53 @@ export const useLoadApi = (url: string, setMovies: React.SetStateAction<Movie[]>
 
     fetchMovies();
   }, [url, setMovies, page]);
+}
+
+
+
+export const useLoadDetail = (movieId:string|undefined, setDetails:React.SetStateAction<Details>, setCasts: React.SetStateAction<Cast[]>, setLoading:React.Dispatch<React.SetStateAction<boolean>>) => {
+    const [isError,setIsError] = useState<Error | null>(null);
+
+    useEffect(() => {
+    const options = {
+      headers: {
+        Authorization: `Bearer ${POPULAR_TOKEN}`,
+        accept: 'application/json',
+      },
+    };
+
+    const getDetails = () => {
+      return axios.get<Details>(`https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`, options);
+    };
+
+    const getCredits = () => {
+      return axios.get<CastResponse>(`https://api.themoviedb.org/3/movie/${movieId}/credits?language=ko-KR`, options);
+    };
+
+    const fetchDetail = async () => {
+      // movieId가 없으면 요청을 보내지 않습니다.
+      if (!movieId) {
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      setIsError(null);
+
+      try {
+        // 3. axios.all은 여러 요청(Promise)을 배열로 받습니다.
+        const [detailsResponse, creditsResponse] = await axios.all([getDetails(), getCredits()]);
+
+        setDetails(detailsResponse.data);
+        setCasts(creditsResponse.data);
+      } catch (err) {
+        setIsError(err as Error);
+        console.error("영화 상세 정보 로딩 오류:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDetail();
+  }, [movieId]);
 }
