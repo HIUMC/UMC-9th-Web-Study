@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/home";
 import NotFound from "./pages/not-found";
 import Movies from "./pages/movies";
+import MovieDetail from "./pages/movie-detail";
 import RootLayout from "./layout/root-layout";
 
 const router = createBrowserRouter([
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "movies/now-playing",
         element: <Movies category="now_playing" />,
+      },
+      {
+        path: "movies/:movieId",
+        element: <MovieDetail />,
       },
     ],
   },
