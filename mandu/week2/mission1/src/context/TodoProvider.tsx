@@ -4,9 +4,9 @@ import { type TTodos } from '../types/todo';
 // Context의 타입 정의
 interface TodoContextType {
   todos: TTodos[];
-  addTodos?: (todoText: string) => void;
-  completeTodo?: (todoId: number) => void;
-  deleteTodo?: (todoId: number) => void;
+  addTodos: (todoText: string) => void;
+  completeTodo: (todoId: number) => void;
+  deleteTodo: (todoId: number) => void;
 }
 
 // Context 생성 (초기값은 undefined로 설정)
@@ -24,7 +24,7 @@ export const TodoProvider = ({ children }: { children: ReactNode }) => {
       text: todoText,
       isDone: false
     };
-    setTodos([...todos, nextTodo]);
+    setTodos(prev => [...prev, nextTodo]);
   }
 
   const completeTodo = (todoId: number) =>{

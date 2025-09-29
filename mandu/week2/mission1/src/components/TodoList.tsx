@@ -5,8 +5,8 @@ import { useTodo } from '../context/TodoProvider';
 
 const TodoList = () =>{
   const {todos, completeTodo, deleteTodo} = useTodo();
-    const todoLists = todos.filter((todos) => !todos.isDone);
-    const doneLists = todos.filter((todos) => todos.isDone);
+    const todoLists = todos.filter((todo) => !todo.isDone);
+    const doneLists = todos.filter((todo) => todo.isDone);
 
     return(
         <div className="render-container">
