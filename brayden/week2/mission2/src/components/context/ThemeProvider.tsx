@@ -22,10 +22,9 @@ export const ThemeContext = createContext<IThemeContext | undefined>(undefined);
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
   const [theme, setTheme] = useState<TTheme>(THEME.LIGHT);
 
-  const toggleTheme = (): void => {
-    setTheme(
-      (prevTheme): THEME =>
-        prevTheme === THEME.LIGHT ? THEME.DARK : THEME.LIGHT
+  const toggleTheme = () => {
+    setTheme((prevTheme) =>
+      prevTheme === THEME.LIGHT ? THEME.DARK : THEME.LIGHT
     );
   };
 
