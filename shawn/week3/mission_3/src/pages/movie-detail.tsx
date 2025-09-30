@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import type { MovieDetails, Credits } from "../types/movie";
+import CastSection from "../components/CastSection";
+import ProductionSection from "../components/ProductionSection";
 
 const MovieDetail = () => {
   const { movieId } = useParams<{ movieId: string }>();
@@ -82,9 +84,8 @@ const MovieDetail = () => {
     );
   }
 
-  // 감독과 주요 출연진 추출
+  // 감독 추출
   const director = credits?.crew.find((person) => person.job === "Director");
-  const mainCast = credits?.cast.slice(0, 6) || [];
 
   return (
     <div className="relative">
@@ -192,59 +193,10 @@ const MovieDetail = () => {
         </div>
 
         {/* 출연진 섹션 */}
-        {mainCast.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">
-              주요 출연진
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-              {mainCast.map((actor) => (
-                <div key={actor.id} className="text-center">
-                  <img
-                    src={
-                      actor.profile_path
-                        ? `https://image.tmdb.org/t/p/w300/${actor.profile_path}`
-                        : "https://via.placeholder.com/150x225/1f2937/9ca3af?text=No+Image"
-                    }
-                    alt={actor.name}
-                    className="w-full h-64 object-cover rounded-lg mb-3 shadow-lg"
-                  />
-                  <h3 className="text-gray-800 font-semibold text-sm mb-1">
-                    {actor.name}
-                  </h3>
-                  <p className="text-gray-500 text-xs">{actor.character}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <CastSection credits={credits} />
 
         {/* 제작사 정보 */}
-        {movieDetails.production_companies.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">제작사</h2>
-            <div className="flex flex-wrap gap-4">
-              {movieDetails.production_companies.map((company) => (
-                <div
-                  key={company.id}
-                  className="flex items-center bg-gradient-to-r from-pink-100 to-pink-200 rounded-lg p-4"
-                >
-                  {company.logo_path ? (
-                    <img
-                      src={`https://image.tmdb.org/t/p/w200/${company.logo_path}`}
-                      alt={company.name}
-                      className="h-8 object-contain"
-                    />
-                  ) : (
-                    <span className="text-gray-700 font-semibold">
-                      {company.name}
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <ProductionSection movieDetails={movieDetails} />
       </div>
     </div>
   );

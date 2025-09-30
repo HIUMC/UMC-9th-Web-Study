@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import type { Movie, MovieResponse } from "../types/movie";
 import axios from "axios";
+import MovieGrid from "../components/MovieGrid";
+import Pagination from "../components/Pagination";
 
 interface MoviesPageProps {
   category: string;
 }
 
-const MoviesPage = ({ category }: MoviesPageProps) => {
+const Movies = ({ category }: MoviesPageProps) => {
   // 영화 데이터를 저장할 상태 (빈 배열로 시작)
   const [movies, setMovies] = useState<Movie[]>([]);
   // 로딩 상태 (처음에는 true)
@@ -147,87 +148,22 @@ const MoviesPage = ({ category }: MoviesPageProps) => {
         </h1>
 
         {/* 영화 그리드 */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mb-8">
-          {movies.map((movie) => (
-            <Link
-              key={movie.id} // React key (고유 식별자)
-              to={`/movies/${movie.id}`}
-              className="relative rounded-lg overflow-hidden cursor-pointer transition-all duration-300 group block"
-            >
-              {/* 이미지 로딩 스피너 */}
-              {imageLoading[movie.id] && (
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-100 to-green-100 flex items-center justify-center z-10">
-                  <div className="animate-spin rounded-full h-12 w-12 border-4 border-pink-300 border-t-pink-500"></div>
-                </div>
-              )}
-
-              {/* 영화 포스터 이미지 */}
-              <img
-                src={
-                  movie.poster_path
-                    ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` // TMDB 이미지 URL
-                    : "https://via.placeholder.com/300x450/f3f4f6/9ca3af?text=No+Image" // 이미지 없을 때 플레이스홀더
-                }
-                alt={movie.title} // 접근성을 위한 alt 텍스트
-                className="w-full h-auto object-cover transition-all duration-300 group-hover:blur-sm"
-                onLoadStart={() => handleImageLoadStart(movie.id)}
-                onLoad={() => handleImageLoad(movie.id)}
-                onError={() => handleImageLoad(movie.id)}
-              />
-
-              {/* 호버 시 나타나는 오버레이 (제목과 줄거리) */}
-              <div className="absolute inset-0 bg-black bg-opacity-70 flex flex-col justify-center items-center p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
-                {/* 영화 제목 */}
-                <h2 className="text-xl font-bold mb-2 line-clamp-2">
-                  {movie.title}
-                </h2>
-                {/* 영화 줄거리 (4줄로 제한) */}
-                <p className="text-sm line-clamp-4">{movie.overview}</p>
-                {/* 상세보기 버튼 */}
-                <div className="mt-4 px-4 py-2 bg-gradient-to-r from-pink-300 to-pink-400 text-white rounded-lg text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  상세보기
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <MovieGrid
+          movies={movies}
+          imageLoading={imageLoading}
+          onImageLoadStart={handleImageLoadStart}
+          onImageLoad={handleImageLoad}
+        />
 
         {/* 페이지네이션 */}
-        <div className="flex justify-center items-center space-x-4">
-          {/* 이전 페이지 버튼 */}
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className={`px-4 py-2 rounded-md font-medium transition-colors ${
-              currentPage === 1
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-gradient-to-r from-pink-300 to-pink-400 text-white hover:from-pink-400 hover:to-pink-500"
-            }`}
-          >
-            이전
-          </button>
-
-          {/* 현재 페이지 번호 */}
-          <div className="px-4 py-2 bg-gradient-to-r from-green-300 to-green-400 text-white rounded-md font-medium">
-            {currentPage}
-          </div>
-
-          {/* 다음 페이지 버튼 */}
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded-md font-medium transition-colors ${
-              currentPage === totalPages
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-gradient-to-r from-pink-300 to-pink-400 text-white hover:from-pink-400 hover:to-pink-500"
-            }`}
-          >
-            다음
-          </button>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );
 };
 
-export default MoviesPage;
+export default Movies;
