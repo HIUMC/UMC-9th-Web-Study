@@ -15,10 +15,9 @@ export type MovieResponse = {
   total_results: number;
 };
 
-
 export interface Details {
   title: string;
-  overview:string;
+  overview: string;
   poster_path: string;
   release_date: string;
   runtime: number;
@@ -30,10 +29,10 @@ export interface CastResponse {
   id: number;
   cast: Cast[];
 }
-export interface Cast{
-  id:number;
-  name:string;
-  character:string;
-  profile_path:string;
-  original_name:string;
+export interface Cast {
+  id: number;
+  name: string;
+  character: string;
+  profile_path: string;
+  original_name: string;
 }
