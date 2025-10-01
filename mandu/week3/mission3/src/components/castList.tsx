@@ -17,12 +17,11 @@ const CastList = ({ casts }: Cast[]) => {
                 <img
                   src={`${IMAGE_BASE_URL}${cast.profile_path}`}
                   alt={cast.name}
-                  style={{ maxWidth: "50px", maxHeight: "50px" }}
-                  className="rounded-xl overflow-hidden "
+                  className="w-30 h-30 rounded-full overflow-hidden "
                 />
                 <div>
-                  <p>{cast.character}</p>
-                  <p>{cast.original_name}</p>
+                  <p className="line-clamp-1 font-bold">{cast.character}</p>
+                  <p className="line-clamp-1">{cast.original_name}</p>
                 </div>
               </div>
             </li>

@@ -42,11 +42,7 @@ const MovieDetail = () => {
               <p>{details?.runtime}분</p>
               <br />
               <h2 className="font-bold text-xl italic">{details?.tagline}</h2>
-              <p>
-                {details?.overview.length > 200
-                  ? `${details?.overview.slice(0, 200)}...`
-                  : details?.overview}
-              </p>
+              <p className="line-clamp-6 w-[50%]">{details?.overview}</p>
             </div>
             <img
               className="w-full max-h-full object-cover"
