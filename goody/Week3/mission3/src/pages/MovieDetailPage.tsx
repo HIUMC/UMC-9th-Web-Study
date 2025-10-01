@@ -42,7 +42,7 @@ export default function MovieDetailPage() {
                 console.log(detail);
                 console.log(credit);
                 setCredit([...credit.cast, ...credit.crew]);
-                // 두개의  합쳐서 상태 업데이트
+                // 두개를 합쳐서 상태 업데이트
                 
                 
                 setIsPending(false);
