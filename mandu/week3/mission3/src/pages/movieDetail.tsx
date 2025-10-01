@@ -12,7 +12,9 @@ const MovieDetail = () => {
 
   const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original"; // 이미지 url
 
-  useLoadDetail(movieId, setDetails, setCasts, setLoading);
+  if (!movieId) return;
+  else useLoadDetail(movieId, setDetails, setCasts, setLoading);
+
   console.log(details);
   console.log(casts);
   return (
