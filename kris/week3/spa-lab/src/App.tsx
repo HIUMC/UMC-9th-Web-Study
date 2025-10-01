@@ -17,11 +17,13 @@ function App() {
   const Header = () => {
     return (
       <>
-        <nav className='flex gap-5'>
-          <Link to="/kris" navigateTo={navigate}>Kris</Link>
-          <Link to="/dorhy" navigateTo={navigate}>Dorhy</Link>
-          <Link to="/not-found" navigateTo={navigate}>NotFound</Link>
-        </nav>
+        <header className="">
+          <nav className="flex justify-center bg-gray-200 text-lg gap-10">
+            <Link to="/kris" navigateTo={navigate}>Kris</Link>
+            <Link to="/dorhy" navigateTo={navigate}>Dorhy</Link>
+            <Link to="/not-found" navigateTo={navigate}>NotFound</Link>
+          </nav>
+        </header>
       </>
     )
   }
