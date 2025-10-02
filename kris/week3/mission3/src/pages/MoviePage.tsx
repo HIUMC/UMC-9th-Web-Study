@@ -30,7 +30,6 @@ export default function MoviePage() {
             Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`
           }
         });
-        console.log(data.results)
         setMovies(data.results)
         
       } catch {
