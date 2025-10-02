@@ -4,7 +4,7 @@ const MovieDetailPage = () => {
     const params = useParams();
 
     console.log(params);
-    return <div>MovieDetailPage{}</div>
+    return <div>MovieDetailPage{params.movieId}</div>
 };
 
 export default MovieDetailPage;
