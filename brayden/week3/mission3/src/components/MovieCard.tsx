@@ -14,7 +14,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
     <div
       // onClick={() => (window.location.href = `/movies/now_playing/${movie.id}`)}
       // 자바스크립트 코드를 한번 더 받아옴. 처음에 모든 스크립트를 받아오는데 계속 받아오는중
-      onClick={() => navigate(`/movies/${movie.id}`)}
+      onClick={() => navigate(`/movie/${movie.id}`)}
       className="relative rounded-xl shadow-lg overflow-hidden cursor-pointer w-44
       transition-transform duration-300 hover:scale-105"
       onMouseEnter={() => setIsHovered(true)}
