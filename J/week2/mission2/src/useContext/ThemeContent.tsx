@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { THEME, useTheme } from "./context/ThemeProvider";
-import Menu from "./Menu";
 
 export default function ThemeContent () {
     const {theme, toggleTheme} = useTheme();
@@ -12,5 +11,5 @@ export default function ThemeContent () {
             'text-wxl font-bold',
             isLightMode ? 'text-black' : 'text-white'
         )}>Theme Content</h1>
-        <p className={clsx('mt-2', isLightMode ? 'text-black' : 'text-white')queueMicrotask}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit nisi assumenda esse repellat asperiores sed, minima molestias perspiciatis soluta quaerat id quae, eaque iusto quia qui perferendis eveniet neque ratione.</p></div>
+        <p className={clsx('mt-2', isLightMode ? 'text-black' : 'text-white')}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit nisi assumenda esse repellat asperiores sed, minima molestias perspiciatis soluta quaerat id quae, eaque iusto quia qui perferendis eveniet neque ratione.</p></div>
 }
