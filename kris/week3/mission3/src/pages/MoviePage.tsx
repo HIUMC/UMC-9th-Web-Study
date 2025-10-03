@@ -22,6 +22,7 @@ export default function MoviePage() {
   useEffect(() => {
     const fetchMovies = async (): Promise<void> => {
       setIsPending(true);
+      setIsError(false);
       try {
         const { data } = await axios.get<MovieResponse>(
         `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=${page}`
