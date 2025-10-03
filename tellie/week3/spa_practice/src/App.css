@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  background: #f6f7fb;
+  color: black;
+}
+
+.container {
+  padding: 25px;
+}
+
+/* Navbar 구현 */
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  background: #ffffff;
+  padding: 10px 16px;
+  border-radius: 999px; /* 완전 둥글게 설정 */
+  margin: 12px auto 20px;
+  width: fit-content;
+}
+
+/* 메뉴 링크 구현 */
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 999px;
+}
+
+/* hover 효과 */
+.nav-link:hover {
+  background: #c7a3f4;
+  color: #fff;
+}
+
+/* 현재 메뉴 표시 */
+.nav-link.active {
+  background: #c7a3f4;
+  color: #fff;
+}
+
+.page {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.page h1 {
+  margin-top: 0;
+}
+
+.page p, .page ul {
+  margin-top: 8px;
+  line-height: 1.6;
+}
