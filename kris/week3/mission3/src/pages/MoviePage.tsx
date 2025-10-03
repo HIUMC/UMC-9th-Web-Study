@@ -20,7 +20,7 @@ export default function MoviePage() {
   }>();
 
   useEffect(() => {
-    const fetchMovies = async (): Promise<void> => {
+    const fetchMovies = async () => {
       setIsPending(true);
       setIsError(false);
       try {

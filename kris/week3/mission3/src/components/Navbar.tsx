@@ -16,7 +16,7 @@ export const Navbar = () => {
           key={to}
           to={to}
           className={({isActive}) => {
-            return isActive ? 'text-[#b2d2d2] font-bold' : 'text-gray-500'
+            return isActive ? 'text-[#7A9999] font-bold' : 'text-gray-500'
           }}  
         >
           {label}
