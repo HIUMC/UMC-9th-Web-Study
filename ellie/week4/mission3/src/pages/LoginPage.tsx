@@ -1,0 +1,52 @@
+import InputForm from "../components/InputForm";
+import useForm from "../hooks/useForm"
+import validateSignin, { type userSigninInformation } from "../utils/validate";
+
+export default function LoginPage() {
+
+  const {values,errors,touched,getInputProps} = useForm<userSigninInformation>({
+    initialValue : {
+      email :"",
+      password : "",
+    },
+    validate: validateSignin,
+  });
+
+  const handleSubmit= () => {}
+
+  // 오류가하나라도 있거나, 입력값이 비어있으면 버튼 비활성화
+  const isDisabled =
+    Object.values(errors||{}).some((error) => error.length>0) || // 오류가 있으면 true
+    Object.values(values).some((value)=>value===""); // 입력값이 비어 있으면 true
+
+  return (
+    <div className='flex flex-col items-center justify-center h-full gap-4'>
+      <div className='flex flex-col gap-3'>
+        <InputForm
+          name="email"
+          type="email"
+          placeholder="이메일을 입력하세요"
+          error={errors?.email}
+          touched={touched?.email}
+          getInputProps={getInputProps}
+        />
+        <InputForm
+          name="password"
+          type="password"
+          placeholder="비밀번호를 입력하세요"
+          error={errors?.password}
+          touched={touched?.password}
+          getInputProps={getInputProps}
+        />
+        <button 
+          type='button' 
+          onClick={handleSubmit} 
+          disabled={isDisabled}
+          className="w-full bg-blue-600 text-white py-3 rounded-md text-lg font-medium hover:bg-blue-700 transition-colors cursor-pointer disabled:bg-gray-300"
+        >
+          로그인
+        </button>
+      </div>
+    </div>
+  )
+}
