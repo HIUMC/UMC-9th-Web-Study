@@ -27,7 +27,7 @@ function useForm<T>({initialValue,validate}:UseFormProps<T>){
   };
 
   // 이메일 인풋, 팻스워드 인풋의 속성들을 가져옴
-  const getIntputProps = (name: keyof T) => {
+  const getInputProps = (name: keyof T) => {
     const value = values[name];
     const onChange = ( e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,) => 
       handleChange(name,e.target.value);
@@ -43,7 +43,7 @@ function useForm<T>({initialValue,validate}:UseFormProps<T>){
     setErrors(newErrors); // 오류 메시지 업데이트
   },[validate,values])
 
-  return {values,errors,touched,getIntputProps};
+  return {values,errors,touched,getInputProps};
 }
 
 export default useForm;
