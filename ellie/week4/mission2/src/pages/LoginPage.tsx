@@ -1,9 +1,11 @@
+import BackButton from "../components/BackButton";
+import InputForm from "../components/InputForm";
 import useForm from "../hooks/useForm"
 import validateSignin, { type userSigninInformation } from "../utils/validate";
 
 export default function LoginPage() {
 
-  const {values,errors,touched,getIntputProps} = useForm<userSigninInformation>({
+  const {values,errors,touched,getInputProps} = useForm<userSigninInformation>({
     initialValue : {
       email :"",
       password : "",
@@ -20,28 +22,35 @@ export default function LoginPage() {
 
   return (
     <div className='flex flex-col items-center justify-center h-full gap-4'>
+      <div className="flex flex-col justify-center">
+        <div className="relative w-[300px] mb-5">
+          <BackButton />
+          <h1 className="text-center font-bold text-3xl">로그인</h1>          
+        </div>
+        <button className="bg-blue-600 text-white py-3 rounded-md text-lg font-medium">Google로 로그인</button>
+        <div className="mt-5 flex items-center justify-between">
+          <div className="w-[100px] h-px bg-black"/>
+          <h2 className="text-center">  OR  </h2>
+          <div className="w-[100px] h-px bg-black"/>
+        </div>
+      </div>
       <div className='flex flex-col gap-3'>
-        <input 
-        {...getIntputProps('email')}
+        <InputForm
           name="email"
-          type={"email"} 
-          className={`border border-[#ccc] w-[300px] p-[10px] focus:border-[#807bff] rounded-sm
-          ${errors?.email && touched?.email ? "border-red-500 bg-red-200":"border-gray-300"}`}
-          placeholder={"이메일"}
+          type="email"
+          placeholder="이메일을 입력하세요"
+          error={errors?.email}
+          touched={touched?.email}
+          getInputProps={getInputProps}
         />
-        {errors?.email && touched?.email && (
-          <div className="text-red-500 text-sm">{errors.email}</div>
-        )}
-        <input 
-          {...getIntputProps('password')}
-          type={"password"} 
-          className={`border border-[#ccc] w-[300px] p-[10px] focus:border-[#807bff] rounded-sm
-          ${errors?.password && touched?.password ? "border-red-500 bg-red-200":"border-gray-300"}`}
-          placeholder={"비밀번호"}
+        <InputForm
+          name="password"
+          type="password"
+          placeholder="비밀번호를 입력하세요"
+          error={errors?.password}
+          touched={touched?.password}
+          getInputProps={getInputProps}
         />
-        {errors?.password && touched?.password && (
-          <div className="text-red-500 text-sm">{errors.password}</div>
-        )}
         <button 
           type='button' 
           onClick={handleSubmit} 
