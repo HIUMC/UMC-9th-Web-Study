@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
 import { validateSignin, type UserSigninInformation } from "../utils/validate";
+import { postSignin } from "../apis/auth";
 
 const LoginPage = () => {
   const nav = useNavigate();
@@ -13,8 +14,12 @@ const LoginPage = () => {
       validate: validateSignin,
     });
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(values);
+
+    const response = await postSignin(values);
+    console.log(response);
+    nav("/");
   };
 
   const isDisabled =
