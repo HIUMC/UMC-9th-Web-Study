@@ -1,5 +1,6 @@
 import { useState, type ChangeEvent } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { postSignup } from "../apis/auth";
 
 const NamePage = () => {
   const nav = useNavigate();
@@ -12,6 +13,13 @@ const NamePage = () => {
 
   const { email, password } = location.state;
   console.log(email, password);
+
+  const handleClick = async () => {
+    const data = { name: nickname, email, password };
+    const response = await postSignup(data);
+    console.log(response);
+    nav("/");
+  };
   return (
     <>
       <div className="flex flex-col items-center justify-center h-[80%] gap-4">
@@ -38,7 +46,7 @@ const NamePage = () => {
             className="p-2 bg-blue-900 rounded-md hover:bg-blue-800 transition-all disabled:bg-gray-500"
             type="button"
             disabled={nickname === ""}
-            onClick={() => nav("/")}
+            onClick={handleClick}
           >
             회원가입 완료
           </button>
