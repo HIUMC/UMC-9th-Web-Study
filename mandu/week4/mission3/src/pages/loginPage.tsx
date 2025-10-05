@@ -2,9 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
 import { validateSignin, type UserSigninInformation } from "../utils/validate";
 import { postSignin } from "../apis/auth";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { LOCAL_STORAGE_KEY } from "../constants/key";
 
 const LoginPage = () => {
   const nav = useNavigate();
+  const { setItem } = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
+
   const { values, errors, touched, getInputProps } =
     useForm<UserSigninInformation>({
       initialValue: {
@@ -17,8 +21,14 @@ const LoginPage = () => {
   const handleSubmit = async () => {
     console.log(values);
 
-    const response = await postSignin(values);
-    console.log(response);
+    try {
+      const response = await postSignin(values);
+      setItem(response.data.accessToken);
+    } catch (error) {
+      alert(error?.message);
+    }
+
+    //console.log(response);
     nav("/");
   };
 

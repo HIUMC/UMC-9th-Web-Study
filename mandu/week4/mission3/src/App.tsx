@@ -5,6 +5,7 @@ import LoginPage from "./pages/loginPage";
 import "./App.css";
 import SignupPw from "./pages/passwordPage";
 import NamePage from "./pages/namePage";
+import MyPage from "./pages/myPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -27,6 +28,10 @@ function App() {
         {
           path: "/name",
           element: <NamePage />,
+        },
+        {
+          path: "my",
+          element: <MyPage />,
         },
       ],
     },
