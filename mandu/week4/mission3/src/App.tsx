@@ -4,6 +4,7 @@ import SignupPage from "./pages/signupPage";
 import LoginPage from "./pages/loginPage";
 import "./App.css";
 import SignupPw from "./pages/passwordPage";
+import NamePage from "./pages/namePage";
 
 function App() {
   const router = createBrowserRouter([
@@ -22,6 +23,10 @@ function App() {
         {
           path: "/pw",
           element: <SignupPw />,
+        },
+        {
+          path: "/name",
+          element: <NamePage />,
         },
       ],
     },

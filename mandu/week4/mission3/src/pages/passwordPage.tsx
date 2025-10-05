@@ -23,6 +23,7 @@ const SignupPw = () => {
 
   const handleSubmit = () => {
     console.log(values);
+    nav("/name", { state: { email: email, password: values.password } });
   };
 
   const isDisabled =
