@@ -6,7 +6,6 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react"; // lucide-react: 아이콘 라이브러리
 import { useNavigate } from "react-router-dom";
 
-const navigate = useNavigate();
 
 // zod에서 스키마 : 입력 데이터를 검증하기 위해 규칙을 정의한 객체
 // z.object : 여러 필드가 있는 객체를 하나의 스키마로 묶을 때 사용
@@ -56,6 +55,7 @@ type FormFields = z.infer<typeof schema>;
 const SignupPage = () => {
   const [step, setStep] = useState<1|2|3>(1);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const {register, handleSubmit,formState:{errors, isSubmitting},watch,getValues} = 
   useForm<FormFields>(
