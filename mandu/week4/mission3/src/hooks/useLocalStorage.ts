@@ -22,4 +22,6 @@ export const useLocalStorage = (key: string) => {
       console.log(e);
     }
   };
+
+  return { setItem, getItem, removeItem };
 };
