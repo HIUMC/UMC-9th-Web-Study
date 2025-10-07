@@ -1,13 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Movie, MovieResponse } from '../types/movie';
 import MovieCard from '../components/MovieCards';
 import { LoadingSpinner } from '../components/LoadingSpinner';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom'
 import { useCustomFetch } from '../hooks/useCustomFetch';
+import Slider from 'react-slick'; // react-slick 사용을 위해 import
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 const MoviesPage = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [page, setPage] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const slickRef = useRef<Slider | null>(null);
+
+
+  const settings = {
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  centerMode: true,
+  centerPadding: "0px",
+  arrows: true, 
+  beforeChange: (_: number, next: number) => setCurrentIndex(next),
+};
+
 
   const { category } = useParams<{
     category :  string
@@ -23,6 +43,7 @@ const { data, isLoading, isError } = useCustomFetch<MovieResponse>({
  useEffect(()=>{
   if(data){
     setMovies(data.results);
+    console.log(data.results)
   }
  }, [data]);
   
@@ -35,16 +56,6 @@ const { data, isLoading, isError } = useCustomFetch<MovieResponse>({
 
   return (
     <div className='flex flex-col gap-6'>
-    <div className='flex justify-center items-center gap-6 mt-5'>
-      <button 
-        className='!bg-[#dda5e3] text-white px-6 py-3 rounded-lg shadow-md !hover:bg-[#b2dab1] transition-all duratoin-200 cursor-pointer disabled:cursor-not-allowed'      
-      disabled={page === 1}
-      onClick={(): void => setPage((prev): number => prev -1)}>{`<`}</button>
-      <span>{page} 페이지</span>
-       <button 
-        className='!bg-[#dda5e3] text-white px-6 py-3 rounded-lg shadow-md !hover:bg-[#b2dab1] transition-all duratoin-200 cursor-pointer'      
-        onClick={(): void => setPage((prev): number => prev +1)}>{`>`}</button>
-    </div>
 
     {isLoading && (
       <div className='flex items-center justify-center h-dvh'>
@@ -52,10 +63,26 @@ const { data, isLoading, isError } = useCustomFetch<MovieResponse>({
       </div>
     )}
     {!isLoading && (
-    <div className='p-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-4'>
-      {movies?.map((movie)  => (
-        <MovieCard key={movie.id} movie={movie} />
-      ))}
+    <div className='p-10 mx-[200px] bg-gradient-to-b from-[#ffffff] to-[#ebebeb] h-screen'>
+   <Slider {...settings} ref={slickRef} >
+            {movies?.map((movie, index) => (
+              <div
+                key={movie.id}
+                className={`transition-transform duration-300 ease-in-out px-2 rounded-2xl  ${
+                  index === currentIndex ? "scale-100 z-10" : "scale-90 opacity-70"
+                }`}
+              >
+                <MovieCard movie={movie} />
+                <h2 className="text-lg font-bold text-center leading-snug mt-[10px]">{movie.title}</h2>
+                <h2 className="text-[12px] text-[#434343] font-medium text-center leading-snug mt-[2px] mb-[14px]">{movie.original_title}</h2>
+                <div className="flex justify-center">
+                    <button className="text-[14px] py-[5px] px-[20px] border border-[#b9b9b9] rounded-2xl bg-white cursor-pointer">
+                      예매하기
+                    </button>
+                </div>              
+                </div>
+            ))}
+          </Slider>
     </div>
     )}
 

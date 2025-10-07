@@ -2,6 +2,12 @@
 import { useEffect, useState } from "react";
 import { useCustomFetch } from "../hooks/useCustomFetch";
 
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { NextArrow, PrevArrow } from "./Arrow";
+
+
 interface Person {
   id: number;
   name: string;
@@ -21,6 +27,21 @@ const MovieCredits = ({ movieId }: { movieId: number }) => {
   // cast, directors 상태 + fetch 로직
   const [cast, setCast] = useState<Person[]>([]);
   const [directors, setDirectors] = useState<Person[]>([]);
+  const combined = [...directors, ...cast];
+
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+  };
+
+
+
 
   const { data, isLoading, isError} = useCustomFetch<CreditsResponse>({
     type: 'credits',
@@ -38,7 +59,7 @@ const MovieCredits = ({ movieId }: { movieId: number }) => {
        data.crew.filter((person) => person.department === "Directing")
       )
 }
-  })
+  },[data])
 
   if (isError) {
     return (
@@ -49,48 +70,30 @@ const MovieCredits = ({ movieId }: { movieId: number }) => {
 
   return (
     <>
-   {!isLoading && (
-     <div className="p-6">
-       {/* 감독 */}
-       <h2 className="text-xl font-bold mb-3">🎬 감독</h2>
-       <div className="flex gap-4 overflow-x-auto">
-         {directors.map((director) => (
-           <div key={director.id} className="w-40 text-center">
-             <img
-               className="w-32 h-44 object-cover rounded-lg mx-auto"
-               src={
-                 director.profile_path
-                   ? `https://image.tmdb.org/t/p/w200${director.profile_path}`
-                   : "https://via.placeholder.com/200x300?text=No+Image"
-               }
-               alt={director.name}
-             />
-             <p className="mt-2 font-semibold">{director.name}</p>
-           </div>
-         ))}
-       </div>
- 
-       {/* 배우 */}
-       <h2 className="text-xl font-bold mt-6 mb-3">🎭 출연 배우</h2>
-       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-         {cast.slice(0, 10).map((actor) => (
-           <div key={actor.id} className="text-center">
-             <img
-               className="w-32 h-44 object-cover rounded-lg mx-auto"
-               src={
-                 actor.profile_path
-                   ? `https://image.tmdb.org/t/p/w200${actor.profile_path}`
-                   : "https://via.placeholder.com/200x300?text=No+Image"
-               }
-               alt={actor.name}
-             />
-             <p className="mt-2 font-semibold">{actor.name}</p>
-             <p className="text-sm text-gray-400">{actor.character}</p>
-           </div>
-         ))}
-       </div>
-     </div>
-    )}
+    {!isLoading && combined.length > 0 && (
+        <div className="p-6 rounded-t-2xl bg-white">
+          <h2 className="text-xl font-bold mb-3">감독 & 배우</h2>
+          <Slider {...settings}>
+            {combined.map((person) => (
+              <div key={person.id} className="text-center px-2">
+                <img
+                  className="w-32 h-44 object-cover rounded-lg mx-auto"
+                  src={
+                    person.profile_path
+                      ? `https://image.tmdb.org/t/p/w200${person.profile_path}`
+                      : "https://via.placeholder.com/200x300?text=No+Image"
+                  }
+                  alt={person.name}
+                />
+                <p className="mt-2 font-semibold">{person.name}</p>
+                <p className="text-sm text-gray-400">{person.character || person.department}</p>
+              </div>
+            ))}
+          </Slider>
+        </div>
+      )}
+
+
     {isLoading && (
       <>
     감독 및  배우 정보 불러오는중..

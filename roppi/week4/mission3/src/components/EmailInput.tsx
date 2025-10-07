@@ -1,25 +1,21 @@
-import React from "react";
-
-interface EmailInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+interface EmailInputProps {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
 }
 
-
-const EmailInput = React.forwardRef<HTMLInputElement, EmailInputProps>(
-  ({ error, ...rest }, ref) => {
+const EmailInput = ({ value, onChange, error }: EmailInputProps) => {
   return(
-    <div className="">
+    <>
     <input 
           type="email"
           placeholder="이메일을 입력해 주세요!"
-          ref={ref}
-          {...rest}
+          value={value}
+          onChange={onChange}
           className="w-full py-[7px] pl-[10px] border border-[#8e8e8e] bg-transparent rounded-sm  text-[#cfcfcf] text-[13px] placeholder:text-[#8e8e8e] focus:outline-none"
           />
-          {error && <p className="text-[#e52582] text-[12px] mt-[8px]">{error}</p>}
-    </div>
+          {error && <p className="text-[#e52582] text-sm">{error}</p>}
+    </>
   )
-}
-);
+};
 export default EmailInput

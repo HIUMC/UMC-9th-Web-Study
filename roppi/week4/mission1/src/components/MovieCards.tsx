@@ -22,8 +22,7 @@ export default function MovieCard({movie}: MovieCardProps) {
     onClick={handleClick} // 카드 전체 클릭으로 이동
 
     >
-      <img className='border border-gray-500  min-h-[345px] transition duration-300 hover:blur-sm' src={moviePath + movie.poster_path} alt={movie.title} />
-  
+      <img className='border border-gray-500 rounded-2xl overflow-hidden  min-h-[345px] transition duration-300 hover:blur-sm' src={moviePath + movie.poster_path} alt={movie.title} />
     {isHovered && (
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent backdrop-blur-md flex flex-col justify-center items-center text-white p-4">
         <h2 className="text-lg font-bold text-center leading-snug">{movie.title}</h2>
