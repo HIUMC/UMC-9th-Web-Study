@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: white;
+    text-align: center;
+    display: grid;
+    grid-template-areas:
+    "header menu menu menu"
+    "hero hero hero hero"
+    "main main main main"
+    "footer footer footer footer";
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 10% 40% 40% 10%;
+    height: 100vh;
+}
+
+header {
+    grid-area: header;
+    background: #0b132b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav {
+    grid-area: menu;
+    background: #ef476f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+section {
+    grid-area: hero;
+    background: #457b9d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+main {
+    grid-area: main;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+article {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+    background: #1d3557;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+figure {
+    grid-column: 4 / 4;
+    grid-row: 1 / 2;
+    background: #a8dadc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+aside {
+    grid-column: 4 / 4;
+    grid-row: 2 / 3;
+    background: #2a9d8f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+
+}
+footer {
+    grid-area: footer;
+    background: #f4a261;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+

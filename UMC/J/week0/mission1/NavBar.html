@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>navbar</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+    }
+
+    .navbar {
+      background-color: #807b7b;
+      border-radius: 50px;
+      padding: 20px 10px;
+    }
+
+    .nav-items {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+      justify-content: space-between;
+    }
+
+    .nav-items li a {
+      text-decoration: none;
+      color: white;
+      padding: 10px 20px;
+      margin-left: 5px;
+      margin-right: 5px;
+      border-radius: 25px;
+      transition: color 0.3s, background-color 0.1s;
+    }
+    .nav-items li a:hover {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    .nav-items li a:focus {
+      background-color: #2aa154;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+  <ul class="nav-items">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Projects</a></li>
+    <li><a href="#">Members</a></li>
+    <li><a href="#">FAQ</a></li>
+  </ul>
+</nav>
+</body>
+
+</html>
