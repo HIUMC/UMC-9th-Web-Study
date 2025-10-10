@@ -1,13 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import type { Credit, CreditResponse, MovieDetails} from "../types/movie";
+import type {MovieDetails} from "../types/movie";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import MovieCredit from "../components/MovieCredit";
 
 export default function MovieDetailPage() {
-
-    const [credit, setCredit] = useState<Credit[]>([]);
 
     const [movieDetail, setMovieDetail] = useState<MovieDetails | null>(null);
 
@@ -19,40 +17,29 @@ export default function MovieDetailPage() {
     const {movieID} = useParams<{ movieID : string; }>();
 
     useEffect(() => {
-        const fecthCredits = async () =>{
+        const fetchCredits = async () =>{
 
             setIsPending(true);
             try {
-                const {data : detail} = await axios.get<MovieDetails>(`https://api.themoviedb.org/3/movie/${movieID}?language=ko-KR`, 
+                const {data} = await axios.get<MovieDetails>(`https://api.themoviedb.org/3/movie/${movieID}?language=ko-KR`, 
                 { 
                     headers : { 
                         Authorization : `Bearer ${import.meta.env.VITE_TMDB_KEY}`, 
                     },
                 }
                 );
-                setMovieDetail(detail);
-
-                const {data : credit } = await axios.get<CreditResponse>(`https://api.themoviedb.org/3/movie/${movieID}/credits?language=ko-KR`, 
-                { 
-                    headers : {
-                    Authorization : `Bearer ${import.meta.env.VITE_TMDB_KEY}`, 
-                    },
-                }
-                );
-                console.log(detail);
-                console.log(credit);
-                setCredit([...credit.cast, ...credit.crew]);
-                // 두개를 합쳐서 상태 업데이트
-                
+                setMovieDetail(data);
                 
                 setIsPending(false);
             } catch {
                 setIsError(true);
                 setIsPending(false);
+            } finally {
+                setIsPending(false);
             }
         };
 
-        fecthCredits();
+        fetchCredits();
     }, [movieID]);
 
     if (isError) {
@@ -83,20 +70,15 @@ export default function MovieDetailPage() {
                     
             </div>
             <h1 className="text-white text-3xl font-bold p-4 m-3"> 감독 / 출연 </h1>
-            
+            <MovieCredit movieID={movieDetail?.id ?? 0} />
+
             {isPending && (
                 <div className="flex items-center justify-center h-dvh">
                     <LoadingSpinner />
                 </div>
             )}
 
-            {!isPending && (
-                <div className="p-10 grid gap-5 grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10">
-                    {credit.map((credit) => (
-                        <MovieCredit key={credit.credit_id} credit={credit} />
-                    ))}
-                </div>
-            )}
+            
         </div>
     );
 }
