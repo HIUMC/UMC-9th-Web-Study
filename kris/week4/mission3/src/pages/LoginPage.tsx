@@ -15,17 +15,14 @@ const LoginPage = () => {
     validate: validateSignin,
   });
 
-  const handleSubmit = async () => {
-    console.log(values);
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if(e) e.preventDefault();
     try {
       const response = await postSignin(values);
-      setItem(response.data.accessToken)
+      setItem(response.accessToken)
     } catch(error) {
-      alert(error?.message)
+      alert(error)
     }
-    
-
-    console.log(response)
   }
 
   // 오류가 1개 이상이거나 입력값이 비어있으면 버튼 비활성화
@@ -54,7 +51,7 @@ const LoginPage = () => {
             <div className="text-base mx-8">OR</div>
             <div className="flex-1 border-t-2 border-white"></div>
           </div>
-          <div className="flex flex-col gap-3 text-white">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3 text-white">
             <input
               {...getInputProps("email")}
               name="email"
@@ -71,11 +68,11 @@ const LoginPage = () => {
             />
             {errors?.password && touched?.password && (<div className="text-red-500 text-sm">{errors.password}</div>)}
             <button
-              type="button"
+              type="submit"
               onClick={handleSubmit}
               disabled={isDisabled}
               className={'w-full bg-blue-600 text-white py-3 rounded-md text-base font-medium hover:bg-blue-700 transition-color cursor-pointer disabled:bg-gray-800'}>로그인</button>
-          </div>
+          </form>
         </div>
 
       </div>

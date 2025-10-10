@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import z from "zod";
+import z, { email } from "zod";
 import { postSignup } from "../apis/auth";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 
 const EyeOpenIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
@@ -44,7 +44,7 @@ const SignupPage = () => {
       passwordCheck: "",
     },
     resolver: zodResolver(schema),
-    mode: "onBlur",
+    mode: "onChange",
   })
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
@@ -53,6 +53,15 @@ const SignupPage = () => {
     const response = await postSignup(rest);
     navigate('/')
     console.log(response)
+  }
+
+  const handleFormSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if(step === 3) {
+      handleSubmit(onSubmit)();
+    } else {
+      handleNextStep();
+    }
   }
 
   const handleNextStep = async () => {
@@ -79,95 +88,103 @@ const SignupPage = () => {
       handlePrevStep();
     }
   }
-
+  const emailValue = watch("email");
   return (
     <>
       <div className="flex flex-col items-center justify-center h-full gap-6 bg-black text-white">
-        {/* < 회원가입 */}
         <div className="w-[300px]">
           <div className="flex relative justify-center my-6">
-            <button className="absolute top-0 left-3 font-semibold cursor-pointer" onClick={handleBackClick}>&lt;</button>
+            <button type="button" className="absolute top-0 left-3 font-semibold cursor-pointer" onClick={handleBackClick}>&lt;</button>
             <h2 className="text-xl">회원가입</h2>
-          </div>
-          <div className="flex flex-col gap-3 text-white">
-            {/* 1단계: 이메일 */}
-            {step === 1 && <input
-              {...register("email")}
-              type={'email'}
-              className={`border border-[#ccc] w-full p-[10px] focus:border-[#807bff] rounded-sm ${errors?.email ? "border-red-500" : "border-gray-300"}`}
-              placeholder={'이메일'}
-            />}
-            {step === 1 && errors.email && <div className="text-red-500 text-sm">{errors.email.message}</div>}
-            {step === 1 && <button
-              type="button"
-              onClick={handleNextStep}
-              disabled={!!errors.email}
-              className={'w-full bg-blue-600 text-white py-3 rounded-md text-base font-medium hover:bg-blue-700 transition-color cursor-pointer disabled:bg-gray-800'}
-            >
-              다음
-            </button>}            
-            {/* 패스워드 */}
-            {step === 2 &&
-            <h3>
-              {watch('email')}
-            </h3>}
-            {step === 2 &&
-            <div className="relative w-full">
+          </div>  
+          <form onSubmit={handleFormSubmit}  className="flex flex-col gap-3">
+            {step === 1 &&
+            <>
+              <div>
+                <button className="flex justify-center items-center w-full gap-3 py-3 border border-neutral-700 rounded-md hover:bg-neutral-900 transition-colors cursor-pointer">
+                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="google" className="w-5 h-5"/>
+                  <span className="text-base">구글 로그인</span>
+                </button>
+              </div>
+              <div className="flex flex-row w-full justify-center items-center text-white my-4">
+                <div className="flex-1 border-t-2 border-white"></div>
+                <div className="text-base mx-8">OR</div>
+                <div className="flex-1 border-t-2 border-white"></div>
+              </div>  
               <input
-              {...register("password")}
-              type={showPassword ? 'text' : 'password'}
-              className={`border border-[#ccc] w-full p-[10px] focus:border-[#807bff] rounded-sm ${errors?.password ? "border-red-500 bg-red-100" : "border-gray-300"}`}
-              placeholder={'비밀번호'}
-            />
-            <button onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
-              {showPassword ? <EyeOpenIcon/> : <EyeClosedIcon/>}
-            </button>
-            </div>
-            }
-            {step === 2 && errors.password && <div className="text-red-500 text-sm">{errors.password.message}</div>}
-            {step === 2 && 
-            <div className="relative w-full">
+                {...register("email")}
+                type={'email'}
+                className={`border border-[#ccc] w-full p-[10px] focus:border-[#807bff] rounded-sm ${errors?.email ? "border-red-500" : "border-gray-300"}`}
+                placeholder={'이메일'}
+              />
+              {errors.email && <div className="text-red-500 text-sm">{errors.email.message}</div>}
+              <button
+                type="submit"
+                disabled={!emailValue || !!errors.email}
+                className={'w-full bg-blue-600 text-white py-3 rounded-md text-base font-medium hover:bg-blue-700 transition-colors cursor-pointer disabled:bg-gray-800'}
+              >
+                다음
+              </button>
+            </>}          
+            {step === 2 &&
+            <>
+              <h3>
+                {watch('email')}
+              </h3>
+              <div className="relative w-full">
+                <input
+                  {...register("password")}
+                  type={showPassword ? 'text' : 'password'}
+                  className={`border border-[#ccc] w-full p-[10px] focus:border-[#807bff] rounded-sm ${errors?.password ? "border-red-500" : "border-gray-300"}`}
+                  placeholder={'비밀번호'}
+                />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                  {showPassword ? <EyeOpenIcon/> : <EyeClosedIcon/>}
+                </button>
+              </div>
+              {errors.password && <div className="text-red-500 text-sm">{errors.password.message}</div>}
+              <div className="relative w-full">
+                <input
+                  {...register("passwordCheck")}
+                  type={showPasswordCheck ? 'text' : 'password'}
+                  className={`border border-[#ccc] w-full p-[10px] focus:border-[#807bff] rounded-sm ${errors?.passwordCheck ? "border-red-500" : "border-gray-300"}`}
+                  placeholder={'비밀번호 확인'}
+                />
+                <button type="button" onClick={() => setShowPasswordCheck(!showPasswordCheck)} className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                  {showPasswordCheck ? <EyeOpenIcon/> : <EyeClosedIcon/>}
+                </button>
+              </div>
+              {errors.passwordCheck && <div className="text-red-500 text-sm">{errors.passwordCheck.message}</div>}
+              <button
+                type="submit"
+                disabled={!!errors.password || !!errors.passwordCheck}
+                className={'w-full bg-blue-600 text-white py-3 rounded-md text-base font-medium hover:bg-blue-700 transition-color cursor-pointer disabled:bg-gray-800'}
+              >
+                다음
+              </button>
+            </>}
+            {step === 3 &&
+            <>
+              <div className="flex justify-center">
+                <img src="https://via.placeholder.com/150" alt=""
+                className="w-30 h-30 rounded-full bg-gray-200 object-cover" />
+              </div>
               <input
-              {...register("passwordCheck")}
-              type={showPasswordCheck ? 'text' : 'password'}
-              className={`border border-[#ccc] w-full p-[10px] focus:border-[#807bff] rounded-sm ${errors?.passwordCheck ? "border-red-500 bg-red-100" : "border-gray-300"}`}
-              placeholder={'비밀번호 확인'}
-            />
-            <button onClick={() => setShowPasswordCheck(!showPasswordCheck)} className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
-              {showPasswordCheck ? <EyeOpenIcon/> : <EyeClosedIcon/>}
-            </button>
-            </div>
-            }
-            {step === 2 && errors.passwordCheck && <div className="text-red-500 text-sm">{errors.passwordCheck.message}</div>}
-            {step === 2 && <button
-              type="button"
-              onClick={handleNextStep}
-              disabled={!!errors.password}
-              className={'w-full bg-blue-600 text-white py-3 rounded-md text-base font-medium hover:bg-blue-700 transition-color cursor-pointer disabled:bg-gray-800'}
-            >
-              다음
-            </button>}
-            {step === 3 && <div className="flex justify-center">
-              <img src="https://via.placeholder.com/150" alt=""
-              className="w-30 h-30 rounded-full bg-gray-200 object-cover" />
-            </div>}  
-            {step === 3 && <input
-              {...register("name")}
-              type={'text'}
-              className={`border border-[#ccc] w-full p-[10px] focus:border-[#807bff] rounded-sm ${errors?.password ? "border-red-500 bg-red-100" : "border-gray-300"}`}
-              placeholder={'이름'}
-            />}
-            {step === 3 && errors.name && <div className="text-red-500 text-sm">{errors.name.message}</div>}
-
-            {step === 3 && <button
-              type="button"
-              onClick={handleSubmit(onSubmit)}
-              disabled={isSubmitting}
-              className={'w-full bg-blue-600 text-white py-3 rounded-md text-base font-medium hover:bg-blue-700 transition-color cursor-pointer disabled:bg-gray-800'}
-            >
-              회원가입
-            </button>}
-          </div>
+                {...register("name")}
+                type={'text'}
+                className={`border border-[#ccc] w-full p-[10px] focus:border-[#807bff] rounded-sm ${errors?.name ? "border-red-500 bg-red-100" : "border-gray-300"}`}
+                placeholder={'이름'}
+              />
+              {errors.name && <div className="text-red-500 text-sm">{errors.name.message}</div>}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={'w-full bg-blue-600 text-white py-3 rounded-md text-base font-medium hover:bg-blue-700 transition-color cursor-pointer disabled:bg-gray-800'}
+              >
+                회원가입
+              </button>
+            </>}  
+          </form>
         </div>
 
       </div>
