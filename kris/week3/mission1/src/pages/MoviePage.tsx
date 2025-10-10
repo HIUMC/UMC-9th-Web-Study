@@ -9,7 +9,7 @@ export default function MoviePage() {
   useEffect(() => {
     const fetchMovies = async (): Promise<void> => {
       const { data } = await axios.get<MovieResponse>(
-        `https://api.themoviedb.org/3/movie/popular?language=en-US&page=2`
+        `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=2`
       , {
         headers: {
           Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`
