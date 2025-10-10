@@ -46,7 +46,8 @@ const LoginPage = () => {
                     </div>                    
                     <button type='button'
                     className='w-full bg-transparent border border-gray-700 text-white py-3 rounded-md 
-                    hover:bg-gray-900 transition-colors flex items-center justify-center space-x-2'>
+                    hover:bg-gray-900 transition-colors flex items-center justify-center space-x-2'
+                    onClick={() => window.open('https://accounts.google.com/v3/signin/identifier?authuser=0&continue=http%3A%2F%2Fsupport.google.com%2Faccounts%2Fanswer%2F12629094%3Fhl%3Dko&ec=GAlAdQ&hl=ko&flowName=GlifWebSignIn&flowEntry=AddSession&dsh=S-333884061%3A1760066001179235')}>
                         <img src='https://www.svgrepo.com/show/303108/google-icon-logo.svg' alt='Google' className='w-5 h-5'/>
                         <span>구글 로그인</span>
                     </button>

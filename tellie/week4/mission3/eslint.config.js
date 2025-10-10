@@ -18,6 +18,11 @@ export default defineConfig([
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+      parser: tseslint.parser, // 추가 ①
+      parserOptions: {
+        project: ['./tsconfig.json'], // 추가 ② (필요시 tsconfig.app.json으로 바꿔도 됨)
+        tsconfigRootDir: __dirname,
+      },
     },
   },
 ])
