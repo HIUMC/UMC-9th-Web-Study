@@ -1,5 +1,4 @@
-import axios from 'axios';
-import type { RequestSigninDto, RequestSignupDto, ResponseSigninDto, ResponseSignupDto } from '../types/auth';
+import type { RequestSigninDto, RequestSignupDto, ResponseMyInfoDto, ResponseSigninDto, ResponseSignupDto } from '../types/auth';
 import { axiosInstance } from './axios';
 
 export const postSignup = async (body: RequestSignupDto): Promise<ResponseSignupDto> => {
@@ -15,4 +14,4 @@ export const postSignin = async (body: RequestSigninDto): Promise<ResponseSignin
 export const getMyInfo = async (): Promise<ResponseMyInfoDto> => {
     const { data } = await axiosInstance.get("/v1/users/me");
     return data;
-}
+};

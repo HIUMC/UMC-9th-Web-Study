@@ -45,7 +45,7 @@ const SignupPage = () => {
   const [passwordToggle, setPasswordToggle] = useState(false);
   const [passwordCheckToggle, setPasswordCheckToggle] = useState(false);
 
-  const { register, handleSubmit, formState: { errors, isSubmitting }, getValues } = useForm<FormFields>({
+  const { register, handleSubmit, formState: { errors, isSubmitting, touchedFields }, getValues } = useForm<FormFields>({
     defaultValues: {
       name: '',
       email: '',
@@ -143,7 +143,7 @@ const SignupPage = () => {
                 )}
                 <div className = 'w-full pt-5'>
                   <button 
-                    disabled={isStep1Disabled}
+                    disabled={isStep1Disabled || isSubmitting}
                     type='button' 
                     onClick={handleNextStep} 
                     className = "w-full bg-pink-500 text-white py-3 rounded-md text-lg font-medium hover:bg-pink-600 transition-colors cursor-pointer disabled:bg-gray-300"
@@ -196,7 +196,7 @@ const SignupPage = () => {
 
                 <div className = 'w-full pt-5'>
                   <button 
-                    disabled={isStep2Disabled}
+                    disabled={isStep2Disabled || isSubmitting}
                     type='button' 
                     onClick={handleNextStep} 
                     className = "w-full bg-pink-500 text-white py-3 rounded-md text-lg font-medium hover:bg-pink-600 transition-colors cursor-pointer disabled:bg-gray-300"
@@ -238,7 +238,7 @@ const SignupPage = () => {
 
                 <div className = 'w-full pt-5'>
                   <button 
-                    disabled={isStep3Disabled}
+                    disabled={isStep3Disabled || isSubmitting}
                     type='button' 
                     onClick={handleSubmit(onSubmit)} 
                     className = "w-full bg-pink-500 text-white py-3 rounded-md text-lg font-medium hover:bg-pink-600 transition-colors cursor-pointer disabled:bg-gray-300"
