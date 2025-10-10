@@ -50,7 +50,7 @@ export default function MoviePage() {
             </div>
         )
     }
-
+    
     return (
         <>
             <div className='flex items-center justify-center gap-6 mt-5'>

@@ -1,5 +1,3 @@
-import './App.css'
-
 function App() {
   return (
     <div className='bg-purple-500 text-white p-4 font-bold text-center'>
