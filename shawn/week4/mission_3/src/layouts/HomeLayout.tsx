@@ -6,6 +6,9 @@ export default function HomeLayout() {
   const isAuthPage =
     location.pathname.includes("/login") ||
     location.pathname.includes("/signup");
+  
+  // 로그인 상태 확인
+  const isLoggedIn = localStorage.getItem("accessToken");
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -31,18 +34,29 @@ export default function HomeLayout() {
 
               {!isAuthPage && (
                 <>
-                  <Link
-                    to="/login"
-                    className="px-4 py-2 text-gray-600 hover:text-[#887bff] transition-colors"
-                  >
-                    로그인
-                  </Link>
-                  <Link
-                    to="/signup"
-                    className="px-4 py-2 bg-[#887bff] text-white rounded-lg hover:bg-[#776eff] transition-colors"
-                  >
-                    회원가입
-                  </Link>
+                  {isLoggedIn ? (
+                    <Link
+                      to="/my"
+                      className="px-4 py-2 text-gray-600 hover:text-[#887bff] transition-colors"
+                    >
+                      내 정보
+                    </Link>
+                  ) : (
+                    <>
+                      <Link
+                        to="/login"
+                        className="px-4 py-2 text-gray-600 hover:text-[#887bff] transition-colors"
+                      >
+                        로그인
+                      </Link>
+                      <Link
+                        to="/signup"
+                        className="px-4 py-2 bg-[#887bff] text-white rounded-lg hover:bg-[#776eff] transition-colors"
+                      >
+                        회원가입
+                      </Link>
+                    </>
+                  )}
                 </>
               )}
             </div>

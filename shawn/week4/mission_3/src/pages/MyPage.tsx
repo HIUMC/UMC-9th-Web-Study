@@ -37,19 +37,19 @@ export default function MyPage() {
 
         // API 응답 구조에 맞게 데이터 변환
         const userData: UserInfo = {
-          id: response.data.id,
-          email: response.data.email,
-          name: response.data.name,
-          bio: response.data.bio || null,
-          avatar: response.data.avatar || null,
+          id: response.id,
+          email: response.email,
+          name: response.name,
+          bio: response.bio || null,
+          avatar: response.avatar || null,
           createdAt:
-            typeof response.data.createdAt === "string"
-              ? response.data.createdAt
-              : response.data.createdAt.toISOString(),
+            typeof response.createdAt === "string"
+              ? response.createdAt
+              : response.createdAt.toISOString(),
           updatedAt:
-            typeof response.data.updatedAt === "string"
-              ? response.data.updatedAt
-              : response.data.updatedAt.toISOString(),
+            typeof response.updatedAt === "string"
+              ? response.updatedAt
+              : response.updatedAt.toISOString(),
         };
 
         setUserInfo(userData);
