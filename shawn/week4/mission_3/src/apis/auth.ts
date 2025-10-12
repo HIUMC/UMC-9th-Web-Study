@@ -22,7 +22,7 @@ export const postSignin = async (
 };
 
 export const getMyInfo = async (): Promise<ResponseMyInfoDto> => {
-  const { data } = await axiosInstance.get(`/v1/auth/me`, {
+  const { data } = await axiosInstance.get(`/v1/users/me`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
