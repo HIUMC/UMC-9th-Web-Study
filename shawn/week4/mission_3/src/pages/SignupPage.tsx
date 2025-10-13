@@ -52,13 +52,34 @@ export default function SignupPage() {
     return "";
   };
 
-  // 입력값 업데이트
+  // 입력값 업데이트 (실시간 유효성 반영)
   const updateFormData = (field: keyof SignupData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    // 에러 메시지 초기화
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }));
-    }
+    setFormData((prev) => {
+      const next = { ...prev, [field]: value };
+
+      // 실시간 에러 갱신
+      setErrors((prevErrors) => {
+        const updated: Partial<SignupData> = { ...(prevErrors || {}) };
+
+        if (field === "email") {
+          updated.email = validateEmail(next.email);
+        }
+        if (field === "password") {
+          updated.password = validatePassword(next.password);
+          // 비밀번호가 바뀌면 재확인도 다시 검증
+          updated.passwordCheck = validatePasswordCheck(next.passwordCheck);
+        }
+        if (field === "passwordCheck") {
+          updated.passwordCheck = validatePasswordCheck(next.passwordCheck);
+        }
+        if (field === "name") {
+          updated.name = validateName(next.name);
+        }
+        return updated as Record<string, string>;
+      });
+
+      return next;
+    });
   };
 
   // 다음 단계로 이동
@@ -134,209 +155,226 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-        {/* 진행 단계 표시 */}
-        <div className="flex justify-center mb-8">
-          <div className="flex space-x-4">
-            {[1, 2, 3].map((step) => (
-              <div
-                key={step}
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  step <= currentStep
-                    ? "bg-[#887bff] text-white"
-                    : "bg-gray-200 text-gray-500"
-                }`}
-              >
-                {step}
-              </div>
-            ))}
-          </div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
+      <div className="w-full max-w-sm">
+        {/* 상단 바 & 뒤로가기 */}
+        <div className="flex items-center mb-4">
+          <button
+            aria-label="go-back"
+            onClick={() => (currentStep === 1 ? navigate(-1) : handlePrev())}
+            className="text-2xl mr-2"
+          >
+            &lt;
+          </button>
+          <h1 className="text-xl font-semibold">회원가입</h1>
         </div>
 
-        {/* 1단계: 이메일 입력 */}
-        {currentStep === 1 && (
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold text-center mb-2">
-                이메일을 입력해주세요
-              </h2>
-              <p className="text-gray-600 text-center">
-                회원가입에 사용할 이메일을 입력해주세요
-              </p>
-            </div>
-
-            <div>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => updateFormData("email", e.target.value)}
-                className={`w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#887bff] ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                }`}
-                placeholder="이메일을 입력해주세요"
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-2">{errors.email}</p>
-              )}
-            </div>
-
-            <button
-              onClick={handleNext}
-              disabled={isNextDisabled()}
-              className={`w-full py-4 rounded-lg font-medium ${
-                isNextDisabled()
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-[#887bff] text-white hover:bg-[#776eff]"
-              }`}
-            >
-              다음
-            </button>
-          </div>
-        )}
-
-        {/* 2단계: 비밀번호 설정 */}
-        {currentStep === 2 && (
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold text-center mb-2">
-                비밀번호를 설정해주세요
-              </h2>
-              <p className="text-gray-600 text-center mb-4">
-                입력한 이메일:{" "}
-                <span className="font-medium">{formData.email}</span>
-              </p>
-            </div>
-
-            <div>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={formData.password}
-                  onChange={(e) => updateFormData("password", e.target.value)}
-                  className={`w-full p-4 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#887bff] ${
-                    errors.password ? "border-red-500" : "border-gray-300"
-                  }`}
-                  placeholder="비밀번호를 입력해주세요"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                >
-                  {showPassword ? "🙈" : "👁️"}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-2">{errors.password}</p>
-              )}
-            </div>
-
-            <div>
-              <div className="relative">
-                <input
-                  type={showPasswordCheck ? "text" : "password"}
-                  value={formData.passwordCheck}
-                  onChange={(e) =>
-                    updateFormData("passwordCheck", e.target.value)
-                  }
-                  className={`w-full p-4 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#887bff] ${
-                    errors.passwordCheck ? "border-red-500" : "border-gray-300"
-                  }`}
-                  placeholder="비밀번호를 다시 입력해주세요"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPasswordCheck(!showPasswordCheck)}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                >
-                  {showPasswordCheck ? "🙈" : "👁️"}
-                </button>
-              </div>
-              {errors.passwordCheck && (
-                <p className="text-red-500 text-sm mt-2">
-                  {errors.passwordCheck}
-                </p>
-              )}
-            </div>
-
+        {/* 카드 */}
+        <div className="bg-[#0f0f10] border border-[#2a2a2a] rounded-xl p-5">
+          {/* 진행 단계 표시 */}
+          <div className="flex justify-center mb-6">
             <div className="flex space-x-3">
-              <button
-                onClick={handlePrev}
-                className="flex-1 py-4 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50"
-              >
-                이전
-              </button>
+              {[1, 2, 3].map((step) => (
+                <div
+                  key={step}
+                  className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-medium ${
+                    step <= currentStep
+                      ? "bg-pink-500 text-white"
+                      : "bg-[#1c1c1e] text-gray-400"
+                  }`}
+                >
+                  {step}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 1단계: 이메일 입력 */}
+          {currentStep === 1 && (
+            <div className="space-y-5">
+              <div>
+                <h2 className="text-lg font-semibold text-center mb-2">
+                  이메일을 입력해주세요
+                </h2>
+                <p className="text-gray-400 text-center">
+                  회원가입에 사용할 이메일을 입력해주세요
+                </p>
+              </div>
+
+              <div>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => updateFormData("email", e.target.value)}
+                  className={`w-full h-10 px-3 rounded-md bg-[#141416] border ${
+                    errors.email ? "border-red-500" : "border-[#2a2a2a]"
+                  } focus:outline-none`}
+                  placeholder="이메일을 입력해주세요"
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-xs mt-2">{errors.email}</p>
+                )}
+              </div>
+
               <button
                 onClick={handleNext}
                 disabled={isNextDisabled()}
-                className={`flex-1 py-4 rounded-lg font-medium ${
+                className={`w-full h-11 rounded-md font-medium ${
                   isNextDisabled()
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-[#887bff] text-white hover:bg-[#776eff]"
+                    ? "bg-[#2a2a2a] text-gray-500"
+                    : "bg-pink-500 hover:bg-pink-600"
                 }`}
               >
                 다음
               </button>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* 3단계: 닉네임 설정 */}
-        {currentStep === 3 && (
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold text-center mb-2">
-                닉네임을 설정해주세요
-              </h2>
-              <p className="text-gray-600 text-center">
-                다른 사용자에게 보여질 닉네임을 입력해주세요
-              </p>
-            </div>
+          {/* 2단계: 비밀번호 설정 */}
+          {currentStep === 2 && (
+            <div className="space-y-5">
+              <div>
+                <h2 className="text-lg font-semibold text-center mb-2">
+                  비밀번호를 설정해주세요
+                </h2>
+                <p className="text-gray-400 text-center mb-4">
+                  입력한 이메일:{" "}
+                  <span className="font-medium">{formData.email}</span>
+                </p>
+              </div>
 
-            {/* 프로필 이미지 UI (선택사항) */}
-            <div className="flex justify-center">
-              <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center">
-                <span className="text-2xl">👤</span>
+              <div>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    onChange={(e) => updateFormData("password", e.target.value)}
+                    className={`w-full h-10 pr-10 px-3 rounded-md bg-[#141416] border ${
+                      errors.password ? "border-red-500" : "border-[#2a2a2a]"
+                    } focus:outline-none`}
+                    placeholder="비밀번호를 입력해주세요"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-300"
+                  >
+                    {showPassword ? "🙈" : "👁️"}
+                  </button>
+                </div>
+                {errors.password && (
+                  <p className="text-red-500 text-xs mt-2">{errors.password}</p>
+                )}
+              </div>
+
+              <div>
+                <div className="relative">
+                  <input
+                    type={showPasswordCheck ? "text" : "password"}
+                    value={formData.passwordCheck}
+                    onChange={(e) =>
+                      updateFormData("passwordCheck", e.target.value)
+                    }
+                    className={`w-full h-10 pr-10 px-3 rounded-md bg-[#141416] border ${
+                      errors.passwordCheck
+                        ? "border-red-500"
+                        : "border-[#2a2a2a]"
+                    } focus:outline-none`}
+                    placeholder="비밀번호를 다시 입력해주세요"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPasswordCheck(!showPasswordCheck)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-300"
+                  >
+                    {showPasswordCheck ? "🙈" : "👁️"}
+                  </button>
+                </div>
+                {errors.passwordCheck && (
+                  <p className="text-red-500 text-xs mt-2">
+                    {errors.passwordCheck}
+                  </p>
+                )}
+              </div>
+
+              <div className="flex space-x-3">
+                <button
+                  onClick={handlePrev}
+                  className="flex-1 h-11 border border-[#2a2a2a] rounded-md font-medium text-gray-300 hover:bg-[#141416]"
+                >
+                  이전
+                </button>
+                <button
+                  onClick={handleNext}
+                  disabled={isNextDisabled()}
+                  className={`flex-1 h-11 rounded-md font-medium ${
+                    isNextDisabled()
+                      ? "bg-[#2a2a2a] text-gray-500"
+                      : "bg-pink-500 hover:bg-pink-600"
+                  }`}
+                >
+                  다음
+                </button>
               </div>
             </div>
+          )}
 
-            <div>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => updateFormData("name", e.target.value)}
-                className={`w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#887bff] ${
-                  errors.name ? "border-red-500" : "border-gray-300"
-                }`}
-                placeholder="닉네임을 입력해주세요"
-              />
-              {errors.name && (
-                <p className="text-red-500 text-sm mt-2">{errors.name}</p>
-              )}
-            </div>
+          {/* 3단계: 닉네임 설정 */}
+          {currentStep === 3 && (
+            <div className="space-y-5">
+              <div>
+                <h2 className="text-lg font-semibold text-center mb-2">
+                  닉네임을 설정해주세요
+                </h2>
+                <p className="text-gray-400 text-center">
+                  다른 사용자에게 보여질 닉네임을 입력해주세요
+                </p>
+              </div>
 
-            <div className="flex space-x-3">
-              <button
-                onClick={handlePrev}
-                className="flex-1 py-4 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50"
-              >
-                이전
-              </button>
-              <button
-                onClick={handleSubmit}
-                disabled={isSubmitting}
-                className={`flex-1 py-4 rounded-lg font-medium ${
-                  isSubmitting
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-[#887bff] text-white hover:bg-[#776eff]"
-                }`}
-              >
-                {isSubmitting ? "처리중..." : "회원가입 완료"}
-              </button>
+              {/* 프로필 이미지 UI (선택사항) */}
+              <div className="flex justify-center">
+                <div className="w-24 h-24 bg-[#1c1c1e] rounded-full flex items-center justify-center">
+                  <span className="text-2xl">👤</span>
+                </div>
+              </div>
+
+              <div>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => updateFormData("name", e.target.value)}
+                  className={`w-full h-10 px-3 rounded-md bg-[#141416] border ${
+                    errors.name ? "border-red-500" : "border-[#2a2a2a]"
+                  } focus:outline-none`}
+                  placeholder="닉네임을 입력해주세요"
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-xs mt-2">{errors.name}</p>
+                )}
+              </div>
+
+              <div className="flex space-x-3">
+                <button
+                  onClick={handlePrev}
+                  className="flex-1 h-11 border border-[#2a2a2a] rounded-md font-medium text-gray-300 hover:bg-[#141416]"
+                >
+                  이전
+                </button>
+                <button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className={`flex-1 h-11 rounded-md font-medium ${
+                    isSubmitting
+                      ? "bg-[#2a2a2a] text-gray-500"
+                      : "bg-pink-500 hover:bg-pink-600"
+                  }`}
+                >
+                  {isSubmitting ? "처리중..." : "회원가입 완료"}
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
