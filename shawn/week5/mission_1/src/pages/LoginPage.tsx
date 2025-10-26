@@ -1,18 +1,21 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { postSignin } from "../apis/auth";
 import useForm from "../hooks/useForm";
 import { validateSignin, type UserSigninInformation } from "../utils/validate";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import { LOCAL_STORAGE_KEY } from "../constants/key";
+import { useAuth } from "../context/AuthContext";
 
 // 기존 타입은 useForm 제네릭으로 대체
 
 export default function LoginPage() {
-  const { setItem } = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
+  const { login, accessToken } = useAuth();
   const navigate = useNavigate();
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/");
+    }
+  }, [accessToken, navigate]);
+
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
 
   const { values, errors, touched, getInputProps } =
@@ -23,34 +26,15 @@ export default function LoginPage() {
 
   // 로그인 처리
   const handleSubmit = async () => {
-    // useForm의 errors가 비어있고 값이 모두 존재할 때만 진행
-    const hasError = Boolean(errors?.email) || Boolean(errors?.password);
-    if (hasError || !values.email || !values.password) return;
-
-    setIsSubmitting(true);
     try {
-      const response = await postSignin(values);
-      setItem(response.data.accessToken);
-      // 네브바 업데이트를 위한 커스텀 이벤트 발생
-      window.dispatchEvent(new Event("loginChange"));
-      console.log("로그인 성공:", response);
-      alert("로그인이 완료되었습니다!");
-      navigate("/");
-    } catch (error: any) {
-      console.error("로그인 실패:", error);
-      console.log("Status:", error.response?.status);
-      console.log("Message:", error.response?.data?.message);
-      if (error.response?.status === 401) {
-        alert("이메일 또는 비밀번호가 올바르지 않습니다.");
-      } else {
-        alert("로그인에 실패했습니다. 다시 시도해주세요.");
-      }
-    } finally {
-      setIsSubmitting(false);
+      await login(values);
+      navigate("/my");
+    } catch (error) {
+      console.error("로그인 오류", error);
+      alert("로그인에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
-  // 단계별 버튼 활성화 조건
   const isNextDisabled = useMemo(() => {
     return !values.email || Boolean(errors?.email);
   }, [values.email, errors]);
@@ -60,7 +44,6 @@ export default function LoginPage() {
       !values.password || Boolean(errors?.password) || Boolean(errors?.email)
     );
   }, [values.password, errors]);
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
       <div className="w-full max-w-sm">
@@ -162,14 +145,14 @@ export default function LoginPage() {
               {/* 로그인 버튼 */}
               <button
                 onClick={handleSubmit}
-                disabled={isLoginDisabled || isSubmitting}
+                disabled={isLoginDisabled}
                 className={`w-full h-11 rounded-md font-medium ${
-                  isLoginDisabled || isSubmitting
+                  isLoginDisabled
                     ? "bg-[#2a2a2a] text-gray-500"
                     : "bg-pink-500 hover:bg-pink-600"
                 }`}
               >
-                {isSubmitting ? "로그인 중..." : "로그인"}
+                로그인
               </button>
             </>
           )}
