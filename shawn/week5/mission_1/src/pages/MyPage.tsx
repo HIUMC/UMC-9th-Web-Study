@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMyInfo } from "../apis/auth";
+import { useAuth } from "../context/AuthContext";
 
 interface UserInfo {
   id: number;
@@ -14,6 +15,7 @@ interface UserInfo {
 
 export default function MyPage() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -73,11 +75,8 @@ export default function MyPage() {
     fetchUserInfo();
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    // 네브바 업데이트를 위한 커스텀 이벤트 발생
-    window.dispatchEvent(new Event("loginChange"));
-    alert("로그아웃되었습니다.");
+  const handleLogout = async () => {
+    await logout();
     navigate("/");
   };
 
