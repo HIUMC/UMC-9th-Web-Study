@@ -5,11 +5,6 @@ import { useAuth } from "../context/AuthContext";
 const Navbar = () => {
   const { accessToken, logout } = useAuth();
 
-  const handleLogout = async () => {
-    await logout();
-    window.location.href = "/";
-  };
-
   return (
     <nav className="flex flex-row bg-gray-900 justify-between gap-4 p-4 text-white">
       <NavLink to="/" className="place-content-center">
