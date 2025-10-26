@@ -32,3 +32,17 @@ export const getMyInfo = async (): Promise<ResponseMyInfoDto> => {
   });
   return data;
 };
+
+export const postLogout = async () => {
+  const { getItem } = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
+  const { data } = await axiosInstance.post(
+    `/v1/auth/signout`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${getItem()}`,
+      },
+    }
+  );
+  return data;
+};
