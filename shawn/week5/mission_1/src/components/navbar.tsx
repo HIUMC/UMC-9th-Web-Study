@@ -1,16 +1,12 @@
 // src/components/navbar.tsx
 import { NavLink } from "react-router-dom";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import { LOCAL_STORAGE_KEY } from "../constants/key";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
-  const { getItem, removeItem } = useLocalStorage(
-    LOCAL_STORAGE_KEY.accessToken
-  );
-  const accessToken = getItem();
+  const { accessToken, logout } = useAuth();
 
-  const handleLogout = () => {
-    removeItem();
+  const handleLogout = async () => {
+    await logout();
     window.location.href = "/";
   };
 
@@ -23,7 +19,7 @@ const Navbar = () => {
         {accessToken ? (
           <>
             <NavLink to="/mypage">내정보</NavLink>
-            <button onClick={handleLogout} className="hover:underline">
+            <button onClick={() => logout()} className="hover:underline">
               로그아웃
             </button>
           </>
