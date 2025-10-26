@@ -12,6 +12,7 @@ import SignupPage from "./pages/SignupPage";
 import MyPage from "./pages/MyPage";
 import ProtectedLayout from "./layouts/ProtectedLayout";
 import { AuthProvider } from "./context/AuthContext";
+import { GoogleLoginRedirectpage } from "./pages/GoogleLoginRedirectPage";
 
 //public routes: 인증없이 접근 가능한라우트
 
@@ -25,6 +26,7 @@ const publicRoutes: RouteObject[] = [
       { index: true, element: <HomePage /> },
       { path: "login", element: <LoginPage /> },
       { path: "signup", element: <SignupPage /> },
+      { path: "v1/auth/google/callback", element: <GoogleLoginRedirectpage /> },
     ],
   },
 ];
@@ -43,8 +45,8 @@ function App() {
     <AuthProvider>
       <RouterProvider
         router={createBrowserRouter([
-          ...publicRoutes,
           ...protectedRoutes,
+          ...publicRoutes,
         ] as RouteObject[])}
       />
     </AuthProvider>
