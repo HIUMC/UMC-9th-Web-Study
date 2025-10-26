@@ -35,6 +35,11 @@ export default function LoginPage() {
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.location.href =
+      import.meta.env.VITE_SERVER_API_URL + "/v1/auth/google/login";
+  };
+
   const isNextDisabled = useMemo(() => {
     return !values.email || Boolean(errors?.email);
   }, [values.email, errors]);
@@ -67,17 +72,17 @@ export default function LoginPage() {
               <button
                 className="w-full h-11 rounded-lg border border-[#3a3a3a] flex items-center justify-center gap-2 hover:bg-[#141416]"
                 type="button"
+                onClick={handleGoogleLogin}
               >
-                <span>G</span>
-                <span>구글 로그인</span>
+                <div className="flex items-center gap-2">
+                  <img
+                    src={"/images/google.png"}
+                    alt="google"
+                    className="w-5 h-5"
+                  />
+                  <span>구글 로그인</span>
+                </div>
               </button>
-
-              {/* OR 구분선 */}
-              <div className="flex items-center gap-3 text-sm text-gray-400">
-                <div className="flex-1 h-px bg-[#2a2a2a]" />
-                <span>OR</span>
-                <div className="flex-1 h-px bg-[#2a2a2a]" />
-              </div>
 
               {/* 이메일 */}
               <div>
