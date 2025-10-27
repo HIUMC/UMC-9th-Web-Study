@@ -11,6 +11,7 @@ interface AuthContextType {
   refreshToken: string | null;
   login:(signInData:RequestSigninDto)=> Promise<void>;
   logout:() => Promise<void>;
+  setTokens: (accessToken: string, refreshToken: string) => void;
 }
 
 // 2. AuthContext 생성
@@ -19,6 +20,7 @@ export const AuthContext = createContext<AuthContextType>({
   refreshToken: null,
   login: async()=>{},
   logout: async()=>{},
+  setTokens: ()=>{},
 });
 
 // 3. Context를 실제로 감싸서 전역상태를 공급하는 Provider 컴포넌트 정의(상태+함수+value 포함)
@@ -41,6 +43,11 @@ export const AuthProvider = ({children}:PropsWithChildren) => {
   const [refreshToken, setRefreshToken] = useState<string | null>(
     getRefreshTokenFromStorage(),
   );
+
+  const setTokens = (newAccessToken:string, newRefreshToken:string) => {
+    setAccessToken(newAccessToken);
+    setRefreshToken(newRefreshToken);
+  };
 
   const login = async (signInData:RequestSigninDto) => {
     try
@@ -84,7 +91,7 @@ export const AuthProvider = ({children}:PropsWithChildren) => {
   };
 
   return (
-    <AuthContext.Provider value={{accessToken, refreshToken, login, logout}}>
+    <AuthContext.Provider value={{accessToken, refreshToken,setTokens,login, logout}}>
       {children}
     </AuthContext.Provider>
   );
