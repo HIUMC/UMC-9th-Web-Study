@@ -35,6 +35,7 @@ export const AuthProvider = ({children}:PropsWithChildren) => {
     removeItem:removeRefreshTokenFromStorage,
   } = useLocalStorage(LOCAL_STORAGE_KEY.refreshToken);
 
+  // accessToken, refreshToken 상태
   const [accessToken, setAccessToken] = useState<string | null>(
     getAccessTokenFromStorage(),
   );
@@ -42,21 +43,28 @@ export const AuthProvider = ({children}:PropsWithChildren) => {
     getRefreshTokenFromStorage(),
   );
 
+  // 로그인 함수: 로그인 요청 + 토큰 저장 + 상태업데이트 + 페이지 이동
   const login = async (signInData:RequestSigninDto) => {
     try
     {
+      // 로그인 요청
       const {data} = await postSignin(signInData);
-
+      
       if(data){
+        // 토큰 꺼내기
         const newAccessToken = data.accessToken;
         const newRefreshToken = data.refreshToken;
 
+        // 로컬스토리지에 토큰 저장
         setAccessTokenInStorage(newAccessToken);
         setRefreshTokenInStorage(newRefreshToken);
-
+        
+        // 상태 업데이트
         setAccessToken(newAccessToken);
         setRefreshToken(newRefreshToken);
         alert("로그인 성공");
+
+        // 로그인 후 내정보 페이지로 이동
         window.location.replace("/my"); 
       }
     }
@@ -67,15 +75,20 @@ export const AuthProvider = ({children}:PropsWithChildren) => {
     };
   };
 
+  // 로그아웃 함수: 토큰 삭제 + 상태 초기화 + 페이지 이동
   const logout = async () => {
     try{
+      // 로컬스토리지에서 토큰 삭제
       removeAccessTokenFromStorage();
       removeRefreshTokenFromStorage();
 
+      // 상태 초기화
       setAccessToken(null);
       setRefreshToken(null);
 
+      // 로그아웃 후 메인 페이지로 이동
       alert("로그아웃 되었습니다.");
+      window.location.replace("/");
     }
     catch (error) {
       console.error("로그아웃 오류",error);
@@ -90,6 +103,7 @@ export const AuthProvider = ({children}:PropsWithChildren) => {
   );
 };
 
+// 4. AuthContext를 쉽게 사용하기 위한 커스텀 훅 정의
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if(!context)

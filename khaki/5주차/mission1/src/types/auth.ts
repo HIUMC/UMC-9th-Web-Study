@@ -1,3 +1,4 @@
+// <백엔드와 통신할 때 사용하는 인증 관련 타입 정의>
 import type { CommonResponse } from "./common";
 
 // 회원가입 요청 DTO(데이터전송 객체)

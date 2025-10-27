@@ -54,6 +54,7 @@ const router = createBrowserRouter([...publicRoutes,...privateRoutes]);
 
 function App() {
 
+  // <AuthProvider>로 감싸서 어떤 컴포넌트에서든지 AuthContext에 접근 가능하게 함
   return (
     <AuthProvider>
       <RouterProvider router={router}></RouterProvider>

@@ -5,14 +5,17 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  // 로그인 페이지이므로 login함수와 accessToken 상태를 가져옴
   const {login, accessToken} = useAuth();
   const navigate = useNavigate();
 
+  // 이미 로그인된 상태라면 로그인페이지가 또 나오면 이상하므로 메인페이지로 이동
   useEffect(()=>{ 
     if(accessToken){
       navigate('/');
     }  
-  }, [navigate, accessToken]);
+    //navigate는 상태는 아니지만, useEffect 내부에서 참조하는 외부 함수이기 때문에 ESLint 규칙에 따라 의존배열에 넣은 것
+  }, [navigate, accessToken]); 
     
 
   const{ values, errors, touched, getInputProps} = useForm<UserSigninInformation>({
@@ -23,6 +26,7 @@ const LoginPage = () => {
     validate: validateSignin,
   });
 
+  // 폼 제출 핸들러(login 함수를 공유하니 매우 간편)
   const handleSubmit = async () => {
     await login(values);
   };
