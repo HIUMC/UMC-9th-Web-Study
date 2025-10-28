@@ -5,8 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const MyPage = () => {
-  const { logout } = useAuth();
-  const { accessToken } = useAuth();
+  const { logout, accessToken } = useAuth();
   const [data, setData] = useState<ResponseMyInfoDto | null>(null);
 
   const navigate = useNavigate();
@@ -37,11 +36,10 @@ const MyPage = () => {
 
   return (
     <div className="flex flex-col justify-center items-center gap-10">
-      {/* <h1 className="text-white">{data.data?.name}님 환영합니다.</h1> */}
-      <h1 className="text-white">안녕</h1>
+      <h1 className="text-white mt-10">{data?.data?.name}님 환영합니다.</h1>
       <div>
       <button  
-      className='cursor-pointer border border-white' 
+      className='px-5 py-2 font-bold cursor-pointer border bg-[#e52582] rounded-md' 
       onClick={handleLogout}
       >로그아웃</button>
       </div>

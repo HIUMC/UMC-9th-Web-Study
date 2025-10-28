@@ -9,7 +9,7 @@ interface CustomInternalAxiosRequestConfig extends InternalAxiosRequestConfig {
 
 
 // 전역 변수로 refresh 요청의 Promise를 저장해서 중복 요청을 방지한다
-const refreshPromise:Promise<string>|null=null;
+let refreshPromise:Promise<string>|null=null;
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_SERVER_API_URL,

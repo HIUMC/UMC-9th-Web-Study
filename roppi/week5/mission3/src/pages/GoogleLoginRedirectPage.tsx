@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { LOCAL_STORAGE_KEY } from "../constants/key";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
-export const GoogleLoginRedirectpage = () => {
+const GoogleLoginRedirectpage = () => {
   const {setItem: setAccessToken} = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
   const {setItem:setRefresthToken} = useLocalStorage(LOCAL_STORAGE_KEY.refreshToken);
   useEffect(() => {
@@ -23,4 +23,6 @@ export const GoogleLoginRedirectpage = () => {
 
     </div>
   )
-}
+};
+
+export default GoogleLoginRedirectpage
