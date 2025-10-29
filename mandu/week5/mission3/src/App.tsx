@@ -11,7 +11,7 @@ import SignupPw from "./pages/passwordPage";
 import NamePage from "./pages/namePage";
 import MyPage from "./pages/myPage";
 import { AuthProvider } from "./context/AuthContext";
-import ProtectedLayout from "./layout/protexted-layout";
+import ProtectedLayout from "./layout/protected-layout";
 import GoogleLoginRedirectPage from "./pages/GoogleLoginRedirectPage";
 
 const publicRoutes: RouteObject[] = [
