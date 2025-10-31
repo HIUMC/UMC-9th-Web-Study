@@ -9,11 +9,6 @@ const LoginHeader = () => {
                 <h1 className='text-3xl font-extrabold text-pink-500'
                 onClick={() => navigate('/')}>돌려돌려LP판</h1>
                 <div className='flex space-x-4'>
-                    <button
-                        className='px-4 py-2 text-white border border-gray-700 rounded-md hover:bg-gray-800' 
-                        onClick={() => navigate('/my')}>
-                        마이페이지
-                    </button>
                     <button 
                         className='px-4 py-2 text-white border border-gray-700 rounded-md hover:bg-gray-800' 
                         onClick={() => navigate('/login')}>
