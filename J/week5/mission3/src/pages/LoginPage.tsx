@@ -79,7 +79,7 @@ export const LoginPage = () => {
                 className="w-full bg-pink-500 text-white py-3 rounded-md text-lg font-medium hover:bg-pink-600 transition-colors cursor-pointer disabled:bg-gray-300"
                 >
                     <div className="flex items-center justify-center gap-4">
-                        <img src={"/google.webp"} alt="Google Logo Image" className="h-7 w-7"/>
+                        <img src={"/assets/google.webp"} alt="Google Logo Image" className="h-7 w-7"/>
                         <span>구글 로그인</span>
                     </div>
                 </button>
