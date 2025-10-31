@@ -1,8 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import useForm from "../hooks/useForm";
 import { type UserSigninInformation, validateSignin } from "../utils/validate";
+import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
 
 const LoginPage = () => {
+  const { login, accessToken } = useAuth();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(accessToken) {
+      navigate("/")
+    }
+  }, [navigate, accessToken])
+  
+
   const { values, errors, touched, getInputProps } = useForm<UserSigninInformation>({
     initialValue: {
       email: "",
@@ -11,16 +24,21 @@ const LoginPage = () => {
     validate: validateSignin,
   });
 
-  const handleSubmit = () => {
-    console.log(values);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      await login(values);
+      
+    } catch(error) {
+      alert("로그인 실패")
+      console.error("로그인 실패 ", error)
+    }
   }
 
   // 오류가 1개 이상이거나 입력값이 비어있으면 버튼 비활성화
   const isDisabled =
     Object.values(errors || {}).some((error) => error.length > 0) || // 오류가 있으면 true
     Object.values(values).some((value) => value === "") // 입력값이 비어있으면 true
-  
-  const navigate = useNavigate();
   
   return (
     <>
@@ -41,7 +59,7 @@ const LoginPage = () => {
             <div className="text-base mx-8">OR</div>
             <div className="flex-1 border-t-2 border-white"></div>
           </div>
-          <div className="flex flex-col gap-3 text-white">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3 text-white">
             <input
               {...getInputProps("email")}
               name="email"
@@ -58,11 +76,10 @@ const LoginPage = () => {
             />
             {errors?.password && touched?.password && (<div className="text-red-500 text-sm">{errors.password}</div>)}
             <button
-              type="button"
-              onClick={handleSubmit}
+              type="submit"
               disabled={isDisabled}
-              className={'w-full bg-blue-600 text-white py-3 rounded-md text-base font-medium hover:bg-blue-700 transition-colors cursor-pointer disabled:bg-gray-800'}>로그인</button>
-          </div>
+              className={'w-full bg-blue-600 text-white py-3 rounded-md text-base font-medium hover:bg-blue-700 transition-color cursor-pointer disabled:bg-gray-800'}>로그인</button>
+          </form>
         </div>
 
       </div>

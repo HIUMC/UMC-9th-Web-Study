@@ -5,6 +5,7 @@ import z, { email } from "zod";
 import { postSignup } from "../apis/auth";
 import { useState, type FormEvent } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import googleLogo from "../assets/google.svg"
 
 const schema = z.object({
   email: z.string().email({message: "올바른 이메일 형식이 아닙니다"}),
@@ -90,7 +91,7 @@ const SignupPage = () => {
             <>
               <div>
                 <button className="flex justify-center items-center w-full gap-3 py-3 border border-neutral-700 rounded-md hover:bg-neutral-900 transition-colors cursor-pointer">
-                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="google" className="w-5 h-5"/>
+                  <img src={googleLogo} alt="google" className="w-5 h-5"/>
                   <span className="text-base">구글 로그인</span>
                 </button>
               </div>
@@ -146,7 +147,7 @@ const SignupPage = () => {
               <button
                 type="submit"
                 disabled={!!errors.password || !!errors.passwordCheck}
-                className={'w-full bg-blue-600 text-white py-3 rounded-md text-base font-medium hover:bg-blue-700 transition-color cursor-pointer disabled:bg-gray-800'}
+                className={'w-full bg-blue-600 text-white py-3 rounded-md text-base font-medium hover:bg-blue-700 transition-colors cursor-pointer disabled:bg-gray-800'}
               >
                 다음
               </button>

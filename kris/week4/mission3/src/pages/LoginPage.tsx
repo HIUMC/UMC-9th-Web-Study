@@ -63,7 +63,7 @@ const LoginPage = () => {
             <input
               {...getInputProps("password")}
               type={'password'}
-              className={`border border-[#ccc] w-full p-[10px] focus:border-[#807bff] rounded-sm ${errors?.pasword && touched?.password ? "border-red-500 bg-red-100" : "border-gray-300"}`}
+              className={`border border-[#ccc] w-full p-[10px] focus:border-[#807bff] rounded-sm ${errors?.password && touched?.password ? "border-red-500 bg-red-100" : "border-gray-300"}`}
               placeholder={'비밀번호'}
             />
             {errors?.password && touched?.password && (<div className="text-red-500 text-sm">{errors.password}</div>)}
