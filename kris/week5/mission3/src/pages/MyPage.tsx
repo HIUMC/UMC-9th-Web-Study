@@ -23,12 +23,20 @@ export const MyPage = () => {
   }
 
   return (
-    <div>
-      <h1>{data?.data?.name}님 환영합니다.</h1>
-      <img src={data?.data?.avatar as string} alt="구글 로고" />
-      <h2>{data?.data?.email}</h2>
-
-      <button className="cursor-pointer bg-blue-300 rounded-sm p-3 hover:scale-90" onClick={handleLogout}>로그아웃</button>
-    </div>
+    <>
+      <div className="bg-black text-white h-full">
+        <h1 className="text-2xl font-bold p-5">내 정보</h1>
+        <div className="flex flex-col items-center">
+          <div className="flex flex-row">
+            <img className="rounded-full m-5 w-30 h-30 border-1" src={data?.data?.avatar as string} alt="" />
+            <div className="flex flex-col justify-end my-5">
+              <h1 className="text-xl font-bold">{data?.data?.name}</h1>
+              <h2>{data?.data?.email}</h2>
+            </div>
+          </div>
+          <button className="cursor-pointer px-3 py-2 text-md bg-[#323232] rounded-lg" onClick={handleLogout}>로그아웃</button>
+        </div>
+      </div>
+    </>
   )
 }

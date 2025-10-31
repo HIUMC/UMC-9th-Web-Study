@@ -47,7 +47,7 @@ const LoginPage = () => {
   
   return (
     <>
-      <div className="flex flex-col items-center justify-center h-full gap-6 bg-black text-white">
+      <div className="flex flex-col items-center justify-center h-full gap-6 bg-black text-white font-sans">
         <div className="w-[300px]">
           <div className="flex relative justify-center my-6">
             <button className="absolute top-0 left-3 font-semibold cursor-pointer" onClick={() => navigate(-1)}>&lt;</button>
