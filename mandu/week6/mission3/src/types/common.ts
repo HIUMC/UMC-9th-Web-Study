@@ -24,3 +24,10 @@ export type PaginationDto = {
 export type LpDetailDto = {
   lpId?: string;
 };
+
+export type CommentPaginationDto = {
+  lpId: string | undefined;
+  cursor?: number;
+  limit?: number;
+  order?: PAGINATION_ORDER;
+};

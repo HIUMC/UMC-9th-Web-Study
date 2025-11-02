@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import useGetLpDetail from "../hooks/queries/useGetLpList";
+import Comment from "../components/Comments/Comment";
 
 const DetailPage = () => {
   const { lpid } = useParams();
@@ -56,6 +57,7 @@ const DetailPage = () => {
         최종 수정일: {new Date(data.updatedAt).toLocaleDateString()}
       </p>
       <p className="text-gray-500">좋아요: {data.likes.length}</p>
+      <Comment />
     </div>
   );
 };
