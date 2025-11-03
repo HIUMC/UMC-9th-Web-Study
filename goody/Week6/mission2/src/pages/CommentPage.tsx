@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { PAGINATION_ORDER } from "../enums/common"
 import { useInView } from "react-intersection-observer";
 import CommentCard from "../components/LpCard/CommentCard";
 import CommentSkeletonList from "../components/LpCard/CommentSkeletonList";
 import { useParams } from "react-router-dom";
 import useGetInfiniteComment from "../hooks/queries/useGetInfiniteComment";
 import type { PaginationDto } from "../types/common";
-import useGetLpDetail from "../hooks/queries/useGetLpDetail";
+
 
 const CommentPage = () => {
     const { lpid } = useParams();
@@ -60,13 +59,6 @@ const CommentPage = () => {
             <div>
                 <div className="w-full h-96 overflow-y-auto">
                     {commentsLoading && <CommentSkeletonList count={10}/> }
-                    {/* {comments?.pages.map((page)=> page.data.data)
-                        ?.flat()
-                        ?.map((comment) => (
-                            console.log(comment),
-                            <CommentCard key={comment.id} id={comment.id} content={comment.content} author={comment.author}/>
-                        ))
-                    } */}
                     {comments && (
                     <div>
 
