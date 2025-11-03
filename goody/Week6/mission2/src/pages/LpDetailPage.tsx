@@ -1,6 +1,7 @@
-import { useNavigate, useParams } from "react-router-dom"
+import { Outlet, useNavigate, useParams } from "react-router-dom"
 import useGetLpDetail from "../hooks/queries/useGetLpDetail";
 import { LoadingSpinner } from "../components/LoadingSpinner";
+import { useState } from "react";
 
 const LpDetailPage = () => {
     
@@ -8,7 +9,10 @@ const LpDetailPage = () => {
 
     const {data, isPending, isError} = useGetLpDetail(lpid || "")
 
+    const [CommentOpen,setCommentOpen] = useState(false);
+    
     const navigate = useNavigate();
+
 
     if(isPending){
         return (
@@ -22,6 +26,11 @@ const LpDetailPage = () => {
         return (
             <div className="flex items-center justify-center">상세 데이터를 불러올 수 없습니다.</div>
         )
+    }
+
+    const handleCommits = () => {
+        setCommentOpen(true);
+        navigate(`/lp/${data.data.id}/comments`)
     }
 
     return (
@@ -38,7 +47,7 @@ const LpDetailPage = () => {
                         <button className="cursor-pointer">🗑️</button>
                         <button 
                             className="cursor-pointer"
-                            onClick={() => navigate(`/lp/${data.data.id}/comments`)}>💬</button>
+                            onClick={handleCommits}>💬</button>
                     </div>
                 </div>
                 <img src ={data.data.thumbnail} alt={data.data.title} className="aspect-square w-1/2 mx-auto object-cover rounded-2xl " />
@@ -51,6 +60,11 @@ const LpDetailPage = () => {
                 <p className="flex justify-center items-center">♡{data.data.likes.length}</p>
 
             </div>
+            {CommentOpen && (
+                <div className="absolute inset-0 z-50">
+                    <Outlet />
+                </div>
+            )}
         </div>
     )
 }

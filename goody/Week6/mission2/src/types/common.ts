@@ -1,3 +1,4 @@
+import type { PAGINATION_ORDER } from "../enums/common";
 
 export type CommonResponse<T> = {
     status : boolean;
@@ -21,3 +22,9 @@ export type PaginationDto = {
     sort? : string;
 }
 
+export type CommentsDto = {
+    lpId: number;
+    cursor?: number;
+    limit?: number;
+    order?: "asc" | "desc" //PAGINATION_ORDER 사용시 타입 불일치로 오류 발생
+};

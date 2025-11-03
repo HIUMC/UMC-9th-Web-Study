@@ -53,8 +53,8 @@ const protectedRoutes:RouteObject[] = [
                 element: <LpDetailPage />,
                 children : [
                     {
-                    path:"comments",
-                    element : <CommentPage/>
+                        path:"comments",
+                        element : <CommentPage/>
                     },
                 ]
             },
