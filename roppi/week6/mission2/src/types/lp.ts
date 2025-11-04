@@ -1,3 +1,4 @@
+import type { PAGINATION_ORDER } from "../enums/common";
 import type { CursorBasedResponse, CommonResponse } from "./common";
 
 export type Tags = {
@@ -21,8 +22,7 @@ export type Author = {
   updatedAt: Date;
 }
 
-export type ResponseLpListDto = CursorBasedResponse<{
-  data: {
+export type Lp = {
     id: number;
     title: string;
     content: string;
@@ -33,9 +33,9 @@ export type ResponseLpListDto = CursorBasedResponse<{
     updatedAt: Date;
     tags: Tags[];
     likes: Likes[];   
-    }
-  }
->
+}
+
+export type ResponseLpListDto = CursorBasedResponse<Lp[]>
 
 export type ResponseLpDetailDto = CommonResponse<{
 data: {
@@ -52,3 +52,30 @@ data: {
     author: Author;
     }
 }>
+
+
+
+export interface GetLpCommentsDto {
+  lpId: number;
+  cursor?: number;
+  limit: number;
+  order: PAGINATION_ORDER;
+}
+
+export interface ResponseLpCommentsDto {
+  data: {
+    data: {
+      id: number;
+      content: string;
+      createdAt: string;
+      author: {
+        id: number;
+        name: string;
+        avatar: string;
+      };
+    }[];
+    hasNext: boolean;
+    nextCursor?: number;
+  };
+}
+

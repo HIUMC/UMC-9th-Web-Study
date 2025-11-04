@@ -80,7 +80,7 @@ axiosInstance.interceptors.response.use(
             )
 
             setAccessToken(data.data.accessToken);
-            setRefreshToken(data.data.refresthToken);
+            setRefreshToken(data.data.refreshToken);
 
             return data.data.accessToken;
           }
