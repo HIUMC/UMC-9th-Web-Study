@@ -10,6 +10,7 @@ import pinkHeart from "../assets/pinkH.png";
 import whiteHeart from "../assets/whiteH.png";
 import Comment from "../components/Comments/Comment";
 import CommentSkeletonList from "../components/Comments/LpcardSkeletonList";
+import OrderBtn from "../components/OrderBtn";
 
 const LpDetailPage = () => {
   const { lpid } = useParams<{ lpid: string }>();
@@ -84,28 +85,7 @@ const LpDetailPage = () => {
       {/* 댓글 영역 */}
       <div className="max-w-3xl w-full mt-10 bg-[#202020] rounded p-5 flex flex-col gap-3">
         {/* 정렬 버튼 */}
-        <div className="flex justify-end gap-2 mb-2">
-          <button
-            onClick={() => setOrder("desc")}
-            className={`px-3 py-1 rounded ${
-              order === "desc"
-                ? "bg-white text-black font-semibold"
-                : "bg-[#303030] text-gray-400"
-            }`}
-          >
-            최신순
-          </button>
-          <button
-            onClick={() => setOrder("asc")}
-            className={`px-3 py-1 rounded ${
-              order === "asc"
-                ? "bg-white text-black font-semibold"
-                : "bg-[#303030] text-gray-400"
-            }`}
-          >
-            오래된순
-          </button>
-        </div>
+        <OrderBtn order={order} setOrder={setOrder} />
 
         {/* 댓글 작성란 */}
         <div className="flex gap-2 items-center">
