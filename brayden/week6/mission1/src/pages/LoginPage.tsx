@@ -1,6 +1,6 @@
 import { validateSignin, type UserSigninInformation } from "../utils/validate";
 import UseForm from "../hooks/useForm";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import googleLogo from "../assets/googleLogo.png";
 import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
@@ -8,12 +8,15 @@ import { useEffect } from "react";
 const LoginPage = () => {
   const { login, accessToken } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from || "/my";
 
   useEffect(() => {
     if (accessToken) {
-      navigate("/my");
+      navigate(from, { replace: true });
     }
-  }, [navigate, accessToken]);
+  }, [navigate, accessToken, from]);
 
   const { values, errors, touched, getInputProps } =
     UseForm<UserSigninInformation>({
