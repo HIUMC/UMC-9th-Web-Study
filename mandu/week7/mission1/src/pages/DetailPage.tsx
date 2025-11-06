@@ -6,6 +6,9 @@ import useGetMyInfo from "../hooks/queries/useGetMyInfo";
 import { useAuth } from "../context/AuthContext";
 import usePostLike from "../hooks/mutations/usePostLike";
 import useDeleteLike from "../hooks/mutations/useDeleteLike";
+import { useState } from "react";
+import PlusButton from "../components/Buttons/PlusButton";
+import PlusLpModal from "../components/Modals/PlusLpModal";
 
 const DetailPage = () => {
   const { lpid } = useParams();
@@ -29,6 +32,15 @@ const DetailPage = () => {
     me?.data.id && disLikeMutate({ lpId: Number(lpid) });
   };
 
+  // 모달 관리
+  const [open, setOpen] = useState(false);
+  const handlePlusLp = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+
   if (isPending) {
     return (
       <div className="p-4 flex justify-center items-center">
@@ -46,48 +58,52 @@ const DetailPage = () => {
   }
 
   return (
-    <div className="p-6 overflow-auto">
-      <h2 className="text-3xl font-bold mb-4">{data.title}</h2>
-      <p className="text-lg text-gray-400 mb-2">
-        작성자: {data.author.name} ({data.author.email})
-      </p>
+    <>
+      <div className="p-6 overflow-auto">
+        <h2 className="text-3xl font-bold mb-4">{data.title}</h2>
+        <p className="text-lg text-gray-400 mb-2">
+          작성자: {data.author.name} ({data.author.email})
+        </p>
 
-      <div className="my-4">
-        <img
-          src={data.thumbnail}
-          alt={data.title}
-          className="rounded-lg shadow-md w-full max-w-2xs mx-auto aspect-square object-cover"
-        />
-      </div>
-
-      <p className="text-white my-4 whitespace-pre-line">{data.content}</p>
-
-      <div className="flex flex-wrap gap-2">
-        {data.tags.map((tag) => (
-          <span
-            key={tag.id}
-            className="bg-gray-700 text-white px-3 py-1 rounded-full text-sm"
-          >
-            #{tag.name}
-          </span>
-        ))}
-      </div>
-
-      <p className="mt-4 text-gray-500">
-        최종 수정일: {new Date(data.updatedAt).toLocaleDateString()}
-      </p>
-      <p className="text-gray-500">
-        좋아요: {data.likes.length}{" "}
-        <button onClick={isLiked ? handleDislikeLp : handleLikeLp}>
-          <LuHeart
-            className="cursor-pointer"
-            color={isLiked ? "red" : "white"}
-            fill={isLiked ? "red" : "transparent"}
+        <div className="my-4">
+          <img
+            src={data.thumbnail}
+            alt={data.title}
+            className="rounded-lg shadow-md w-full max-w-2xs mx-auto aspect-square object-cover"
           />
-        </button>
-      </p>
-      <Comment />
-    </div>
+        </div>
+
+        <p className="text-white my-4 whitespace-pre-line">{data.content}</p>
+
+        <div className="flex flex-wrap gap-2">
+          {data.tags.map((tag) => (
+            <span
+              key={tag.id}
+              className="bg-gray-700 text-white px-3 py-1 rounded-full text-sm"
+            >
+              #{tag.name}
+            </span>
+          ))}
+        </div>
+
+        <p className="mt-4 text-gray-500">
+          최종 수정일: {new Date(data.updatedAt).toLocaleDateString()}
+        </p>
+        <p className="text-gray-500">
+          좋아요: {data.likes.length}{" "}
+          <button onClick={isLiked ? handleDislikeLp : handleLikeLp}>
+            <LuHeart
+              className="cursor-pointer"
+              color={isLiked ? "red" : "white"}
+              fill={isLiked ? "red" : "transparent"}
+            />
+          </button>
+        </p>
+        {open && <PlusLpModal onClose={onClose} />}
+        <Comment />
+      </div>
+      <PlusButton handlePlus={handlePlusLp} isOpen={open} />
+    </>
   );
 };
 
