@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import useGetLpList from "../hooks/queries/useGetLpList";
 import useGetInfiniteLpList from "../hooks/queries/useGetInfiniteLpList";
 import { PAGINATION_ORDER } from "../enums/common";
 import { useInView } from "react-intersection-observer";
-import { Link } from "react-router-dom";
 import LpCard from "../components/LpCard/LpCard";
 import LpCardSkeletonList from "../components/LpCard/LpCardSkeletonList";
 import ToggleButton from "../components/Buttons/ToggleButton";

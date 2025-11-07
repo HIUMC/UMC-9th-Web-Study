@@ -1,5 +1,6 @@
 import axios from "axios";
 import type {
+  myPageDto,
   RequestSigninDto,
   RequestSignupDto,
   ResponseMyInfoDto,
@@ -32,5 +33,12 @@ export const getMyInfo = async (): Promise<ResponseMyInfoDto> => {
 
 export const postLogout = async () => {
   const { data } = await axiosInstance.post("/v1/auth/signout");
-  return data; 
+  return data;
+};
+
+export const updateMy = async (
+  updateMypage: myPageDto
+): Promise<ResponseMyInfoDto> => {
+  const { data } = await axiosInstance.patch(`/v1/users`, updateMypage);
+  return data;
 };

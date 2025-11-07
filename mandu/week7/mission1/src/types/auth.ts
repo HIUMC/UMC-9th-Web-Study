@@ -42,3 +42,10 @@ export type ResponseMyInfoDto = CommonResponse<{
   createdAt: Date;
   updatedAt: Date;
 }>;
+
+// 마이페이지 수정
+export type myPageDto = {
+  name: string;
+  bio: string;
+  avatar: string;
+};
