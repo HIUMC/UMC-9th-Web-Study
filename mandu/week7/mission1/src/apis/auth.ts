@@ -42,3 +42,8 @@ export const updateMy = async (
   const { data } = await axiosInstance.patch(`/v1/users`, updateMypage);
   return data;
 };
+
+export const deleteUser = async () => {
+  const { data } = await axiosInstance.delete("/v1/users");
+  return data;
+};

@@ -7,8 +7,8 @@ import {
 import type { RequestSigninDto } from "../types/auth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { LOCAL_STORAGE_KEY } from "../constants/key";
-import { postLogout, postSignin } from "../apis/auth";
-import { useNavigate } from "react-router-dom";
+import useLoginMutation from "../hooks/mutations/useLoginMutation";
+import useLogoutMutation from "../hooks/mutations/useLogoutMutation";
 
 interface AuthContextType {
   accessToken: string | null;
@@ -43,9 +43,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     getRefreshTokenFromStorage()
   );
 
+  const { mutateAsync: loginMutate } = useLoginMutation();
+  const { mutateAsync: logoutMutate } = useLogoutMutation();
+
   const login = async (signinData: RequestSigninDto) => {
     try {
-      const { data } = await postSignin(signinData);
+      const { data } = await loginMutate(signinData);
 
       if (data) {
         const newAccessToken = data.accessToken;
@@ -67,7 +70,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const logout = async () => {
     try {
-      await postLogout();
+      await logoutMutate();
       removeAccessTokenFromStorage();
       removeRefreshTokenFromStorage();
 
