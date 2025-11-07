@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getCommentList, getLpList } from "../../apis/lp";
 import type { PAGINATION_ORDER } from "../../enums/common";
 import { QUERY_KEY } from "../../constants/key";
+import { getCommentList } from "../../apis/comment";
 
 function useGetCommentList(
   lpId: string | undefined,

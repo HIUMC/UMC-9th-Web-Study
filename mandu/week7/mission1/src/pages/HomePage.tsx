@@ -14,7 +14,7 @@ const HomePage = () => {
   const [search, setSearch] = useState("");
 
   const [asc, setAsc] = useState(true);
-  const currentOrder = asc ? PAGINATION_ORDER.asc : PAGINATION_ORDER.desc;
+  const currentOrder = !asc ? PAGINATION_ORDER.asc : PAGINATION_ORDER.desc;
 
   const [open, setOpen] = useState(false);
   const handlePlusLp = () => {

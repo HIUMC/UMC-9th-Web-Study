@@ -55,21 +55,17 @@ export type LpDetail = {
 
 export type ResponseLpDetailDto = CommonResponse<LpDetail>;
 
-export type CommentList = {
-  id: number;
-  content: string;
-  lpId: number;
-  published: boolean;
-  authorId: number;
-  createdAt: Date;
-  updatedAt: Date;
-  author: Author;
-};
-
-export type ResponseCommentListDto = CursorBasedResponse<CommentList[]>;
-
 export type ResponseLikeLpDto = CommonResponse<{
   id: number;
   userId: number;
   lpId: number;
 }>;
+
+// LP추가
+export type PostLpDto = {
+  title: string;
+  content: string;
+  thumbnail: string;
+  tags: string[];
+  published: boolean;
+};
