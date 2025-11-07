@@ -69,3 +69,22 @@ export type PostLpDto = {
   tags: string[];
   published: boolean;
 };
+
+export type updateLpDto = CommonResponse<{
+  id: number;
+  title: string;
+  content: string;
+  thumbnail: string;
+  published: boolean;
+  authorId: number;
+  createdAt: Date;
+  updatedAt: Date;
+  tags: Tag[];
+}>;
+
+export type DeleteLpResonse = {
+  status: boolean;
+  statusCode: number;
+  message: string;
+  data: boolean;
+};

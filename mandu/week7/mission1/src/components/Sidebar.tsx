@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import useDeleteUser from "../hooks/mutations/useDeleteUser";
-import { useAuth } from "../context/AuthContext";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { LOCAL_STORAGE_KEY, QUERY_KEY } from "../constants/key";
 import { queryClient } from "../App";
