@@ -24,7 +24,7 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
       };
       getData();
     }
-  }, [accessToken]);
+  }, [accessToken, data.data]);
 
   const handleLogout = () => {
     logout();
