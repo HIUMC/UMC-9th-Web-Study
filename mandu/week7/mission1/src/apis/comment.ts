@@ -1,4 +1,8 @@
-import type { ResponseCommentListDto } from "../types/comment";
+import type {
+  ResponseCommentDeleteDto,
+  ResponseCommentListDto,
+  ResponseCommentUpdateDto,
+} from "../types/comment";
 import type { CommentPaginationDto } from "../types/common";
 import { axiosInstance } from "./axios";
 
@@ -37,7 +41,7 @@ interface UpdateCommentDto {
 
 export const updateComment = async (
   updateComment: UpdateCommentDto
-): Promise<any> => {
+): Promise<ResponseCommentUpdateDto> => {
   const { lpId, commentId, content } = updateComment;
 
   const { data } = await axiosInstance.patch(
@@ -54,7 +58,7 @@ interface DeleteCommentDto {
 
 export const deleteComment = async (
   payload: DeleteCommentDto
-): Promise<any> => {
+): Promise<ResponseCommentDeleteDto> => {
   const { lpId, commentId } = payload;
   const { data } = await axiosInstance.delete(
     `/v1/lps/${lpId}/comments/${commentId}`

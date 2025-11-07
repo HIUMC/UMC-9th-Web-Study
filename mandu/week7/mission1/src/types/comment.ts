@@ -1,4 +1,4 @@
-import type { CursorBasedResponse } from "./common";
+import type { CommonResponse, CursorBasedResponse } from "./common";
 import type { Author } from "./lp";
 
 export type CommentList = {
@@ -12,4 +12,12 @@ export type CommentList = {
   author: Author;
 };
 
+export type DeleteComment = {
+  message: string;
+};
+
 export type ResponseCommentListDto = CursorBasedResponse<CommentList[]>;
+
+export type ResponseCommentUpdateDto = CommonResponse<CommentList>;
+
+export type ResponseCommentDeleteDto = CommonResponse<DeleteComment>;

@@ -1,11 +1,6 @@
-import type {
-  CommentPaginationDto,
-  LpDetailDto,
-  PaginationDto,
-} from "../types/common";
+import type { LpDetailDto, PaginationDto } from "../types/common";
 import type {
   PostLpDto,
-  ResponseCommentListDto,
   ResponseLikeLpDto,
   ResponseLpDetailDto,
   ResponseLpListDto,

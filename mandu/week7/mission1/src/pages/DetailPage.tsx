@@ -100,7 +100,7 @@ const DetailPage = () => {
           </button>
         </p>
         {open && <PlusLpModal onClose={onClose} />}
-        <Comment />
+        <Comment myId={me?.data.id} />
       </div>
       <PlusButton handlePlus={handlePlusLp} isOpen={open} />
     </>
