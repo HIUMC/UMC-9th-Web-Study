@@ -10,7 +10,7 @@ const LoginPage = () => {
     const {login, accessToken} = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    
+
     // 로그인 완료 후에만 실행 (accessToken이 변경될 때만)
     useEffect(() => {
         if (accessToken) {

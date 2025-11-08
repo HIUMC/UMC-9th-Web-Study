@@ -13,7 +13,7 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
   return (
     <>
       <div
-        className={`fixed inset-0 z-40 lg:hidden ${open ? "" : "hidden"}`}
+        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm ${open ? "" : "hidden"}`}
         onClick={onClose} // 바깥 클릭 시 닫힌다.
         aria-hidden="true"
       />

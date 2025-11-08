@@ -78,8 +78,8 @@ const LpDetailPage = () => {
     if (isAuthenticated && showLoginModal) {
       setShowLoginModal(false);
       // 로그인 완료 후 댓글 쿼리 다시 로드
-      queryClient.invalidateQueries({ 
-        queryKey: ['lpComments', lpId, commentOrder] 
+      queryClient.invalidateQueries({
+        queryKey: ['lpComments', lpId, commentOrder]
       });
     }
   }, [isAuthenticated, showLoginModal, queryClient, lpId, commentOrder]);

@@ -23,7 +23,7 @@ const Navbar = () => {
 
     return (
         <>
-        <header className='fixed top-0 w-full bg-black shadow-lg border-b border-gray-800 z-10'>
+        <header className='fixed top-0 w-full bg-black shadow-lg border-b border-gray-800 z-50'>
             <div className='max-w-7xl mx-auto flex px-4 justify-between items-center h-16'>
                 <div className="flex items-center gap-4">
                     {/* 버거 버튼 */}
