@@ -7,8 +7,9 @@ import { postSignin, postLogout } from "../apis/auth";
 interface AuthContextType {
     accessToken: string | null;
     refreshToken: string | null;
-    login: (signinData: RequestSigninDto) => Promise<void>;
+    login: (signinData: RequestSigninDto, onSuccess?: () => void) => Promise<void>;
     logout: () => Promise<void>;
+    isAuthenticated: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -16,6 +17,7 @@ export const AuthContext = createContext<AuthContextType>({
     refreshToken: null,
     login: async () => {},
     logout: async () => {},
+    isAuthenticated: false,
 });
 
 export const AuthProvider = ({children}: PropsWithChildren) => {
@@ -39,7 +41,7 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
         getRefreshTokenFromStorage(),
     );
 
-    const login = async (signinData: RequestSigninDto) => {
+    const login = async (signinData: RequestSigninDto, onSuccess?: () => void) => {
         try {
             const {data} = await postSignin(signinData);
 
@@ -52,8 +54,13 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
 
                 setAccessToken(newAccessToken);
                 setRefreshToken(newRefreshToken);
+                
                 alert("로그인 성공");
-                window.location.href="/my";
+                
+                // 성공 콜백 실행
+                if (onSuccess) {
+                    onSuccess();
+                }
             }
         } catch (error) {
             console.error ("로그인 오류", error);
@@ -76,8 +83,16 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
         }
     };
 
+    const isAuthenticated = !!accessToken;
+
     return (
-        <AuthContext.Provider value={{accessToken, refreshToken, login, logout}}>
+        <AuthContext.Provider value={{
+            accessToken,
+            refreshToken,
+            login,
+            logout,
+            isAuthenticated
+        }}>
             {children}
         </AuthContext.Provider>
     );

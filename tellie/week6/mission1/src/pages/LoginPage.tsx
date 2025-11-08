@@ -1,20 +1,23 @@
 import useForm from '../hooks/useForm';
 import { type UserSigninInformation, validateSignin } from '../utils/validate';
 import BackButton from '../components/Backbutton';
-import LoginHeader from '../components/LoginHeader';
+import Navbar from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const LoginPage = () => {
     const {login, accessToken} = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
     
     useEffect(() => {
         if (accessToken) {
-            navigate("/")
+            // location.state가 있으면 이전 페이지로, 없으면 홈으로
+            const from = (location.state as any)?.from || '/';
+            navigate(from);
         }
-    }, [navigate, accessToken]);
+    }, [navigate, accessToken, location]);
 
     const {values, errors, touched, getInputProps} = useForm<UserSigninInformation>( {
         initialValue: {
@@ -25,7 +28,8 @@ const LoginPage = () => {
     });
 
     const handleSubmit = async () => {
-            await login(values);
+        const from = (location.state as any)?.from || '/';
+        await login(values, () => navigate(from));
     };
 
     const handleGoogleLogin = () => {
@@ -39,7 +43,7 @@ const LoginPage = () => {
         Object.values(values).some((value) => value === ""); // 입력값이 비어있으면 true
     return (
         <div className='flex flex-col items-center justify-center min-h-screen bg-black text-white'>
-            <LoginHeader />
+            <Navbar />
             <div className = 'flex items-center justify-center pt-16 min-h-screen w-full'>
                 <form onSubmit={handleSubmit}
                 className = 'relative flex flex-col items-center'>
