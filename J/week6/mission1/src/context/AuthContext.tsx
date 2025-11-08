@@ -62,12 +62,10 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
                 setRefreshToken(newRefreshToken);
 
                 const myInfo = await getMyInfo();
-                console.log("내 정보 응답:", myInfo.data);
                 setUserName(myInfo.data.name);
                 setUserNameInStorage(data.name);
 
                 alert("로그인 성공");
-                window.location.href = "/my";
             }
         } catch (error) {
             console.error("로그인 오류", error);

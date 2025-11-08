@@ -17,5 +17,13 @@ export type PaginationDto = {
     cursor?: number;
     limit?: number;
     search?: string;
-    sort?: PAGINATION_ORDER;
+    order?: PAGINATION_ORDER;
+}
+
+export type CommentsDto = {
+    lpid: string;
+    cursor?: number;
+    limit?: number;
+    search?: string;
+    order?: PAGINATION_ORDER;
 }

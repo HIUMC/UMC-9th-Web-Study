@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useForm from "../hooks/useForm";
 import { validateSignin, type UserSigninInformation } from "../utils/validate";
 import { useAuth } from "../context/AuthContext";
@@ -6,8 +6,10 @@ import { useEffect } from "react";
 
 export const LoginPage = () => {
     const navigate = useNavigate();
-
+    const location = useLocation();
+    const from = location.state?.from || "/my";
     const {login, accessToken} = useAuth();
+
     useEffect(() => {
         if(accessToken) {
             navigate("/");
@@ -21,8 +23,11 @@ export const LoginPage = () => {
         },
         validate: validateSignin
     });
-    const handleSubmit = async () => {
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         await login(values);
+        navigate(from, {replace: true})
     };
 
     const handleGoogleLogin = () => {

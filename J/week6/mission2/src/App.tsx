@@ -76,7 +76,6 @@ function App() {
           <RouterProvider router = {router}/>
         </SidebarProvider>
       </AuthProvider>
-      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false}/>}
     </QueryClientProvider>
   )
 }

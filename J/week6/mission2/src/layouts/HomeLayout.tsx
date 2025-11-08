@@ -2,6 +2,7 @@ import { Link, Outlet } from "react-router-dom"
 import { Footer } from "../components/Footer"
 import { SideBar } from "../components/SideBar"
 import { useSidebar } from "../context/SideBarContext";
+import { FloatingButton } from "../components/FloatingButton";
 
 export const HomeLayout = () => {
     const { isSidebarOpen, toggleSidebar, closeSidebar, isMobile } = useSidebar();
@@ -64,6 +65,7 @@ export const HomeLayout = () => {
                     }`}
                 >
                     <Outlet />
+                    <FloatingButton/>
                 </main>
             </div>
             <Footer/>

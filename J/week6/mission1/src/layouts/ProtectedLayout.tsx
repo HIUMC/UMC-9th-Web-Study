@@ -1,21 +1,23 @@
-import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Link, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Footer } from "../components/Footer";
 import { SideBar } from "../components/SideBar";
 import { useSidebar } from "../context/SideBarContext";
 import { useEffect } from "react";
+import { FloatingButton } from "../components/FloatingButton";
 
 export const ProtectedLayout = () => {
     const {accessToken, logout, userName} = useAuth();
     const { isSidebarOpen, toggleSidebar, closeSidebar, isMobile } = useSidebar();
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         if (!accessToken) {
             alert("로그인이 필요한 서비스입니다. 로그인을 해주세요!");
-            navigate("/login");
+            navigate("/login", { state: { from: location.pathname }, replace: true });
         }
-    }, [ navigate]);
+    }, [ navigate, location]);
     
     return (<div className="flex flex-col min-h-screen  bg-black text-white">
         <nav className="fixed top-0 w-full bg-neutral-900 text-2xl font-bold p-4 flex justify-between items-center z-50">
@@ -76,6 +78,7 @@ export const ProtectedLayout = () => {
                     }`}
                 >
                     <Outlet />
+                    <FloatingButton/>
                 </main>
             </div>
             <Footer/>

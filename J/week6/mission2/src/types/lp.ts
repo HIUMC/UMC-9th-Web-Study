@@ -11,6 +11,16 @@ export type Likes = {
     lpId: number;
 };
 
+export type Author = {
+    id: number;
+    name: string;
+    email: string;
+    bio: string | null;
+    avatar: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 export type Lp = {
     id: number;
     title: string;
@@ -38,3 +48,14 @@ export type ResponseLpDetailDto = {
     tag: Tag[];
     likes: Likes[];
 }
+
+export type Comment = {
+    id: number;
+    content: string;
+    lpId: number;
+    authorId: number;
+    createdAt: Date;
+    updatedAt: Date;
+    author: Author
+}
+export type ResponseLpCommentsDto = CursorBasedResponse<Comment[]>

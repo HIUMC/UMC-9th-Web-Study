@@ -3,26 +3,10 @@ import { useGetLpList } from "../hooks/queries/useGetLpList";
 import { PAGINATION_ORDER } from "../enums/common";
 import { Link } from "react-router-dom";
 import { getTimeAgo } from "../utils/time";
-import { useAuth } from "../context/AuthContext";
 
 export const HomePage = () => {
-  const [sort, setSort] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.oldest);
-  const { accessToken } = useAuth();
-  const { data = [], isPending, isError, refetch } = useGetLpList({ sort }, !!accessToken);
-
-  const sortedData = [...data].sort((a, b) =>
-  sort === PAGINATION_ORDER.newest
-    ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-  );
-
-  useEffect(() => {
-    if (accessToken) {
-      refetch();
-    }
-  }, [accessToken, refetch]);
-
-  if (!accessToken) {return}
+  const [order, setOrder] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.newest);
+  const { data = [], isPending, isError, refetch } = useGetLpList({ order });
 
   if (isPending) {
     return (
@@ -52,9 +36,9 @@ export const HomePage = () => {
         <div className="flex justify-end mb-4">
             <div className="inline-flex rounded-lg overflow-hidden border border-neutral-700">
                 <button
-                    onClick={() => setSort(PAGINATION_ORDER.oldest)}
+                    onClick={() => setOrder(PAGINATION_ORDER.oldest)}
                     className={`px-4 py-2 transition-colors ${
-                    sort === PAGINATION_ORDER.oldest
+                    order === PAGINATION_ORDER.oldest
                         ? "bg-white text-black"
                         : "bg-neutral-800 hover:bg-neutral-700"
                     }`}
@@ -62,9 +46,9 @@ export const HomePage = () => {
                     오래된순
                         </button>
                 <button
-                    onClick={() => setSort(PAGINATION_ORDER.newest)}
+                    onClick={() => setOrder(PAGINATION_ORDER.newest)}
                     className={`px-4 py-2 transition-colors ${
-                    sort === PAGINATION_ORDER.newest
+                    order === PAGINATION_ORDER.newest
                         ? "bg-white text-black"
                         : "bg-neutral-800 hover:bg-neutral-700"
                     }`}
@@ -74,7 +58,7 @@ export const HomePage = () => {
             </div>
         </div>
       <div className="py-10 grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        {sortedData.map((lp)=> (
+        {[...data].map((lp)=> (
             <Link to={`/lp/${lp.id}`} key={lp.id} className="relative overflow-hidden rounded-lg shadow-md hover:scale-105 transition-transform cursor-pointer">
                 <img className="w-full h-[200px]"
                   src={`https://picsum.photos/400/300?random=${lp.id}`}

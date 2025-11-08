@@ -15,7 +15,6 @@ export const LpDetailPage = () => {
     const { userName} = useAuth();
     const [ user, setUser ] = useState<ResponseMyInfoDto | null>(null);
     const [isLiked, setIsLiked] = useState(false);
-    const navigate = useNavigate();
     
 
     useEffect(() => {
@@ -51,7 +50,7 @@ export const LpDetailPage = () => {
     }
 
     return (
-    <div className="flex justify-center">
+    <div className="flex justify-center p-20">
         <div className="bg-neutral-800 rounded-lg shadow-lg p-30 text-white flex flex-col gap-6">
             <div className="flex flex-col gap-6">
                 <div className="flex flex-row justify-between">

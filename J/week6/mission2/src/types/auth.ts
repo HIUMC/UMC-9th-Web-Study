@@ -42,3 +42,16 @@ export type ResponseMyInfoDto = CommonResponse<{
     createdAt: Date;
     updateAt: Date;
 }>
+
+export type RequestCommentDto = {
+    content: string;
+}
+
+export type ResponseCommentDto = CommonResponse<{
+    id: number;
+    content: string;
+    lpId: string;
+    authorized: string;
+    createdAt: Date;
+    updatedAt: Date;
+}>

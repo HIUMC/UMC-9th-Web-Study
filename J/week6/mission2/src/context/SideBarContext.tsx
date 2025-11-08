@@ -15,10 +15,23 @@ export const SidebarProvider = ({ children }: { children: ReactNode }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
   useEffect(() => {
+    let wasMobile = window.innerWidth < 1024;
+
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 1024);
-      if (window.innerWidth >= 1024) setIsSidebarOpen(true); // 데스크톱이면 항상 열림
+      const nowMobile = window.innerWidth < 1024;
+      setIsMobile(nowMobile);
+
+      if (!wasMobile && nowMobile) {
+        setIsSidebarOpen(false);
+      }
+
+      if (wasMobile && !nowMobile) {
+        setIsSidebarOpen(true);
+      }
+
+      wasMobile = nowMobile;
     };
+
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);

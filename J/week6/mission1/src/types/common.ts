@@ -20,5 +20,5 @@ export type PaginationDto = {
     cursor?: number;
     limit?: number;
     search?: string;
-    sort?: PAGINATION_ORDER;
+    order?: PAGINATION_ORDER;
 }

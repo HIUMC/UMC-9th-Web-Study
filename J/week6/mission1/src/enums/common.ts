@@ -1,4 +1,4 @@
 export enum PAGINATION_ORDER {
-    "newest" = "asc",
-    "oldest" = "desc",
+    "oldest" = "asc",
+    "newest" = "desc",
 }
