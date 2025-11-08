@@ -46,7 +46,6 @@ const HomeLayout = () => {
         </div>
         
         <Footer/>
-        <FloatingButton />
         </div>
     )
 }

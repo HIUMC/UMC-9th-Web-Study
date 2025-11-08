@@ -8,6 +8,8 @@ import { deleteLike, postLike } from "../apis/lp";
 import { Heart } from 'lucide-react'
 import usePostLike from "../hooks/mutations/usePostLike";
 import useDeleteLike from "../hooks/mutations/useDeleteLike";
+import { Modal } from "../components/Modal";
+import CommentPage from "./CommentPage";
 
 const LpDetailPage = () => {
     
@@ -33,7 +35,6 @@ const LpDetailPage = () => {
 
     const handleCommits = () => {
         setCommentOpen(true);
-        navigate(`/lp/${lp.data.id}/comments`)
     }
 
     const handleLikeLp = () => {
@@ -88,17 +89,14 @@ const LpDetailPage = () => {
                 </div>
                 <button onClick={isLiked ? handleDisLikeLp : handleLikeLp} className="flex justify-center items-center">
                     <Heart color={isLiked ? "red" : "black"} fill={isLiked ? "red" : "transparent"}/>
+                    {lp.data.likes.length}
                 </button>
                 
 
             </div>
-            {/* 댓글 창이 navbar 위에 있어서 detailpage에서 navbar 작동 x  */}
-            {/* 페이지가 아니라 모달로 구현하는게 좋을듯 함 */}
-            {/* {CommentOpen && (
-                <div className="absolute inset-0 z-50">
-                    <Outlet />
-                </div>
-            )} */}
+            <Modal isOpen={CommentOpen} onClose={() => setCommentOpen(false)}>
+                <CommentPage/>
+            </Modal>
         </div>
     )
 }

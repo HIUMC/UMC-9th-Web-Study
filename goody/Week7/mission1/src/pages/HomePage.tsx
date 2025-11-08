@@ -5,12 +5,16 @@ import useGetInfiniteLpList from "../hooks/queries/useGetInfiniteLpList";
 import { useInView } from "react-intersection-observer";
 import LpCard from "../components/LpCard/LpCard";
 import LpCardSkeletonList from "../components/LpCard/LpCardSkeletonList";
+import FloatingButton from "../components/FloatingButton";
+import { Modal } from "../components/Modal";
+import LpAdd from "../components/LpAdd";
 
 const HomePage = () => {
 
     
     const [search,setSearch] = useState("");
     const [order,setOrder] = useState(PAGINATION_ORDER.desc)
+    const [isLpAddOpen,setIsLpAddOpen] = useState(false);
 
     const {data:lps, isFetching, hasNextPage, isPending, fetchNextPage, isError} = useGetInfiniteLpList(10, search, order);
 
@@ -65,7 +69,12 @@ const HomePage = () => {
                 </div>
             </div>
             <div ref={ref} className="h-2"></div>
+            <FloatingButton onClick={() => setIsLpAddOpen(true)}/>
+            <Modal isOpen={isLpAddOpen} onClose={() => setIsLpAddOpen(false)}>
+                <LpAdd isOpen={isLpAddOpen} onClose={()=> setIsLpAddOpen(false)}/>
+            </Modal>
         </div>
+        
     )
 }
 

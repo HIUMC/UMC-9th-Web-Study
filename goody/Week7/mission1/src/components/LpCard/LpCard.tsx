@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import type { Lp } from "../../types/lp"
+import { Heart } from "lucide-react";
+import useGetMyInfo from "../../hooks/queries/useGetMyInfo";
+import { useAuth } from "../../context/AuthContext";
 
 
 interface LpCardProps {
@@ -8,6 +11,9 @@ interface LpCardProps {
 
 const LpCard = ({lp}:LpCardProps) => {
     const navigate = useNavigate();
+    const {accessToken} = useAuth();
+    const {data:me} = useGetMyInfo(accessToken);
+    const isLiked = lp?.likes.some((like) => like.userId === me?.data.id);
   return (
     <div 
         onClick={() => navigate(`/lp/${lp.id}`)}
@@ -24,7 +30,8 @@ const LpCard = ({lp}:LpCardProps) => {
             opacity-0 group-hover:opacity-100 grotransition-opacity duration-300">
             <h3 className="text-md font-semibold">{lp.title}</h3>
             <p className="text-sm">{new Date(lp.updatedAt).toLocaleString()}</p>
-            <p className="">♡{lp.likes.length}</p>
+            <Heart color={isLiked ? "red" : "white"} fill={isLiked ? "red" : "transparent"}/>
+            {lp.likes.length}
         </div>
         
     </div>

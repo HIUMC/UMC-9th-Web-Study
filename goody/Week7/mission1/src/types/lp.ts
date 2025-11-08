@@ -68,3 +68,17 @@ export type ResponseLikeLpDto = CommonResponse<{
     userId:number;
     lpId:number;
 }>
+
+export type CreateLpsDto = {
+    title : string;
+    content : string;
+    thumbnail : string;
+    tags : string[];
+    published: boolean;
+};
+
+export type ResponseLpCreateDto = CommonResponse<Lp>;
+
+export type UploadResponse = {
+    imageUrl : string;
+}
