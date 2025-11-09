@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { QUERY_KEY } from "../../constants/key"
-import { getComments } from "../../apis/lp"
+import { getComments } from "../../apis/comment"
 import type { PaginationDto } from "../../types/common"
 
 function useGetInfiniteComment (lpId:number | undefined, limit: number, order:PaginationDto["order"]) {

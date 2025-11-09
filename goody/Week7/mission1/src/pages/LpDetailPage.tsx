@@ -1,10 +1,9 @@
-import { Outlet, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import useGetLpDetail from "../hooks/queries/useGetLpDetail";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { useState } from "react";
 import useGetMyInfo from "../hooks/queries/useGetMyInfo";
 import { useAuth } from "../context/AuthContext";
-import { deleteLike, postLike } from "../apis/lp";
 import { Heart } from 'lucide-react'
 import usePostLike from "../hooks/mutations/usePostLike";
 import useDeleteLike from "../hooks/mutations/useDeleteLike";
@@ -95,7 +94,7 @@ const LpDetailPage = () => {
 
             </div>
             <Modal isOpen={CommentOpen} onClose={() => setCommentOpen(false)}>
-                <CommentPage/>
+                <CommentPage />
             </Modal>
         </div>
     )

@@ -43,25 +43,6 @@ export type ResponseLpListDto = CursorBasedResponse<Lp[]>;
 
 export type ResponseLpDetailDto = CursorBasedResponse<Lp>;
 
-export type Comment = {
-    id : number;
-    content : string;
-    lpId : number;
-    authorId : number;
-    createdAt: Date;
-    updatedAt: Date;
-    author: {
-        id: number;
-        name: string;
-        email: string;
-        bio: string | null;
-        avatar: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-    };
-}
-
-export type ResponseCommentDto = CursorBasedResponse<Comment>
 
 export type ResponseLikeLpDto = CommonResponse<{
     id:number;

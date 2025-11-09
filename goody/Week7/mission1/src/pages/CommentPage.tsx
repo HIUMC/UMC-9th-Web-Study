@@ -5,23 +5,24 @@ import CommentSkeletonList from "../components/Comment/CommentSkeletonList";
 import { useParams } from "react-router-dom";
 import useGetInfiniteComment from "../hooks/queries/useGetInfiniteComment";
 import type { PaginationDto } from "../types/common";
+import usePostComment from "../hooks/mutations/usePostComment";
+import type { RequestCommentDto } from "../types/comment";
+import usePatchComment from "../hooks/mutations/usePatchComment";
 
 
 const CommentPage = () => {
     const { lpid } = useParams();
     const [order,setOrder] = useState<PaginationDto["order"]>("desc")
 
-    const numericLpId = lpid ? Number(lpid) : undefined;
+    const numbericLpId = lpid ? Number(lpid) : undefined;
     const {
         data: comments,
         isLoading: commentsLoading,
         isFetching: commentsFetching,
         hasNextPage: commentsHasNextPage,
         fetchNextPage: commentsFetchNextPage,
-    } = useGetInfiniteComment(numericLpId, 10, order);
+    } = useGetInfiniteComment(numbericLpId, 10, order);
 
-    
-    
     const {ref, inView} = useInView({
         threshold:0, // 화면에 노출되는 정도
     })
@@ -32,6 +33,35 @@ const CommentPage = () => {
             }
         },[inView,commentsFetching,commentsFetchNextPage])
 
+    // 댓글 입력 관련 
+    const [commentText,setCommentText] = useState('');
+    const {mutate : AddCommentMutate} = usePostComment(Number(lpid))
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setCommentText(e.target.value);
+    };
+
+    const handleSubmit = () => {
+        // 값이 비어있으면 전송하지 않음
+        if (commentText.trim() === '') {
+            alert('댓글 내용을 입력해주세요.');
+            return;
+        }
+        
+        const payload: RequestCommentDto = {
+            content: commentText,
+        };
+
+        // mutate 함수로 state에 저장된 값을 전송
+        AddCommentMutate(payload, {
+            onSuccess: () => {
+                setCommentText('');
+            }
+        });
+    };
+
+    
+    
 
     return (
         <div className="relative bg-gray-700 w-70% h-full rounded-lg flex flex-col justify-center items-center">
@@ -51,8 +81,14 @@ const CommentPage = () => {
                     type="text"
                     placeholder="댓글을 작성해주세요..."
                     className=" flex-1 px-4 py-3 bg-neutral-700 text-white rounded-lg border border-neutral-600 focus:border-white focus:outline-none"
+                    value={commentText}
+                    onChange={handleInputChange}
                 />
-                <button className="px-6 py-3 bg-neutral-600 text-white rounded-lg hover:bg-neutral-500 transition-colors duration-200">
+                <button 
+                    className="px-6 py-3 bg-neutral-600 text-white rounded-lg hover:bg-neutral-500 transition-colors duration-200"
+                    type="button"
+                    onClick={handleSubmit}
+                    >
                     작성
                 </button>
             </div>
