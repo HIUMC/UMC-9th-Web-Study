@@ -24,20 +24,32 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import useForm from "../hooks/useForm";
 import { validateSignin, type UserSigninInformation } from "../utils/validate";
 import { useAuth } from "../context/AuthContext";
+import { postSignin } from "../apis/auth";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { LOCAL_STORAGE_KEY } from "../constants/key";
 
 /**
  * 로그인 페이지 컴포넌트
  * 2단계 로그인 폼을 렌더링하고 로그인 로직을 처리
  */
 export default function LoginPage() {
-  // 인증 컨텍스트에서 login 함수와 accessToken 가져오기
-  const { login, accessToken } = useAuth();
+  // 인증 컨텍스트에서 accessToken 가져오기
+  const { accessToken } = useAuth();
 
   // 라우터 네비게이션 함수
   const navigate = useNavigate();
+
+  // localStorage 관리 훅
+  const { setItem: setAccessTokenInStorage } = useLocalStorage(
+    LOCAL_STORAGE_KEY.accessToken
+  );
+  const { setItem: setRefreshTokenInStorage } = useLocalStorage(
+    LOCAL_STORAGE_KEY.refreshToken
+  );
 
   /**
    * 이미 로그인된 경우 홈으로 리다이렉트하는 Effect
@@ -63,27 +75,32 @@ export default function LoginPage() {
     });
 
   /**
-   * 로그인 제출 핸들러
-   * 로그인 API를 호출하고 성공 시 리다이렉트 처리
+   * 로그인 mutation
    */
-  const handleSubmit = async () => {
-    try {
-      // 로그인 API 호출
-      await login(values);
+  const loginMutation = useMutation({
+    mutationFn: postSignin,
+    onSuccess: (response) => {
+      console.log("로그인 성공:", response);
 
-      // 저장된 리다이렉트 경로가 있으면 해당 경로로, 없으면 마이페이지로 이동
-      // (예: 로그인 필요한 페이지 접근 시 로그인 페이지로 왔다가 다시 돌아감)
-      const redirectPath = sessionStorage.getItem("redirectPath");
-      if (redirectPath) {
-        sessionStorage.removeItem("redirectPath");
-        navigate(redirectPath);
-      } else {
-        navigate("/my");
-      }
-    } catch (error) {
-      console.error("로그인 오류", error);
-      alert("로그인에 실패했습니다. 다시 시도해주세요.");
-    }
+      // 토큰 저장 (useLocalStorage 사용)
+      setAccessTokenInStorage(response.data.accessToken);
+      setRefreshTokenInStorage(response.data.refreshToken);
+
+      // 페이지 새로고침하여 AuthContext가 토큰을 읽을 수 있게 함 (홈으로 이동)
+      window.location.href = "/";
+    },
+    onError: (error) => {
+      console.error("로그인 오류:", error);
+      alert("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
+    },
+  });
+
+  /**
+   * 로그인 제출 핸들러
+   * useMutation을 호출하여 로그인 처리
+   */
+  const handleSubmit = () => {
+    loginMutation.mutate(values);
   };
 
   /**
@@ -105,13 +122,16 @@ export default function LoginPage() {
 
   /**
    * 2단계 '로그인' 버튼 비활성화 여부
-   * 비밀번호가 비어있거나 이메일/비밀번호 에러가 있으면 비활성화
+   * 비밀번호가 비어있거나 이메일/비밀번호 에러가 있거나 로딩 중이면 비활성화
    */
   const isLoginDisabled = useMemo(() => {
     return (
-      !values.password || Boolean(errors?.password) || Boolean(errors?.email)
+      !values.password ||
+      Boolean(errors?.password) ||
+      Boolean(errors?.email) ||
+      loginMutation.isPending
     );
-  }, [values.password, errors]);
+  }, [values.password, errors, loginMutation.isPending]);
   // JSX 렌더링
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
@@ -227,7 +247,7 @@ export default function LoginPage() {
                     : "bg-pink-500 hover:bg-pink-600" // 활성 상태
                 }`}
               >
-                로그인
+                {loginMutation.isPending ? "로그인 중..." : "로그인"}
               </button>
             </>
           )}
