@@ -153,11 +153,5 @@ export default function MyPage() {
   };
 
   // 정상: 사용자 프로필 표시
-  return (
-    <UserProfile
-      userInfo={userInfo}
-      onGoHome={() => navigate("/")}
-      onLogout={handleLogout}
-    />
-  );
+  return <UserProfile userInfo={userInfo} />;
 }
