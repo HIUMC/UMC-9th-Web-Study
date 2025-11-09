@@ -18,11 +18,13 @@
  * ```
  */
 
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import HomeLayout from "./HomeLayout";
 
 /**
  * 인증 보호 레이아웃 컴포넌트
+ * HomeLayout을 포함하여 상단바, 사이드바 등이 표시됩니다.
  *
  * @returns 로그인 상태에 따라 하위 라우트 또는 로그인 페이지로 리다이렉트
  */
@@ -35,8 +37,8 @@ const ProtectedLayout = () => {
     return <Navigate to={"/login"} replace />;
   }
 
-  // accessToken이 있으면 (로그인됨) 하위 라우트 렌더링
-  return <Outlet />;
+  // accessToken이 있으면 (로그인됨) HomeLayout으로 하위 라우트 렌더링
+  return <HomeLayout />;
 };
 
 export default ProtectedLayout;
