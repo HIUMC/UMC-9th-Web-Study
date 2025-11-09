@@ -15,9 +15,11 @@
 
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import { useMutation } from "@tanstack/react-query";
 import Sidebar from "../components/Sidebar";
 import { useAuth } from "../context/AuthContext";
-import { getMyInfo } from "../apis/auth";
+import { getMyInfo, postLogout, deleteAccount } from "../apis/auth";
+import AddLpModal from "../components/AddLpModal";
 
 /**
  * 홈 레이아웃 컴포넌트
@@ -38,6 +40,12 @@ export default function HomeLayout() {
 
   // 사이드바 DOM 참조 (외부 클릭 감지에 사용)
   const sidebarRef = useRef<HTMLDivElement>(null);
+
+  // LP 작성 모달 열림/닫힘 상태
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 탈퇴 확인 모달 열림/닫힘 상태
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   /**
    * 사용자 정보 조회 Effect
@@ -88,19 +96,63 @@ export default function HomeLayout() {
 
   /**
    * 플로팅 버튼 클릭 핸들러
-   * LP 등록 페이지로 이동 (아직 구현되지 않은 페이지)
+   * LP 작성 모달 열기
    */
   const handleFloatingButtonClick = () => {
-    navigate("/lp/create");
+    setIsModalOpen(true);
   };
 
   /**
+   * 로그아웃 mutation
+   */
+  const logoutMutation = useMutation({
+    mutationFn: postLogout,
+    onSuccess: () => {
+      console.log("로그아웃 성공");
+      // 로컬 스토리지에서 토큰 제거
+      logout();
+      // 로그인 페이지로 이동
+      navigate("/login");
+    },
+    onError: (error) => {
+      console.error("로그아웃 실패:", error);
+      // 에러가 나더라도 로컬 토큰은 제거
+      logout();
+      navigate("/login");
+    },
+  });
+
+  /**
    * 로그아웃 버튼 클릭 핸들러
-   * 로그아웃 후 로그인 페이지로 이동
+   * useMutation을 호출하여 로그아웃 처리
    */
   const handleLogout = () => {
-    logout();
-    navigate("/login");
+    logoutMutation.mutate();
+  };
+
+  /**
+   * 회원 탈퇴 mutation
+   */
+  const deleteMutation = useMutation({
+    mutationFn: deleteAccount,
+    onSuccess: () => {
+      console.log("회원 탈퇴 성공");
+      alert("회원 탈퇴가 완료되었습니다.");
+      logout();
+      navigate("/login");
+    },
+    onError: (error) => {
+      console.error("회원 탈퇴 실패:", error);
+      alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
+    },
+  });
+
+  /**
+   * 탈퇴 확인 핸들러
+   */
+  const handleDeleteConfirm = () => {
+    deleteMutation.mutate();
+    setShowDeleteModal(false);
   };
 
   // JSX 렌더링
@@ -192,7 +244,7 @@ export default function HomeLayout() {
         <div
           ref={sidebarRef}
           className={`
-            fixed lg:sticky top-0 left-0 h-screen z-40
+            fixed lg:sticky top-16 left-0 h-[calc(100vh-64px)] z-40
             transform transition-transform duration-300 ease-in-out
             ${
               isSidebarOpen
@@ -201,7 +253,7 @@ export default function HomeLayout() {
             }
           `}
         >
-          <Sidebar />
+          <Sidebar onDeleteClick={() => setShowDeleteModal(true)} />
         </div>
 
         {/* 메인 콘텐츠 영역: React Router의 하위 라우트가 여기에 렌더링됨 */}
@@ -218,6 +270,55 @@ export default function HomeLayout() {
       >
         +
       </button>
+
+      {/* ==================== LP 작성 모달 ==================== */}
+      <AddLpModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
+      {/* ==================== 탈퇴 확인 모달 ==================== */}
+      {showDeleteModal && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[10000]"
+          onClick={() => setShowDeleteModal(false)}
+        >
+          <div
+            className="bg-[#2a2a2a] rounded-2xl p-8 w-96 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* X 버튼 */}
+            <div className="flex justify-end mb-2">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="text-gray-400 hover:text-white text-3xl leading-none"
+              >
+                ×
+              </button>
+            </div>
+
+            <h2 className="text-2xl font-bold text-white mb-4 text-center">
+              정말 탈퇴하시겠습니까?
+            </h2>
+            <p className="text-gray-300 text-center mb-8">
+              탈퇴 시 모든 데이터가 삭제되며 복구할 수 없습니다.
+            </p>
+
+            <div className="flex gap-3">
+              <button
+                onClick={handleDeleteConfirm}
+                disabled={deleteMutation.isPending}
+                className="flex-1 px-6 py-3 bg-pink-500 text-white rounded-lg font-medium hover:bg-pink-600 transition-colors disabled:opacity-50"
+              >
+                {deleteMutation.isPending ? "처리 중..." : "예"}
+              </button>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="flex-1 px-6 py-3 bg-[#4a4a4a] text-white rounded-lg font-medium hover:bg-[#5a5a5a] transition-colors"
+              >
+                아니오
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
