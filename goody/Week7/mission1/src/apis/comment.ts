@@ -30,3 +30,4 @@ export const deleteComments = async({lpId,commentId} : RequestPatchCommentDto) :
     const {data} = await axiosInstance.delete(`/v1/lps/${lpId}/comments/${commentId}`);
     return data;
 }
+
