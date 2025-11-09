@@ -9,8 +9,12 @@ function usePatchLps(lpid : number) {
         mutationFn:(editData:CreateLpsDto) => patchLp(editData,{lpid}),
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey:[QUERY_KEY.lps],
+                queryKey:[QUERY_KEY.lps,lpid],
             })
+            alert("Lp 정보 업데이트 완료!")
+        },
+        onError : (error) => {
+            console.error("Lp 정보 업데이트 실패 : ", error)
         }
     })
 }

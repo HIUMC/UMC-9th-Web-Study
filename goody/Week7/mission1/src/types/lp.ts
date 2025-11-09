@@ -41,7 +41,7 @@ export type RequestLpDto = {
 
 export type ResponseLpListDto = CursorBasedResponse<Lp[]>;
 
-export type ResponseLpDetailDto = CursorBasedResponse<Lp>;
+export type ResponseLpDetailDto = CommonResponse<Lp>;
 
 
 export type ResponseLikeLpDto = CommonResponse<{
@@ -53,7 +53,7 @@ export type ResponseLikeLpDto = CommonResponse<{
 export type CreateLpsDto = {
     title : string;
     content : string;
-    thumbnail : string;
+    thumbnail : string | null;
     tags : string[];
     published: boolean;
 };

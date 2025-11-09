@@ -27,7 +27,7 @@ const MyPage = () => {
     const { mutate: uploadImageMutate, isPending: isUploading } = useImageUpload({
         onSuccessCallback: (data) => {
         // 이미지 업로드 성공 시, 서버 URL을 avatarUrl state에 저장
-            const newImageUrl = data.data.imageUrl;
+            const newImageUrl = data.imageUrl;
             console.log("이미지 업로드 성공, 서버 URL:", newImageUrl);
             setAvatarUrl(newImageUrl);
             setAvatarPreview(newImageUrl); // 미리보기도 서버 URL로 교체

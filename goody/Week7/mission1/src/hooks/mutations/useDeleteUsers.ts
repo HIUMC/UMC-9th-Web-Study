@@ -19,4 +19,4 @@ function useDeleteUsers() {
     })
 }
 
-export default useDeleteUsers
+export default useDeleteUsers;

@@ -37,6 +37,11 @@ export const patchLp = async(payload : CreateLpsDto, {lpid}:RequestLpDto) => {
     return data;
 }
 
+export const deleteLp = async({lpid}:RequestLpDto) => {
+    const {data} = await axiosInstance.delete(`/v1/lps/${lpid}`);
+    return data;
+}
+
 export const uploadImage = async(formData : FormData) : Promise<UploadResponse> => {
     try {
         const {data} = await axiosInstance.post(`/v1/uploads`, formData)
