@@ -4,15 +4,18 @@ import { BackButton } from "../components/BackButton";
 import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import useLogin from "../hooks/mutations/useLogin";
 
 const LoginPage = () => {
 
-    const{login, accessToken} = useAuth();
+    const{accessToken} = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
+    const {mutate : loginMutate} = useLogin();
+
     // 이전 경로 저장
-    const fromPath = location.state?.from || location.state?.location?.pathname || "/my";
+    const fromPath = location.state?.from || location.state?.location?.pathname || "/";
 
     // 이미 로그인 해있을 시 홈으로 이동
     useEffect(()=>{
@@ -20,7 +23,6 @@ const LoginPage = () => {
             navigate(fromPath, { replace: true });
         }
         
-
     },[navigate,accessToken,fromPath])
 
     const { values, errors, touched, getInputProps } = useForm<UserSigninInformation>({
@@ -34,20 +36,23 @@ const LoginPage = () => {
 
 
     const handleSubmit = async () => {
-        try{
-            await login(values);
-            // 이전 경로 받아오고 없으면 홈으로 이동
-            const fromPath = sessionStorage.getItem("redirectPath");
-            if(fromPath){
-                sessionStorage.removeItem("redirectPath")
-                navigate(fromPath, { replace: true });
-            }
-            else {
-                navigate("/my");
-            }
-        } catch(error){
-            console.log(error)
-        }
+        loginMutate(values,{
+            onSuccess: () => {
+                // 성공 시 리다이렉션 로직을 여기로 이동
+                const fromPath = sessionStorage.getItem("redirectPath");
+                if (fromPath) {
+                    sessionStorage.removeItem("redirectPath");
+                    navigate(fromPath, { replace: true });
+                } else {
+                    navigate("/");
+                }
+            },
+            onError: (error) => {
+                // 에러 처리 (훅에서도 로그를 찍지만, UI 피드백을 위해 추가)
+                alert("로그인에 실패했습니다. 이메일 또는 비밀번호를 확인해주세요.");
+                console.error("LoginPage handleSubmit 에러:", error);
+            },
+        })
     };
 
     const handleGoogleLogin = () => {

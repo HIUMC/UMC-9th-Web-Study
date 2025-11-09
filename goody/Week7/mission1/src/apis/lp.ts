@@ -32,6 +32,11 @@ export const postLp = async(payload: CreateLpsDto): Promise<ResponseLpCreateDto>
     return data;
 }
 
+export const patchLp = async(payload : CreateLpsDto, {lpid}:RequestLpDto) => {
+    const { data } = await axiosInstance.patch(`/v1/lps/${lpid}`, payload);
+    return data;
+}
+
 export const uploadImage = async(formData : FormData) : Promise<UploadResponse> => {
     try {
         const {data} = await axiosInstance.post(`/v1/uploads`, formData)

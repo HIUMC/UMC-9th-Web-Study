@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import type { ResponseMyInfoDto } from "../types/auth";
 import { getMyInfo } from "../apis/auth";
 import { useQuery } from "@tanstack/react-query";
+import useLogout from "../hooks/mutations/useLogout";
 
 interface NavbarProps {
     isSidebarOpen: boolean;
@@ -12,8 +13,10 @@ interface NavbarProps {
 const Navbar = ({isSidebarOpen,setIsSidebarOpen}:NavbarProps) => {
 
     
-    const { accessToken, logout } = useAuth();
+    const { accessToken} = useAuth();
     const navigate = useNavigate();
+
+    const {mutate : logoutMutate} = useLogout();
 
     const { data } = useQuery<ResponseMyInfoDto>({
         queryKey: ["userInfo"],
@@ -24,8 +27,8 @@ const Navbar = ({isSidebarOpen,setIsSidebarOpen}:NavbarProps) => {
     });
 
     const handleLogout = async () => {
-        await logout();
-        navigate("/")
+        logoutMutate();
+        navigate('/');
     }
 
     const LINKS = [

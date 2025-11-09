@@ -8,7 +8,7 @@ function usePatchUsers(){
         mutationFn: (editData : patchUsersProps) => patchUsers(editData),
         onSuccess : () => {
             queryClient.invalidateQueries({
-            queryKey:[QUERY_KEY.myInfo],       
+                queryKey:[QUERY_KEY.myInfo],       
             })
         },
         onError : (error) => {

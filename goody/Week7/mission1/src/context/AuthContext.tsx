@@ -61,7 +61,7 @@ export const AuthProvider = ({children}:PropsWithChildren) => {
             }
         }catch(error){
             console.error("로그인 오류",error);
-            alert("로그인 실패");
+            alert("로그인 실패, 없는 계정이거나 비밀번호가 틀립니다");
         }
     };
 

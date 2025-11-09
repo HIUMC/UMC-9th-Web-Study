@@ -11,6 +11,7 @@ function useDeleteUsers() {
             queryClient.invalidateQueries({
             queryKey:[QUERY_KEY.myInfo],       
             })
+            alert("유저 삭제 완료")
         },
         onError : (error) => {
             console.error("유저 삭제 실패 : ", error)
