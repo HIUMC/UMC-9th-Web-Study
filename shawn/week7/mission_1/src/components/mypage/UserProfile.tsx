@@ -7,9 +7,11 @@
  * 프로필 헤더, 계정 정보, 액션 버튼들을 조합하여 완성된 프로필 UI를 제공합니다.
  */
 
+import { useState } from "react";
 import ProfileHeader from "./ProfileHeader";
 import AccountInfo from "./AccountInfo";
 import ActionButtons from "./ActionButtons";
+import ProfileEditModal from "./ProfileEditModal";
 
 /**
  * 사용자 정보 타입 정의
@@ -46,13 +48,19 @@ export default function UserProfile({
   onGoHome,
   onLogout,
 }: UserProfileProps) {
+  // 프로필 수정 모달 상태
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-black">
       <div className="max-w-5xl mx-auto px-4 py-16">
         <div className="max-w-2xl mx-auto">
           <div className="bg-[#0f0f10] border border-[#2a2a2a] rounded-xl p-8">
-            {/* 프로필 헤더: 아이콘과 제목 */}
-            <ProfileHeader />
+            {/* 프로필 헤더: 아이콘, 제목, 설정 버튼 */}
+            <ProfileHeader
+              onEditClick={() => setIsEditModalOpen(true)}
+              avatar={userInfo.avatar}
+            />
 
             <div className="space-y-6">
               {/* 계정 정보 섹션: 이메일, 이름, 가입일 등 */}
@@ -64,6 +72,13 @@ export default function UserProfile({
           </div>
         </div>
       </div>
+
+      {/* 프로필 수정 모달 */}
+      <ProfileEditModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        currentUserInfo={userInfo}
+      />
     </div>
   );
 }
