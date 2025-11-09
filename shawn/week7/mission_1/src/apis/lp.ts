@@ -80,3 +80,129 @@ export const getLpComments = async (
   });
   return data;
 };
+
+/**
+ * 이미지 업로드 API (인증 필요)
+ * 이미지 파일을 서버에 업로드하고 URL을 받아옵니다.
+ *
+ * @param file - 업로드할 이미지 파일
+ * @returns 업로드된 이미지의 URL
+ */
+export const uploadImage = async (
+  file: File
+): Promise<{ data: { imageUrl: string } }> => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const { data } = await axiosInstance.post("/v1/uploads", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return data;
+};
+
+/**
+ * LP 생성 API
+ * 새로운 LP를 생성합니다.
+ *
+ * @param lpData - LP 생성 데이터 (title, content, thumbnail, tags)
+ * @returns 생성된 LP 정보
+ */
+export const createLp = async (lpData: {
+  title: string;
+  content: string;
+  thumbnail: string;
+  tags: string[];
+  published?: boolean;
+}): Promise<ResponseLpDetailDto> => {
+  const { data } = await axiosInstance.post("/v1/lps", lpData);
+  return data;
+};
+
+/**
+ * LP 수정 API
+ * 특정 LP의 정보를 수정합니다.
+ *
+ * @param lpId - LP의 고유 ID
+ * @param lpData - 수정할 LP 데이터
+ * @returns 수정된 LP 정보
+ */
+export const updateLp = async (
+  lpId: string,
+  lpData: {
+    title?: string;
+    content?: string;
+    thumbnail?: string;
+    tags?: string[];
+    published?: boolean;
+  }
+): Promise<ResponseLpDetailDto> => {
+  const { data } = await axiosInstance.patch(`/v1/lps/${lpId}`, lpData);
+  return data;
+};
+
+/**
+ * LP 삭제 API
+ * 특정 LP를 삭제합니다.
+ *
+ * @param lpId - LP의 고유 ID
+ * @returns 삭제 결과
+ */
+export const deleteLp = async (lpId: string) => {
+  const { data } = await axiosInstance.delete(`/v1/lps/${lpId}`);
+  return data;
+};
+
+/**
+ * 댓글 생성 API
+ * 특정 LP에 댓글을 작성합니다.
+ *
+ * @param lpId - LP의 고유 ID
+ * @param content - 댓글 내용
+ * @returns 생성된 댓글 정보
+ */
+export const createComment = async (lpId: string, content: string) => {
+  const { data } = await axiosInstance.post(`/v1/lps/${lpId}/comments`, {
+    content,
+  });
+  return data;
+};
+
+/**
+ * 댓글 수정 API
+ * 자신이 작성한 댓글을 수정합니다.
+ *
+ * @param lpId - LP의 고유 ID
+ * @param commentId - 댓글 ID
+ * @param content - 수정할 댓글 내용
+ * @returns 수정된 댓글 정보
+ */
+export const updateComment = async (
+  lpId: string,
+  commentId: number,
+  content: string
+) => {
+  const { data } = await axiosInstance.patch(
+    `/v1/lps/${lpId}/comments/${commentId}`,
+    {
+      content,
+    }
+  );
+  return data;
+};
+
+/**
+ * 댓글 삭제 API
+ * 자신이 작성한 댓글을 삭제합니다.
+ *
+ * @param lpId - LP의 고유 ID
+ * @param commentId - 댓글 ID
+ * @returns 삭제 성공 여부
+ */
+export const deleteComment = async (lpId: string, commentId: number) => {
+  const { data } = await axiosInstance.delete(
+    `/v1/lps/${lpId}/comments/${commentId}`
+  );
+  return data;
+};
