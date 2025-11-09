@@ -42,18 +42,54 @@ export default function ProfileEditModal({
     mutationFn: uploadImage,
   });
 
-  // 프로필 수정 mutation
+  // 프로필 수정 mutation (낙관적 업데이트)
   const updateProfileMutation = useMutation({
     mutationFn: updateUserProfile,
+    // 🎯 onMutate: 서버 응답 전에 즉시 UI 업데이트
+    onMutate: async (newProfile) => {
+      // 진행 중인 쿼리 취소 (충돌 방지)
+      await queryClient.cancelQueries({ queryKey: ["myInfo"] });
+
+      // 이전 값 저장 (롤백용)
+      const previousUserInfo = queryClient.getQueryData(["myInfo"]);
+
+      // 즉시 UI 업데이트 (낙관적 업데이트)
+      queryClient.setQueryData(["myInfo"], (old: any) => {
+        if (!old) return old;
+        return {
+          ...old,
+          data: {
+            ...old.data,
+            name: newProfile.name || old.data.name,
+            bio: newProfile.bio !== undefined ? newProfile.bio : old.data.bio,
+            avatar:
+              newProfile.avatar !== undefined
+                ? newProfile.avatar
+                : old.data.avatar,
+          },
+        };
+      });
+
+      console.log("✅ 닉네임 낙관적 업데이트 완료:", newProfile.name);
+
+      // 이전 값을 context로 반환 (롤백에 사용)
+      return { previousUserInfo };
+    },
     onSuccess: () => {
       console.log("프로필 수정 성공!");
-      // 내 정보 쿼리 무효화하여 자동 새로고침
+      // 서버 데이터와 동기화
       queryClient.invalidateQueries({ queryKey: ["myInfo"] });
       onClose();
     },
-    onError: (error) => {
+    onError: (error, _newProfile, context) => {
       console.error("프로필 수정 실패:", error);
       alert("프로필 수정에 실패했습니다.");
+
+      // 🔄 롤백: 이전 값으로 복원
+      if (context?.previousUserInfo) {
+        queryClient.setQueryData(["myInfo"], context.previousUserInfo);
+        console.log("❌ 프로필 수정 실패 - 롤백 완료");
+      }
     },
   });
 
