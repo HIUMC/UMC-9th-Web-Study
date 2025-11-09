@@ -101,3 +101,40 @@ export const postLogout = async () => {
   );
   return data;
 };
+
+/**
+ * 유저 정보 수정 API
+ * 사용자의 프로필 정보(이름, bio, 프로필 사진)를 수정합니다.
+ *
+ * @param updateData - 수정할 정보 (name, bio, avatar)
+ * @returns 수정된 사용자 정보
+ */
+export const updateUserProfile = async (updateData: {
+  name?: string;
+  bio?: string;
+  avatar?: string;
+}): Promise<ResponseMyInfoDto> => {
+  const { getItem } = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
+  const { data } = await axiosInstance.patch(`/v1/users`, updateData, {
+    headers: {
+      Authorization: `Bearer ${getItem()}`,
+    },
+  });
+  return data;
+};
+
+/**
+ * 회원 탈퇴 API
+ * 현재 로그인한 사용자의 계정을 삭제합니다.
+ *
+ * @returns 탈퇴 처리 결과
+ */
+export const deleteAccount = async () => {
+  const { getItem } = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
+  const { data } = await axiosInstance.delete(`/v1/users`, {
+    headers: {
+      Authorization: `Bearer ${getItem()}`,
+    },
+  });
+  return data;
+};
