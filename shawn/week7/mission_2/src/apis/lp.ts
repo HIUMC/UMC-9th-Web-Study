@@ -206,3 +206,59 @@ export const deleteComment = async (lpId: string, commentId: number) => {
   );
   return data;
 };
+
+/**
+ * LP 좋아요 추가 API
+ * 특정 게시글에 좋아요를 추가합니다.
+ *
+ * @param lpId - LP의 고유 ID
+ * @returns 좋아요 추가 결과
+ */
+export const addLpLike = async (lpId: string) => {
+  const { data } = await axiosInstance.post(`/v1/lps/${lpId}/likes`);
+  return data;
+};
+
+/**
+ * LP 좋아요 취소 API
+ * 특정 게시글에 좋아요를 취소합니다.
+ *
+ * @param lpId - LP의 고유 ID
+ * @returns 좋아요 취소 결과
+ */
+export const removeLpLike = async (lpId: string) => {
+  const { data } = await axiosInstance.delete(`/v1/lps/${lpId}/likes`);
+  return data;
+};
+
+/**
+ * 내가 좋아요한 LP 목록 조회 API
+ * 내가 좋아요한 LP 목록을 조회합니다.
+ *
+ * @param paginationDto - 페이지네이션 설정
+ * @returns 내가 좋아요한 LP 목록
+ */
+export const getMyLikedLps = async (
+  paginationDto: PaginationDto
+): Promise<ResponseLpListDto> => {
+  const { data } = await axiosInstance.get(`/v1/lps/likes/me`, {
+    params: paginationDto,
+  });
+  return data;
+};
+
+/**
+ * 내가 생성한 LP 목록 조회 API
+ * 내가 생성한 LP 목록을 조회합니다.
+ *
+ * @param paginationDto - 페이지네이션 설정
+ * @returns 내가 생성한 LP 목록
+ */
+export const getMyCreatedLps = async (
+  paginationDto: PaginationDto
+): Promise<ResponseLpListDto> => {
+  const { data } = await axiosInstance.get(`/v1/lps/user`, {
+    params: paginationDto,
+  });
+  return data;
+};
