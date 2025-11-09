@@ -48,6 +48,8 @@ import {
   updateLp,
   deleteLp,
   uploadImage,
+  addLpLike,
+  removeLpLike,
 } from "../apis/lp";
 import { QUERY_KEY } from "../constants/key";
 
@@ -200,6 +202,70 @@ export default function LpDetailPage() {
     },
   });
 
+  // 🎯 좋아요 Mutation (낙관적 업데이트)
+  const likeMutation = useMutation({
+    mutationFn: async (wasLiked: boolean) => {
+      // ⚠️ 중요: onMutate에서 받은 이전 상태를 사용
+      console.log("좋아요 API 호출:", {
+        wasLiked,
+        action: wasLiked ? "취소" : "추가",
+      });
+      if (wasLiked) {
+        return await removeLpLike(lpId || ""); // 좋아요 취소 (DELETE)
+      } else {
+        return await addLpLike(lpId || ""); // 좋아요 추가 (POST)
+      }
+    },
+    // onMutate: 서버 응답 전에 즉시 UI 업데이트
+    onMutate: async () => {
+      // 진행 중인 쿼리 취소 (충돌 방지)
+      await queryClient.cancelQueries({ queryKey: ["lpDetail", lpId] });
+
+      // ⚠️ 중요: 현재 상태를 저장 (변경 전!)
+      const previousLpDetail = queryClient.getQueryData(["lpDetail", lpId]);
+      const previousIsLiked = isLiked; // 변경 전 상태
+      const previousLikesCount = likesCount;
+
+      // 즉시 UI 업데이트 (낙관적 업데이트)
+      const newIsLiked = !previousIsLiked;
+      const newLikesCount = newIsLiked ? likesCount + 1 : likesCount - 1;
+
+      setIsLiked(newIsLiked);
+      setLikesCount(newLikesCount);
+
+      console.log("✅ 좋아요 낙관적 업데이트:", {
+        previousIsLiked,
+        newIsLiked,
+        action: newIsLiked ? "추가" : "취소",
+        likesCount: newLikesCount,
+      });
+
+      // ⚠️ 중요: 변경 전 상태를 반환 (mutationFn에서 사용)
+      return { previousLpDetail, previousIsLiked, previousLikesCount };
+    },
+    onSuccess: () => {
+      console.log("좋아요 요청 성공!");
+      // 서버 데이터와 동기화
+      queryClient.invalidateQueries({ queryKey: ["lpDetail", lpId] });
+    },
+    onError: (error, _variables, context) => {
+      console.error("좋아요 요청 실패:", error);
+
+      // 🔄 롤백: 이전 값으로 복원
+      if (context) {
+        if (context.previousLpDetail) {
+          queryClient.setQueryData(
+            ["lpDetail", lpId],
+            context.previousLpDetail
+          );
+        }
+        setIsLiked(context.previousIsLiked);
+        setLikesCount(context.previousLikesCount);
+        console.log("❌ 좋아요 실패 - 롤백 완료");
+      }
+    },
+  });
+
   // 모달 열릴 때 스켈레톤 표시 (최소 1500ms)
   useEffect(() => {
     if (isCommentModalOpen && isCommentsLoading) {
@@ -292,12 +358,27 @@ export default function LpDetailPage() {
     fetchUserInfo();
   }, [accessToken]);
 
-  // 데이터 로드 시 좋아요 수 초기화
+  // 데이터 로드 시 좋아요 수 및 사용자 좋아요 여부 초기화
   useEffect(() => {
     if (data?.data) {
-      setLikesCount(data.data.likes?.length || 0);
+      const likes = data.data.likes || [];
+      setLikesCount(likes.length);
+
+      // 현재 사용자가 좋아요를 눌렀는지 확인
+      if (currentUserId) {
+        const userHasLiked = likes.some(
+          (like) => like.userId === currentUserId
+        );
+        setIsLiked(userHasLiked);
+        console.log("좋아요 상태 초기화:", {
+          likesCount: likes.length,
+          userHasLiked,
+          currentUserId,
+          likes,
+        });
+      }
     }
-  }, [data]);
+  }, [data, currentUserId]);
 
   // 모든 페이지의 댓글 데이터를 하나의 배열로 합치기
   const allComments =
@@ -381,15 +462,9 @@ export default function LpDetailPage() {
   // handleDelete는 handleLpDelete로 대체됨
 
   const handleLike = () => {
-    // 좋아요 토글
-    if (isLiked) {
-      setLikesCount((prev) => prev - 1);
-      setIsLiked(false);
-    } else {
-      setLikesCount((prev) => prev + 1);
-      setIsLiked(true);
-    }
-    // 실제 API 호출은 추후 구현
+    // 좋아요 mutation 호출 (낙관적 업데이트 적용됨)
+    // 현재 상태를 전달 (변경 전 상태)
+    likeMutation.mutate(isLiked);
   };
 
   const handleCommentSubmit = (e: React.FormEvent) => {
@@ -707,21 +782,41 @@ export default function LpDetailPage() {
         <div className="flex justify-center">
           <button
             onClick={handleLike}
-            className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all ${
+            disabled={likeMutation.isPending}
+            className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
               isLiked
                 ? "bg-pink-500 text-white"
-                : "bg-[#1a1a1a] text-pink-500 hover:bg-pink-500 hover:text-white"
+                : "bg-[#1a1a1a] text-gray-400 hover:bg-pink-500 hover:text-white"
             }`}
           >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-            </svg>
+            {/* 좋아요 상태에 따라 채워진 하트 또는 빈 하트 */}
+            {isLiked ? (
+              // 채워진 하트
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
+            ) : (
+              // 빈 하트
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
+            )}
             <span className="text-lg font-semibold">{likesCount}</span>
           </button>
         </div>
