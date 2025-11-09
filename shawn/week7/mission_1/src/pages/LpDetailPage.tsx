@@ -38,8 +38,18 @@ import useGetLpComments from "../hooks/queries/useGetLpComments";
 import { useAuth } from "../context/AuthContext";
 import { PAGINATION_ORDER } from "../enums/common";
 import CommentSkeleton from "../components/CommentSkeleton";
+import EditLpModal from "../components/EditLpModal";
 import { getMyInfo } from "../apis/auth";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import {
+  createComment,
+  updateComment,
+  deleteComment,
+  updateLp,
+  deleteLp,
+  uploadImage,
+} from "../apis/lp";
+import { QUERY_KEY } from "../constants/key";
 
 /**
  * LP 상세 페이지 컴포넌트
@@ -74,6 +84,22 @@ export default function LpDetailPage() {
   const commentObserverTarget = useRef<HTMLDivElement>(null);
   const commentScrollRef = useRef<HTMLDivElement>(null);
 
+  // 댓글 수정/삭제 관련 상태
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+  const [editingContent, setEditingContent] = useState("");
+  const [showMenuCommentId, setShowMenuCommentId] = useState<number | null>(
+    null
+  );
+  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+
+  // LP 수정/삭제 관련 상태
+  const [showLpMenu, setShowLpMenu] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editLpTitle, setEditLpTitle] = useState("");
+  const [editLpContent, setEditLpContent] = useState("");
+  const [editLpTags, setEditLpTags] = useState<string[]>([]);
+  const [editPreviewUrl, setEditPreviewUrl] = useState<string>("");
+
   // 댓글 쿼리 (모달이 열렸을 때만 실행)
   const {
     data: commentsData,
@@ -85,6 +111,93 @@ export default function LpDetailPage() {
     lpId: lpId || "",
     order: commentOrder,
     enabled: isCommentModalOpen, // 모달이 열렸을 때만 쿼리 실행
+  });
+
+  // 댓글 생성 Mutation
+  const createCommentMutation = useMutation({
+    mutationFn: (content: string) => createComment(lpId || "", content),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["lpComments", lpId] });
+      setNewComment("");
+      setCommentError("");
+    },
+    onError: (error) => {
+      console.error("댓글 작성 실패:", error);
+      setCommentError("댓글 작성에 실패했습니다.");
+    },
+  });
+
+  // 댓글 수정 Mutation
+  const updateCommentMutation = useMutation({
+    mutationFn: ({
+      commentId,
+      content,
+    }: {
+      commentId: number;
+      content: string;
+    }) => updateComment(lpId || "", commentId, content),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["lpComments", lpId] });
+      setEditingCommentId(null);
+      setEditingContent("");
+      setShowMenuCommentId(null);
+    },
+    onError: (error) => {
+      console.error("댓글 수정 실패:", error);
+      alert("댓글 수정에 실패했습니다.");
+    },
+  });
+
+  // 댓글 삭제 Mutation
+  const deleteCommentMutation = useMutation({
+    mutationFn: (commentId: number) => deleteComment(lpId || "", commentId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["lpComments", lpId] });
+      setShowMenuCommentId(null);
+    },
+    onError: (error) => {
+      console.error("댓글 삭제 실패:", error);
+      alert("댓글 삭제에 실패했습니다.");
+    },
+  });
+
+  // 이미지 업로드 Mutation
+  const uploadImageMutation = useMutation({
+    mutationFn: uploadImage,
+  });
+
+  // LP 수정 Mutation
+  const updateLpMutation = useMutation({
+    mutationFn: (lpData: {
+      title?: string;
+      content?: string;
+      thumbnail?: string;
+      tags?: string[];
+    }) => updateLp(lpId || "", lpData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["lpDetail", lpId] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.lps] });
+      setShowEditModal(false);
+      alert("LP가 수정되었습니다.");
+    },
+    onError: (error) => {
+      console.error("LP 수정 실패:", error);
+      alert("LP 수정에 실패했습니다.");
+    },
+  });
+
+  // LP 삭제 Mutation
+  const deleteLpMutation = useMutation({
+    mutationFn: () => deleteLp(lpId || ""),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.lps] });
+      alert("LP가 삭제되었습니다.");
+      navigate("/");
+    },
+    onError: (error) => {
+      console.error("LP 삭제 실패:", error);
+      alert("LP 삭제에 실패했습니다.");
+    },
   });
 
   // 모달 열릴 때 스켈레톤 표시 (최소 1500ms)
@@ -170,6 +283,7 @@ export default function LpDetailPage() {
         try {
           const response = await getMyInfo();
           setUserName(response.data.name);
+          setCurrentUserId(response.data.id); // 사용자 ID 저장
         } catch (error) {
           console.error("사용자 정보 조회 실패:", error);
         }
@@ -264,12 +378,7 @@ export default function LpDetailPage() {
     return `${Math.floor(days / 365)}년 전`;
   };
 
-  const handleDelete = async () => {
-    if (confirm("정말 삭제하시겠습니까?")) {
-      // 삭제 API 호출 (추후 구현)
-      alert("삭제 기능은 추후 구현 예정입니다.");
-    }
-  };
+  // handleDelete는 handleLpDelete로 대체됨
 
   const handleLike = () => {
     // 좋아요 토글
@@ -297,10 +406,101 @@ export default function LpDetailPage() {
       return;
     }
 
-    // TODO: 실제 API 호출 구현
-    // API 구현 시 여기에 댓글 작성 API 호출
-    setNewComment("");
-    setCommentError("");
+    // 댓글 작성 API 호출
+    createCommentMutation.mutate(newComment.trim());
+  };
+
+  // 댓글 수정 핸들러
+  const handleCommentEdit = (commentId: number) => {
+    setEditingCommentId(commentId);
+    const comment = allComments.find((c) => c.id === commentId);
+    if (comment) {
+      setEditingContent(comment.content);
+    }
+    setShowMenuCommentId(null);
+  };
+
+  // 댓글 수정 제출
+  const handleEditSubmit = (commentId: number) => {
+    if (!editingContent.trim()) {
+      alert("댓글 내용을 입력해주세요.");
+      return;
+    }
+    updateCommentMutation.mutate({
+      commentId,
+      content: editingContent.trim(),
+    });
+  };
+
+  // 댓글 수정 취소
+  const handleEditCancel = () => {
+    setEditingCommentId(null);
+    setEditingContent("");
+  };
+
+  // 댓글 삭제 핸들러
+  const handleCommentDelete = (commentId: number) => {
+    if (confirm("정말 이 댓글을 삭제하시겠습니까?")) {
+      deleteCommentMutation.mutate(commentId);
+    }
+  };
+
+  // LP 수정 버튼 클릭
+  const handleLpEditClick = () => {
+    if (data?.data) {
+      setEditLpTitle(data.data.title);
+      setEditLpContent(data.data.content);
+      setEditLpTags(data.data.tags?.map((tag) => tag.name) || []);
+      setEditPreviewUrl(data.data.thumbnail || "");
+      setShowEditModal(true);
+      setShowLpMenu(false);
+    }
+  };
+
+  // LP 수정 제출
+  const handleLpEditSubmit = async (formData: {
+    title: string;
+    content: string;
+    tags: string[];
+    file: File | null;
+  }) => {
+    if (!formData.title.trim()) {
+      alert("제목을 입력해주세요.");
+      return;
+    }
+    if (!formData.content.trim()) {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+
+    try {
+      let thumbnailUrl = data?.data.thumbnail;
+
+      // 새 이미지가 선택된 경우 업로드
+      if (formData.file) {
+        const imageResult = await uploadImageMutation.mutateAsync(
+          formData.file
+        );
+        thumbnailUrl = imageResult.data.imageUrl;
+      }
+
+      await updateLpMutation.mutateAsync({
+        title: formData.title.trim(),
+        content: formData.content.trim(),
+        thumbnail: thumbnailUrl,
+        tags: formData.tags,
+      });
+    } catch (error) {
+      console.error("LP 수정 실패:", error);
+    }
+  };
+
+  // LP 삭제
+  const handleLpDelete = () => {
+    if (confirm("정말 이 LP를 삭제하시겠습니까?")) {
+      deleteLpMutation.mutate();
+      setShowLpMenu(false);
+    }
   };
 
   const formatCommentDate = (dateString: Date) => {
@@ -404,34 +604,45 @@ export default function LpDetailPage() {
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold text-white">{lp.title}</h1>
           <div className="flex items-center gap-3">
-            <button
-              onClick={handleDelete}
-              className="p-2 text-gray-400 hover:text-red-400 transition-colors"
-              aria-label="삭제"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M3 6H5H21"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+            {/* 본인 LP인 경우 수정/삭제 메뉴 */}
+            {currentUserId && lp.authorId === currentUserId && (
+              <div className="relative">
+                <button
+                  onClick={() => setShowLpMenu(!showLpMenu)}
+                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  aria-label="메뉴"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <circle cx="12" cy="5" r="2" />
+                    <circle cx="12" cy="12" r="2" />
+                    <circle cx="12" cy="19" r="2" />
+                  </svg>
+                </button>
+
+                {showLpMenu && (
+                  <div className="absolute right-0 top-full mt-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md shadow-lg py-1 z-10 min-w-[100px]">
+                    <button
+                      onClick={handleLpEditClick}
+                      className="w-full px-4 py-2 text-left text-white hover:bg-[#2a2a2a] transition-colors"
+                    >
+                      수정
+                    </button>
+                    <button
+                      onClick={handleLpDelete}
+                      className="w-full px-4 py-2 text-left text-red-400 hover:bg-[#2a2a2a] transition-colors"
+                    >
+                      삭제
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
             <button
               onClick={() => setIsCommentModalOpen(true)}
               className="p-2 text-gray-400 hover:text-white transition-colors"
@@ -581,50 +792,116 @@ export default function LpDetailPage() {
               ) : allComments.length > 0 ? (
                 <>
                   <div>
-                    {allComments.map((comment) => (
-                      <div
-                        key={comment.id}
-                        className="py-4 border-b border-[#2a2a2a] last:border-0"
-                      >
-                        <div className="flex items-start gap-3">
-                          {/* 프로필 이미지 */}
-                          <div className="w-10 h-10 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
-                            {comment.user?.name?.charAt(0) || "U"}
-                          </div>
+                    {allComments.map((comment) => {
+                      const isMyComment = comment.authorId === currentUserId;
+                      const isEditing = editingCommentId === comment.id;
 
-                          <div className="flex-1">
-                            {/* 사용자 이름과 시간 */}
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="text-white font-medium">
-                                {comment.user?.name || "익명"}
-                              </span>
-                              <span className="text-xs text-gray-400">
-                                {formatCommentDate(comment.createdAt)}
-                              </span>
+                      return (
+                        <div
+                          key={comment.id}
+                          className="py-4 border-b border-[#2a2a2a] last:border-0"
+                        >
+                          <div className="flex items-start gap-3">
+                            {/* 프로필 이미지 */}
+                            <div className="w-10 h-10 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+                              {comment.author?.name?.charAt(0) || "U"}
                             </div>
 
-                            {/* 댓글 내용 */}
-                            <p className="text-gray-300 leading-relaxed">
-                              {comment.content}
-                            </p>
-                          </div>
+                            <div className="flex-1">
+                              {/* 사용자 이름과 시간 */}
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="text-white font-medium">
+                                  {comment.author?.name || "익명"}
+                                </span>
+                                <span className="text-xs text-gray-400">
+                                  {formatCommentDate(comment.createdAt)}
+                                </span>
+                              </div>
 
-                          {/* 더보기 버튼 (본인 댓글인 경우 수정/삭제) */}
-                          <button className="p-2 text-gray-400 hover:text-white transition-colors">
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                            >
-                              <circle cx="12" cy="5" r="2" />
-                              <circle cx="12" cy="12" r="2" />
-                              <circle cx="12" cy="19" r="2" />
-                            </svg>
-                          </button>
+                              {/* 댓글 내용 또는 수정 입력 필드 */}
+                              {isEditing ? (
+                                <div className="flex gap-2 mt-2">
+                                  <input
+                                    type="text"
+                                    value={editingContent}
+                                    onChange={(e) =>
+                                      setEditingContent(e.target.value)
+                                    }
+                                    className="flex-1 px-3 py-2 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md text-white placeholder-gray-500 focus:outline-none focus:border-pink-500"
+                                    autoFocus
+                                  />
+                                  <button
+                                    onClick={() => handleEditSubmit(comment.id)}
+                                    className="px-4 py-2 bg-pink-500 hover:bg-pink-600 text-white rounded-md transition-colors text-sm"
+                                  >
+                                    ✓
+                                  </button>
+                                  <button
+                                    onClick={handleEditCancel}
+                                    className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md transition-colors text-sm"
+                                  >
+                                    ✕
+                                  </button>
+                                </div>
+                              ) : (
+                                <p className="text-gray-300 leading-relaxed">
+                                  {comment.content}
+                                </p>
+                              )}
+                            </div>
+
+                            {/* 더보기 버튼 (본인 댓글인 경우만 표시) */}
+                            {isMyComment && !isEditing && (
+                              <div className="relative">
+                                <button
+                                  onClick={() =>
+                                    setShowMenuCommentId(
+                                      showMenuCommentId === comment.id
+                                        ? null
+                                        : comment.id
+                                    )
+                                  }
+                                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                                >
+                                  <svg
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                  >
+                                    <circle cx="12" cy="5" r="2" />
+                                    <circle cx="12" cy="12" r="2" />
+                                    <circle cx="12" cy="19" r="2" />
+                                  </svg>
+                                </button>
+
+                                {/* 수정/삭제 메뉴 */}
+                                {showMenuCommentId === comment.id && (
+                                  <div className="absolute right-0 top-full mt-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md shadow-lg py-1 z-10 min-w-[100px]">
+                                    <button
+                                      onClick={() =>
+                                        handleCommentEdit(comment.id)
+                                      }
+                                      className="w-full px-4 py-2 text-left text-white hover:bg-[#2a2a2a] transition-colors"
+                                    >
+                                      수정
+                                    </button>
+                                    <button
+                                      onClick={() =>
+                                        handleCommentDelete(comment.id)
+                                      }
+                                      className="w-full px-4 py-2 text-left text-red-400 hover:bg-[#2a2a2a] transition-colors"
+                                    >
+                                      삭제
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   {/* 무한 스크롤 트리거 */}
@@ -660,13 +937,15 @@ export default function LpDetailPage() {
                       setCommentError("");
                     }}
                     placeholder="댓글을 입력해주세요"
-                    className="flex-1 px-4 py-3 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                    disabled={createCommentMutation.isPending}
+                    className="flex-1 px-4 py-3 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors disabled:opacity-50"
                   />
                   <button
                     type="submit"
-                    className="px-6 py-3 bg-white hover:bg-gray-200 text-black font-medium rounded-md transition-colors"
+                    disabled={createCommentMutation.isPending}
+                    className="px-6 py-3 bg-white hover:bg-gray-200 text-black font-medium rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    작성
+                    {createCommentMutation.isPending ? "작성 중..." : "작성"}
                   </button>
                 </div>
                 {commentError && (
@@ -677,6 +956,18 @@ export default function LpDetailPage() {
           </div>
         </div>
       )}
+
+      {/* LP 수정 모달 */}
+      <EditLpModal
+        isOpen={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        title={editLpTitle}
+        content={editLpContent}
+        tags={editLpTags}
+        thumbnailUrl={editPreviewUrl}
+        onSubmit={handleLpEditSubmit}
+        isLoading={updateLpMutation.isPending || uploadImageMutation.isPending}
+      />
     </div>
   );
 }
