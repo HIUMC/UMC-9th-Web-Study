@@ -62,11 +62,11 @@ export type ResponseLpDetailDto = CommonResponse<Lp>;
 export type Comment = {
   id: number; // 댓글 고유 ID
   content: string; // 댓글 내용
-  userId: number; // 댓글 작성자 ID
+  authorId: number; // 댓글 작성자 ID
   lpId: number; // 댓글이 달린 LP ID
   createdAt: Date; // 댓글 작성 일시
   updatedAt: Date; // 댓글 수정 일시
-  user?: {
+  author?: {
     // 댓글 작성자 정보 (옵션)
     id: number; // 사용자 ID
     name: string; // 사용자 이름
