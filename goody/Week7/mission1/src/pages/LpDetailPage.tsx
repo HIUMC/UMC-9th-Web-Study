@@ -208,7 +208,7 @@ const LpDetailPage = () => {
                     <img
                         src={iamgePreview} // 👈 미리보기 state 사용
                         alt={editTitle}
-                        className="aspect-square w-full object-cover rounded-2xl cursor-pointer relative w-1/2 mx-auto" // 👈 커서 변경
+                        className="aspect-square object-cover rounded-2xl cursor-pointer relative w-1/2 mx-auto" 
                         onClick={() => !isUploading && fileInputRef.current?.click()} // 👈 클릭 시 input 실행
                     />
                     ) : (
