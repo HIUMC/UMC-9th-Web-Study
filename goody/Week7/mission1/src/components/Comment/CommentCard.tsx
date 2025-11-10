@@ -66,7 +66,7 @@ const CommentCard = ({id,content,author}:CommentsProps) => {
     }};
 
     return (
-        <div className="flex flex-col w-full gap-6 mt-6 border-4 border-black mr-10 relative">
+        <div className="flex flex-col w-full gap-6 mt-6 border-4 bg-amber-900 border-amber-100 mr-10 relative rounded-2xl">
             <div key={id} className="flex items-start gap-3">
                 {/* 프로필 이미지 (임시) */}
                 <div className="w-10 h-10 rounded-full bg-gray-700 flex-shrink-0">

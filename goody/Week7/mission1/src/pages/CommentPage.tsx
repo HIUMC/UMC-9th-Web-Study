@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { useInView } from "react-intersection-observer";
 import CommentCard from "../components/Comment/CommentCard";
 import CommentSkeletonList from "../components/Comment/CommentSkeletonList";
@@ -64,8 +64,8 @@ const CommentPage = () => {
     
 
     return (
-        <div className="relative bg-gray-700 w-70% h-full rounded-lg flex flex-col justify-center items-center">
-            <div className="flex justify-between items-center w-[60%] mb-5">
+        <div className="relative bg-amber-200 w-[80vw] max-w-5xl h-auto rounded-lg flex flex-col p-8" onClick={(e: MouseEvent) => e.stopPropagation()}>
+            <div className="flex justify-between items-center w-full mb-5">
                 <h2 className="text-white font-bold">댓글</h2>
                 <div className="flex justify-end pt-4 mr-10">
                     <button 
@@ -76,23 +76,23 @@ const CommentPage = () => {
                         onClick={()=>setOrder("desc")}>최신 순</button>
                 </div>
             </div>
-            <div className="w-[60%] mb-6 flex gap-3">
+            <div className="w-full mb-6 flex gap-3">
                 <input
                     type="text"
                     placeholder="댓글을 작성해주세요..."
-                    className=" flex-1 px-4 py-3 bg-neutral-700 text-white rounded-lg border border-neutral-600 focus:border-white focus:outline-none"
+                    className=" flex-1 px-4 py-3 bg-amber-100 text-gray-500 rounded-lg border border-neutral-600 focus:border-white focus:outline-none"
                     value={commentText}
                     onChange={handleInputChange}
                 />
                 <button 
-                    className="px-6 py-3 bg-neutral-600 text-white rounded-lg hover:bg-neutral-500 transition-colors duration-200"
+                    className="px-6 py-3 bg-amber-100 text-gray-500 rounded-lg hover:bg-amber-400 transition-colors duration-200"
                     type="button"
                     onClick={handleSubmit}
                     >
                     작성
                 </button>
             </div>
-            <div>
+            <div className="w-full">
                 <div className="w-full h-96 overflow-y-auto">
                     {commentsLoading && <CommentSkeletonList count={10}/> }
                     {comments && (

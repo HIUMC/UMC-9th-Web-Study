@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import useLpAdd from "../hooks/mutations/useAddLp";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { CreateLpsDto } from "../types/lp";
@@ -119,8 +119,9 @@ const LpAdd = ({ isOpen, onClose }) => {
     };
 
     return (
-        <div>
-            <label className="w-32 h-32 mb-6 cursor-pointer rounded-full flex justify-center items-center bg-gray-700 overflow-hidden">
+        <div className="bg-fuchsia-200 w-[30vw] max-w-5xl h-auto p-10 rounded-2xl" onClick={(e: MouseEvent)=> e.stopPropagation()}>
+            <div className="flex justify-center w-full">
+            <label className="w-70 h-70 mb-6 cursor-pointer rounded-full flex bg-white overflow-hidden">
                 <input
                     type="file"
                     accept="image/*"
@@ -141,25 +142,29 @@ const LpAdd = ({ isOpen, onClose }) => {
                     <img src="../../public/images/lp.png"></img>
                 )}
             </label>
+            </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-wrap gap-2">
                 <input 
+                    className="border-2 border-white"
                     placeholder="LP Name"
                     {...register("lptitle")}
                 />
                 <input 
+                    className="border-2 border-white"
                     placeholder="LP Content"
                     {...register("lpcontent")}
                 />
-                <div className="flex gap-2">
+                <div className="flex gap-2 w-full">
                     <input 
+                        className="border-2 border-white w-[70%]"
                         placeholder="LP Tag"
                         type="text"
                         value={inputTag}
                         onChange={(e) => setInputTag(e.target.value)}
-                        ></input>
+                        />
                     <button 
                         type="button"
-                        className="cursor-pointer"
+                        className="cursor-pointer border-2 border-white w-[30%]"
                         onClick={handleAddTag}
                         >
                             Add
@@ -167,9 +172,9 @@ const LpAdd = ({ isOpen, onClose }) => {
                 </div>
                 <div className="flex flex-warp gap-2">
                     {tags.map((tag, index) => (
-                        <div key={index} className="flex flex-row border-1 border-fuchsia-200  py-1 rounded-sm text-sm gap-2 p-2">
+                        <div key={index} className="flex flex-row border-1 border-white  py-1 rounded-sm text-sm gap-2 p-2">
                             <div>{tag}</div>
-                            <button onClick={() => handleRemoveTag(tag)} className="font-bold">X</button>
+                            <button onClick={() => handleRemoveTag(tag)} className="font-bold cursor-pointer">X</button>
                         </div>
                             
                     ))}
@@ -178,7 +183,7 @@ const LpAdd = ({ isOpen, onClose }) => {
                 
                 <button
                     type="submit"
-                    className="cursor-pointer border-2 border-fuchsia-200"
+                    className="cursor-pointer border-2 border-white"
                     disabled={isUploading} 
                 >
                     {isUploading ? "이미지 업로드 중..." : "Add Lp"}

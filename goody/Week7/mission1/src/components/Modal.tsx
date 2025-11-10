@@ -1,4 +1,4 @@
-import { type ReactNode, type MouseEvent } from 'react';
+import { type ReactNode } from 'react';
 import ReactDOM from "react-dom"
 
 interface ModalProps {
@@ -19,18 +19,14 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
         />
         <div 
         onClick={onClose} 
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg z-50 flex justify-center items-center"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col justify-center items-center"
         >
-            <div 
-                onClick={(e: MouseEvent) => e.stopPropagation()} 
-                className="bg-white border-8 shadow-xs p-20 relative">
-                <button 
-                    onClick={onClose} 
-                    className="">
-                    X
-                </button>
-                {children}
-            </div>
+            <button 
+                onClick={onClose} 
+                className="ml-auto text-2xl cursor-pointer">
+                X
+            </button>
+            {children}
         </div>
     </>
     ,

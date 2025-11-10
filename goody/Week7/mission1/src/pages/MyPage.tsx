@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react"
-import { getMyInfo } from "../apis/auth"
-import type { ResponseMyInfoDto } from "../types/auth"
+import { useState } from "react"
 import { useAuth } from "../context/AuthContext"
 import { useNavigate } from "react-router-dom"
 import useGetMyInfo from "../hooks/queries/useGetMyInfo"
@@ -27,7 +25,7 @@ const MyPage = () => {
     const { mutate: uploadImageMutate, isPending: isUploading } = useImageUpload({
         onSuccessCallback: (data) => {
         // 이미지 업로드 성공 시, 서버 URL을 avatarUrl state에 저장
-            const newImageUrl = data.imageUrl;
+            const newImageUrl = data.data.imageUrl;
             console.log("이미지 업로드 성공, 서버 URL:", newImageUrl);
             setAvatarUrl(newImageUrl);
             setAvatarPreview(newImageUrl); // 미리보기도 서버 URL로 교체
@@ -94,11 +92,11 @@ const MyPage = () => {
 
     console.log(data?.data.name)
     return (
-    <div>
+    <div className="container mx-auto bg-fuchsia-100 w-full">
       {/* 수정 모드 */}
         {isEditing ? (
-            <div>
-            <h3>프로필 수정</h3>
+            <div className="mt-12 flex flex-col items-center gap-2">
+            <h1 className="text-xl font-bold p-2">프로필 수정</h1>
             
             {/* 아바타 수정 */}
             <label className="cursor-pointer">
@@ -118,7 +116,7 @@ const MyPage = () => {
 
             {/* 이름 수정 */}
             <div>
-                <label htmlFor="name">이름</label>
+                <label htmlFor="name">이름 </label>
                 <input
                 id="name"
                 type="text"
@@ -130,7 +128,7 @@ const MyPage = () => {
 
             {/* Bio 수정 */}
             <div>
-                <label htmlFor="bio">소개 (Bio)</label>
+                <label htmlFor="bio">소개 </label>
                 <input
                 id="bto"
                 type="text"
@@ -160,8 +158,8 @@ const MyPage = () => {
 
         ) : (
             // 보기 모드
-            <div className="mt-12">
-                <h1>{data?.data?.name}님 환영합니다</h1>
+            <div className="mt-12 flex flex-col items-center gap-2">
+                <h1 className="text-xl font-bold p-2">{data?.data?.name}님 환영합니다</h1>
                 <img 
                     src={data?.data?.avatar ?? "/default-avatar.png"} // 기본 아바타
                     alt={"프로필 이미지"}
@@ -169,13 +167,13 @@ const MyPage = () => {
                 />
                 <h1>{data?.data?.email}</h1>
                 {/* Bio가 있다면 표시 */}
-                {data?.data?.bio && <p className="mt-12">소개: {data.data.bio}</p>}
-                
+                {data?.data?.bio && <p className="">{data.data.bio}</p>}
+                <div>
                 <button
                     className="cursor-pointer bg-blue-300 rounded-sm p-3 hover:scale-90"
                     onClick={handleStartEdit}
                 >
-                    설정 (수정하기)
+                    수정하기
                 </button>
                 <button
                     className="cursor-pointer bg-red-300 rounded-sm p-3 hover:scale-90 ml-2"
@@ -183,6 +181,7 @@ const MyPage = () => {
                 >
                     로그아웃
                 </button>
+                </div>
             </div>
         )}
         </div>
