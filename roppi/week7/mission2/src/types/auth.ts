@@ -44,3 +44,12 @@ export type ResponseMyInfoDto = CommonResponse<{
   updateAt: Date;
 }>
 
+export type MyPageDto = {
+  name: string;
+  bio: string;
+  avatar: string;
+};
+
+export type UploadAvatarResponse = {
+  url: string; 
+}

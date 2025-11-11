@@ -1,4 +1,4 @@
-import type { RequestSigninDto, RequestSignupDto, ResponseMyInfoDto, ResponseSigninDto, ResponseSignupDto } from "../types/auth"
+import type {  RequestSigninDto, RequestSignupDto, ResponseMyInfoDto, ResponseSigninDto, ResponseSignupDto, UploadAvatarResponse } from "../types/auth"
 import { axiosInstance } from "./axios";
 
 export const postSignup = async (body : RequestSignupDto) : Promise<ResponseSignupDto> => {
@@ -44,3 +44,33 @@ export const postLogout = async () => {
   const {data} = await axiosInstance.post("/v1/auth/signout");
   return data;
 }
+
+
+export const updateMy = async (
+  updateMypage: FormData
+): Promise<ResponseMyInfoDto> => {
+  const { data } = await axiosInstance.patch(`/v1/users`, updateMypage);
+    console.log(data)
+
+  return data;
+};
+
+export const uploadAvatar = async (formData: FormData): Promise<UploadAvatarResponse> => {
+  try {
+    const { data } = await axiosInstance.post("/v1/users/avatar", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    // data: { url: "https://..." }
+    return data;
+  } catch (err) {
+    console.error("이미지 업로드 실패", err);
+    throw err;
+  }
+};
+
+export const deleteUser = async () => {
+  const { data } = await axiosInstance.delete("/v1/users");
+  return data;
+};

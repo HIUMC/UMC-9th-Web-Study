@@ -10,6 +10,7 @@ import AddBtn from "../components/Home/AddBtn";
 import LpImg from '../assets/LP.png'
 import OrderBtn from "../components/Home/OrderBtn";
 import TagInputSection from "../components/TagInputSection";
+import AddLpForm from "../components/Home/AddLpForm";
 
 const Home = () => {
   const [search, setSearch] = useState("");
@@ -119,36 +120,8 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         
         {/* 모달 박스 */}
         <div className="bg-[#28282a] text-black rounded-2xl shadow-lg w-90 p-10 relative flex flex-col justify-center items-center gap-7">
-            <div
-              className="relative flex flex-col items-center justify-center cursor-pointer hover:opacity-80 transition "
-              onClick={handleImageClick}
-            >
-              { file &&   <img src={URL.createObjectURL(file)} alt="LP Preview"
-      className="absolute top-0 right-20 w-40 h-40 object-cover rounded"/> }
-              <img src={LpImg} className="w-36" />
-              <p className="text-gray-400 text-sm mt-2">
-              </p>
-            </div>
-
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleFileChange}
-            />
             
-            <div className="flex flex-col gap-3 w-full">
-            <TagInputSection /> 
-          </div>
-      
-        
-        
-            <button 
-             onClick={() => setIsModal(false)}
-            className="w-full px-4 py-2 bg-[#8b919a] text-white rounded hover:bg-blue-700 cursor-pointer ">
-              Add LP
-            </button>
+             <AddLpForm onClose={() => setIsModal(false)} />
         </div>
       </div>
     )}

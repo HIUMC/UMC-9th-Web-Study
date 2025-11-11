@@ -1,14 +1,18 @@
+// src/hooks/mutations/useDeleteComment.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postComment } from "../../apis/lp";
+import { deleteComment } from "../../apis/lp";
 
-
-const usePostComment = () => {
+export const useDeleteComment = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ lpId, content }: { lpId: number; content: string }) =>
-      postComment(lpId, content),
-
+    mutationFn: ({
+      lpId,
+      commentId,
+    }: {
+      lpId: number;
+      commentId: number;
+    }) => deleteComment({ lpId, commentId }),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: ["lpComments", variables.lpId],
@@ -16,4 +20,3 @@ const usePostComment = () => {
     },
   });
 };
-export default usePostComment;

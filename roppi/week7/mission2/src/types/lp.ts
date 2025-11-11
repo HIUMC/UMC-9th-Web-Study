@@ -99,9 +99,62 @@ export type RequestPostLpDto = {
   published: boolean;
 };
 
+export type DeleteLpResonse = {
+  status: boolean;
+  statusCode: number;
+  message: string;
+  data: boolean;
+};
+
 export type RequestPatchLpDto = {
   title: string;
   content: string;
-  tags: string[];
+  tags: Tags[];
   thumbnail:string;
+  published: boolean;
 };
+
+
+export type CommentList = {
+  id: number;
+  content: string;
+  lpId: number;
+  published: boolean;
+  authorId: number;
+  createdAt: Date;
+  updatedAt: Date;
+  author: Author;
+};
+
+export type DeleteComment = {
+  message: string;
+};
+
+export type ResponseCommentListDto = CursorBasedResponse<CommentList[]>;
+
+export type ResponseCommentUpdateDto = CommonResponse<CommentList>;
+
+export type ResponseCommentDeleteDto = CommonResponse<DeleteComment>;
+
+export type CommentPaginationDto = {
+  lpId: number | undefined;
+  cursor?: number;
+  limit?: number;
+  order?: PAGINATION_ORDER;
+};
+
+export type PostCommentDto = {
+  lpId: number;
+  content: string;
+}
+
+export type  UpdateCommentDto = {
+  lpId: number;
+  commentId: number;
+  content: string;
+}
+
+ export type DeleteCommentDto = {
+  lpId: number; 
+  commentId: number;
+}

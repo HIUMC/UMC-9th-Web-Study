@@ -1,5 +1,5 @@
 import type { PaginationDto } from "../types/common";
-import type { GetLpCommentsDto, RequestLpDto, RequestPatchLpDto, RequestPostLpDto, ResponseLikeLpDto, ResponseLpCommentsDto, ResponseLpDetailDto, ResponseLpListDto } from "../types/lp";
+import type { CommentPaginationDto, DeleteCommentDto, DeleteLpResonse, GetLpCommentsDto, PostCommentDto, RequestLpDto, RequestPatchLpDto, RequestPostLpDto, ResponseCommentDeleteDto, ResponseCommentListDto, ResponseCommentUpdateDto, ResponseLikeLpDto, ResponseLpCommentsDto, ResponseLpDetailDto, ResponseLpListDto, UpdateCommentDto } from "../types/lp";
 import { axiosInstance } from "./axios";
 
 export const getLpList = async (paginationDto : PaginationDto) :Promise<ResponseLpListDto>=> {
@@ -46,13 +46,10 @@ export const postLp = async (body: RequestPostLpDto) => {
   return response.data;
 };
 
-export const deleteLp = async ({ lpId }: { lpId: number }) => {
-  const token = localStorage.getItem("accessToken");
-  return await axiosInstance.request({
-    method: "DELETE",
-    url: `/v1/lps/${lpId}`,
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const deleteLp = async ({ lpId }: RequestLpDto 
+): Promise<DeleteLpResonse> => {
+  const { data } = await axiosInstance.delete(`/v1/lps/${lpId}`);
+  return data;
 };
 
 export const updateLp = async ({
@@ -64,3 +61,51 @@ export const updateLp = async ({
 }) => {
   return await axiosInstance.patch(`/v1/lps/${lpId}`, data);
 };
+
+export const getCommentList = async (
+  commentDto: CommentPaginationDto
+): Promise<ResponseCommentListDto> => {
+  const { lpId, ...params } = commentDto; // lpid와 나머지 params(cursor, limit) 분리
+  const { data } = await axiosInstance.get(`/v1/lps/${lpId}/comments`, {
+    params,
+  });
+
+  return data;
+};
+
+
+export const postComment = async (
+  commentData: PostCommentDto
+): Promise<ResponseCommentListDto> => {
+  const { lpId, content } = commentData;
+  const { data } = await axiosInstance.post(`/v1/lps/${lpId}/comments`, {
+    content,
+  });
+
+  return data;
+};
+
+export const updateComment = async (
+  updateComment: UpdateCommentDto
+): Promise<ResponseCommentUpdateDto> => {
+  const { lpId, commentId, content } = updateComment;
+
+  const { data } = await axiosInstance.patch(
+    `/v1/lps/${lpId}/comments/${commentId}`,
+    { content }
+  );
+  return data;
+};
+
+
+export const deleteComment = async (
+  payload: DeleteCommentDto
+): Promise<ResponseCommentDeleteDto> => {
+  const { lpId, commentId } = payload;
+  const { data } = await axiosInstance.delete(
+    `/v1/lps/${lpId}/comments/${commentId}`
+  );
+  return data;
+};
+
+
