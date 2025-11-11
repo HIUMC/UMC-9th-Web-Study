@@ -52,7 +52,7 @@ const SignupPage = () => {
       passwordCheck: '',
     },
     resolver: zodResolver(schema),
-    mode: 'onBlur',
+    mode: 'onChange',
   });
 
   const isStep1Disabled = !getValues('email') || !!errors.email;

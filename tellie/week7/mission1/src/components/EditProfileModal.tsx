@@ -82,7 +82,6 @@ const EditProfileModal = ({
     try {
       let avatarUrl = selectedImage;
 
-      // 새 이미지를 선택한 경우 업로드
       if (imageFile) {
         const uploadResult = await uploadImageMutation.mutateAsync(imageFile);
         avatarUrl = uploadResult.imageUrl;
@@ -91,7 +90,7 @@ const EditProfileModal = ({
       // 프로필 업데이트
       await updateProfileMutation.mutateAsync({
         name: name.trim(),
-        bio: bio.trim() || undefined,
+        bio: bio.trim() || '',
         avatar: avatarUrl === null ? null : (avatarUrl || undefined),
       });
     } catch (error) {
@@ -113,12 +112,11 @@ const EditProfileModal = ({
       onClick={handleBackdropClick}
     >
       <div className="bg-[#2C2C2E] p-6 rounded-lg w-full max-w-lg mx-4 relative">
-        {/* x 버튼 */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors text-2xl font-light leading-none"
         >
-          ×
+          x
         </button>
 
         <h2 className="text-xl font-bold mb-6 text-white">프로필 수정</h2>
