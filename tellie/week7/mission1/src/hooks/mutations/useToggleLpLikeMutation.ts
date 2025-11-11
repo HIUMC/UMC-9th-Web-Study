@@ -3,12 +3,12 @@ import { addLpLike, removeLpLike } from '../../apis/lp';
 import { QUERY_KEY } from '../../constants/key';
 import type { Lp } from '../../types/lp';
 
-export const useToggleLpLikeMutation = (lpId: string, lp: Lp | undefined) => {
+export const useToggleLpLikeMutation = (lpId: string, lp: Lp | undefined, userId: number | null) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async () => {
-      const isLiked = lp?.likes && lp.likes.length > 0;
+      const isLiked = userId ? lp?.likes?.some(like => like.userId === userId) : false;
 
       if (isLiked) {
         await removeLpLike(lpId);

@@ -34,7 +34,7 @@ const LpDetailPage = () => {
   const { ref, inView } = useInView({ threshold: 0 });
 
   const createCommentMutation = useCreateLpCommentMutation(lpId || '', commentOrder);
-  const toggleLikeMutation = useToggleLpLikeMutation(lpId || '', lp);
+  const toggleLikeMutation = useToggleLpLikeMutation(lpId || '', lp, userId);
   const updateCommentMutation = useUpdateLpCommentMutation(lpId || '', commentOrder);
   const deleteCommentMutation = useDeleteLpCommentMutation(lpId || '', commentOrder);
   const updateLpMutation = useUpdateLpMutation(lpId || '');

@@ -6,10 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import type { Lp } from "../types/lp";
 import LpCardSkeleton from "../components/LpCardSkeleton";
+import { Heart } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 const HomePage = () => {
   const [order, setOrder] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.asc);
   const navigate = useNavigate();
+  const { userId } = useAuth();
   
   const { 
     data, 
@@ -101,11 +104,18 @@ const HomePage = () => {
                 />
                 {/* Hover 오버레이 */}
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-all">
-                  <div className="absolute bottom-0 left-0 p-4 text-white">
+                  <div className="absolute bottom-0 left-0 p-4 text-white w-full">
                     <h3 className="text-lg">{lp.title}</h3>
-                    <div className="flex justify-between mt-1">
+                    <div className="flex justify-between items-center mt-1">
                       <span>{new Date(lp.updatedAt).toLocaleDateString()}</span>
-                      <span className="ml-2">♡ {lp.likes?.length || 0}</span>
+                      <div className="flex items-center gap-1">
+                        <Heart
+                          size={16}
+                          fill={userId && lp.likes?.some(like => like.userId === userId) ? "currentColor" : "none"}
+                          className="text-pink-500"
+                        />
+                        <span>{lp.likes?.length || 0}</span>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -27,6 +27,9 @@ const LpContent = ({ lp, onLikeToggle, isLiking, onUpdate, onDelete, isUpdating,
   // 작성자인지 확인
   const isAuthor = userId === lp.author?.id;
 
+  // 현재 사용자가 좋아요를 눌렀는지 확인
+  const isLikedByCurrentUser = userId ? lp.likes?.some(like => like.userId === userId) : false;
+
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };
@@ -257,7 +260,7 @@ const LpContent = ({ lp, onLikeToggle, isLiking, onUpdate, onDelete, isUpdating,
           >
             <Heart
               size={24}
-              fill={lp.likes && lp.likes.length > 0 ? "currentColor" : "none"}
+              fill={isLikedByCurrentUser ? "currentColor" : "none"}
               className="transition-all"
             />
             <span>{lp.likes?.length || 0}</span>
