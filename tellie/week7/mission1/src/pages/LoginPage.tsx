@@ -3,22 +3,12 @@ import { type UserSigninInformation, validateSignin } from '../utils/validate';
 import BackButton from '../components/Backbutton';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
-import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const LoginPage = () => {
-    const {login, accessToken} = useAuth();
+    const {login} = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    
-    // 로그인 완료 후에만 실행 (accessToken이 변경될 때만)
-    useEffect(() => {
-        if (accessToken) {
-            // location.state가 있으면 이전 페이지로, 없으면 홈으로
-            const from = (location.state as any)?.from || '/';
-            navigate(from, { replace: true });
-        }
-    }, [accessToken]); // 의존성: accessToken만
 
     const {values, errors, touched, getInputProps} = useForm<UserSigninInformation>( {
         initialValue: {
@@ -28,9 +18,9 @@ const LoginPage = () => {
         validate: validateSignin,
     });
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
         const from = (location.state as any)?.from || '/';
-        await login(values, () => navigate(from, { replace: true }));
+        login(values, () => navigate(from, { replace: true }));
     };
 
     const handleGoogleLogin = () => {
