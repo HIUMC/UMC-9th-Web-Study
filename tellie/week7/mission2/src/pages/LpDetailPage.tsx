@@ -77,7 +77,7 @@ const LpDetailPage = () => {
     navigate(`/lp/${lpId}?order=${newOrder}`, { replace: true });
   };
 
-  // 비로그인 상태 체크 - alert 표시 (최초 1회만)
+  // 비로그인 상태 체크 후 최초 1회만 alert 표시한다.
   useEffect(() => {
     if (!hasCheckedAuth.current && !isAuthenticated) {
       hasCheckedAuth.current = true;
