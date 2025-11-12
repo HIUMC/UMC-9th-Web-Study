@@ -8,4 +8,5 @@ export const QUERY_KEY = {
   comments: "comments",
   myInfo: "myInfo",
   users: "users",
+  search: "search",
 };
