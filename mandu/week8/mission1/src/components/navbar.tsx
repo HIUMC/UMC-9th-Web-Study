@@ -1,9 +1,7 @@
 // src/components/navbar.tsx
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import type { ResponseMyInfoDto } from "../types/auth";
-import { useEffect, useState } from "react";
-import { getMyInfo } from "../apis/auth";
+import useGetMyInfo from "../hooks/queries/useGetMyInfo";
 
 interface NavbarProps {
   onMenuClick: () => void;
@@ -12,19 +10,7 @@ interface NavbarProps {
 const Navbar = ({ onMenuClick }: NavbarProps) => {
   const { accessToken, logout } = useAuth();
 
-  const [data, setData] = useState<ResponseMyInfoDto>([]);
-
-  useEffect(() => {
-    if (accessToken) {
-      const getData = async () => {
-        const response = await getMyInfo();
-        console.log(response);
-
-        setData(response);
-      };
-      getData();
-    }
-  }, [accessToken]);
+  const { data } = useGetMyInfo(accessToken);
 
   const handleLogout = () => {
     logout();
@@ -77,7 +63,7 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
               to="/my"
               className="text-gray-100 hover:text-blue-500 font-bold"
             >
-              {data.data?.name}님 반갑습니다.
+              {data?.data?.name}님 반갑습니다.
             </NavLink>
             <button
               onClick={handleLogout}
