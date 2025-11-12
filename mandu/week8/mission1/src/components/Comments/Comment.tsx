@@ -181,7 +181,10 @@ const Comment = ({ myId }: CommentProps) => {
 
                 {/* --- [추가] 13. 수정 모드 UI --- */}
                 {isEditing ? (
-                  <div className="space-y-2">
+                  <div
+                    className="space-y-2"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <textarea
                       value={editedContent}
                       onChange={(e) => setEditedContent(e.target.value)}
