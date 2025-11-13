@@ -2,10 +2,10 @@ import { useAuth } from "../context/AuthContext";
 import { Pencil, Check, UserCircle } from "lucide-react";
 import useGetMyInfo from "../hooks/queries/useGetMyInfo";
 import { useState } from "react";
-import usePatchMyInfo from "../hooks/mutations/usePatchMyInfo";
-import usePostImgUpload from "../hooks/mutations/usePostImgUpload";
+import usePostImgUpload from "../hooks/mutations/usePostImg";
 import ImgSelector from "../components/ModalComponent/ImgSelector";
 import InputComponent from "../components/ModalComponent/InputComponent";
+import usePatchMyInfo from "../hooks/mutations/myInfo/usePatchMyInfo";
 
 const MyPage = () => {
   const { accessToken } = useAuth();

@@ -1,6 +1,6 @@
 import type { CommonResponse, CursorBasedResponse } from "./common";
 
-export type Tag = {
+export type TagType = {
   id: number;
   name: string;
 };
@@ -28,9 +28,9 @@ export type Lp = {
   thumbnail: string;
   published: boolean;
   authorId: number;
-  createdAt: Date;
-  updatedAt: Date;
-  tags: Tag[];
+  createdAt: string;
+  updatedAt: string;
+  tags: TagType[];
   likes: Likes[];
   author: Author;
 };
@@ -42,26 +42,6 @@ export type RequestLpDto = {
 export type ResponseLpListDto = CursorBasedResponse<Lp[]>;
 
 export type ResponseLpDetailDto = CommonResponse<Lp>;
-
-export type CommentType = {
-  id: number;
-  content: string;
-  lpId: number;
-  authorId: number;
-  createdAt: Date;
-  updatedAt: Date;
-  author: {
-    id: number;
-    name: string;
-    email: string;
-    bio: string | null;
-    avatar: string | null;
-    createdAt: Date;
-    updatedAt: Date;
-  };
-};
-
-export type ResponseCommentDto = CursorBasedResponse<CommentType>;
 
 export type ResponseLikeLpDto = CommonResponse<{
   id: number;
@@ -88,32 +68,12 @@ export type ResponseCreateLpDto = CommonResponse<{
   updatedAt: Date;
 }>;
 
+// 이미지 업로드 응답 타입
 export type ResponseImgUploadDto = CommonResponse<{
   imageUrl: string;
 }>;
 
-export type RequestCreateCommentDto = {
-  lpid: number;
-  content: string;
-};
-
-export type ResponseCreateCommentDto = CommonResponse<CommentType>;
-
-export type RequestModifyCommentDto = {
-  lpid: number;
-  commentId: number;
-  content: string;
-};
-
-export type ResponseModifyCommentDto = CommonResponse<CommentType>;
-
-export type RequestDeleteCommentDto = {
-  lpid: number;
-  commentId: number;
-};
-
-export type ResponseDeleteCommentDto = CommonResponse<unknown>;
-// message 데이터 안쓸거니까 unknown 사용
+// 이미지 업로드 요청 타입
 
 export type RequestPatchLp = {
   lpid: number;

@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import { postComment } from "../../apis/lp";
-import { queryClient } from "../../App";
-import { QUERY_KEY } from "../../constants/key";
+import { postComment } from "../../../apis/comment";
+import { queryClient } from "../../../App";
+import { QUERY_KEY } from "../../../constants/key";
 
-function usePostCreateComment() {
+function usePostComment() {
   return useMutation({
     mutationFn: postComment,
 
@@ -16,4 +16,4 @@ function usePostCreateComment() {
   });
 }
 
-export default usePostCreateComment;
+export default usePostComment;

@@ -1,10 +1,10 @@
 import { UserCircle } from "lucide-react";
-import type { CommentType } from "../../../types/lp";
 import React, { useState } from "react";
 import CommentOption from "./CommentOption";
-import useDeleteComment from "../../../hooks/mutations/useDeleteComment";
-import usePatchComment from "../../../hooks/mutations/usePatchComment";
 import InputComponent from "../../ModalComponent/InputComponent";
+import type { CommentType } from "../../../types/comment";
+import usePatchComment from "../../../hooks/mutations/comment/usePatchComment";
+import useDeleteComment from "../../../hooks/mutations/comment/useDeleteComment";
 
 interface CommentProps {
   data: CommentType;

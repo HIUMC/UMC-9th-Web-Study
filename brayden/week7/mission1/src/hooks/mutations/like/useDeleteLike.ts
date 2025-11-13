@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import { deleteLike } from "../../apis/lp";
-import { queryClient } from "../../App";
-import { QUERY_KEY } from "../../constants/key";
+import { deleteLike } from "../../../apis/lp";
+import { queryClient } from "../../../App";
+import { QUERY_KEY } from "../../../constants/key";
 
 function useDeleteLike() {
   return useMutation({

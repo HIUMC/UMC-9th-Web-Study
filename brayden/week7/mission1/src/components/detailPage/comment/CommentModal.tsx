@@ -18,7 +18,7 @@ const CommentModal = ({ lpId, onClose }: CommentModalProps) => {
       <div className="flex flex-col w-2xl">
         {/* Header */}
         <div className="flex flex-row items-center justify-between mb-2">
-          <span className="text-lg font-semibold">댓글</span>
+          <span className="text-lg font-semibold text-white">댓글</span>
           <SortButton order={order} onSortChange={setOrder} />
         </div>
 

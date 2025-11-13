@@ -2,6 +2,7 @@ import { useState } from "react";
 import { type Lp } from "../../types/lp";
 import { useNavigate } from "react-router-dom";
 import HeartButton from "../common/HeartButton";
+import timeCalculate from "../common/TimeCalculate";
 
 interface LpCardProps {
   lp: Lp;
@@ -9,8 +10,8 @@ interface LpCardProps {
 
 const LpCard = ({ lp }: LpCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const time = lp.updatedAt;
   const navigate = useNavigate();
-
   const navigateLp = (id: number) => navigate(`/lps/${id}`);
 
   return (
@@ -36,7 +37,7 @@ const LpCard = ({ lp }: LpCardProps) => {
         >
           <h3 className="font-bold text-sm mb-1 w-[80%]">{lp.title}</h3>
           <div className="font-medium text-sm flex flex-row justify-between w-full">
-            <h4>17 mins ago</h4>
+            <h4>{timeCalculate(time)}</h4>
             <HeartButton likesCount={lp.likes.length} islpCard={true} />
           </div>
           {/* <p className="text-xs text-gray-300">{timeAgo(lp.createdAt)}</p> */}

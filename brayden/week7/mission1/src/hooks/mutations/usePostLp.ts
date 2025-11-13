@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
-import { postCreateLp } from "../../apis/lp";
 import { queryClient } from "../../App";
 import { QUERY_KEY } from "../../constants/key";
+import { postLp } from "../../apis/lp";
 
-function usePostCreateLp() {
+function usePostLp() {
   return useMutation({
-    mutationFn: postCreateLp,
+    mutationFn: postLp,
 
     onSuccess: (data) => {
       console.log("✅ LP 생성 성공:", data);
@@ -21,4 +21,4 @@ function usePostCreateLp() {
   });
 }
 
-export default usePostCreateLp;
+export default usePostLp;

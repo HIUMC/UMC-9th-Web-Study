@@ -2,7 +2,7 @@
 import { useState } from "react";
 import InputComponent from "../../ModalComponent/InputComponent";
 import AddButton from "../../common/AddButton";
-import usePostCreateComment from "../../../hooks/mutations/usePostCreateComment";
+import usePostComment from "../../../hooks/mutations/comment/usePostComment";
 
 interface CommentInputProps {
   lpId: number;
@@ -10,7 +10,7 @@ interface CommentInputProps {
 
 const CommentInput = ({ lpId }: CommentInputProps) => {
   const [newComment, setNewComment] = useState("");
-  const { mutate: commentMutate } = usePostCreateComment();
+  const { mutate: commentMutate } = usePostComment();
 
   const handleSetNewComment = (e: React.ChangeEvent<HTMLInputElement>) =>
     setNewComment(e.target.value);

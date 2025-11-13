@@ -1,20 +1,13 @@
-import type { CommentsDto, PaginationDto } from "../types/common";
+import type { PaginationDto } from "../types/common";
 
 import type {
-  RequestDeleteCommentDto,
-  ResponseDeleteCommentDto,
-  RequestCreateCommentDto,
   RequestCreateLpDto,
   RequestLpDto,
-  ResponseCommentDto,
-  ResponseCreateCommentDto,
   ResponseCreateLpDto,
   ResponseImgUploadDto,
   ResponseLikeLpDto,
   ResponseLpDetailDto,
   ResponseLpListDto,
-  RequestModifyCommentDto,
-  ResponseModifyCommentDto,
   RequestPatchLp,
   ResponsePatchLp,
   ResponseDeleteLp,
@@ -38,19 +31,6 @@ export const getLpDetail = async ({
   return data;
 };
 
-export const getComments = async (
-  commentsDto: CommentsDto
-): Promise<ResponseCommentDto> => {
-  // lpid -> url 경로
-  // cursor, limit, order -> 쿼리 파라미터
-  const { lpId, ...queryParams } = commentsDto;
-
-  const { data } = await axiosInstance.get(`/v1/lps/${lpId}/comments`, {
-    params: queryParams,
-  });
-  return data;
-};
-
 export const postLike = async ({
   lpid,
 }: RequestLpDto): Promise<ResponseLikeLpDto> => {
@@ -65,13 +45,13 @@ export const deleteLike = async ({
   return data;
 };
 
-export const postCreateLp = async (
+export const postLp = async (
   body: RequestCreateLpDto
 ): Promise<ResponseCreateLpDto> => {
   const { data } = await axiosInstance.post("/v1/lps", body);
   return data;
 };
-export const postImgUpload = async (file: File): Promise<string> => {
+export const postImg = async (file: File): Promise<string> => {
   const formData = new FormData();
   formData.append("file", file);
 
@@ -85,38 +65,6 @@ export const postImgUpload = async (file: File): Promise<string> => {
     }
   );
   return data.data.imageUrl;
-};
-
-export const postComment = async ({
-  lpid,
-  content,
-}: RequestCreateCommentDto): Promise<ResponseCreateCommentDto> => {
-  const { data } = await axiosInstance.post(`/v1/lps/${lpid}/comments`, {
-    content,
-  });
-  return data;
-};
-
-export const patchComment = async ({
-  lpid,
-  commentId,
-  content,
-}: RequestModifyCommentDto): Promise<ResponseModifyCommentDto> => {
-  const { data } = await axiosInstance.patch(
-    `/v1/lps/${lpid}/comments/${commentId}`,
-    { content }
-  );
-  return data;
-};
-
-export const deleteComment = async ({
-  lpid,
-  commentId,
-}: RequestDeleteCommentDto): Promise<ResponseDeleteCommentDto> => {
-  const { data } = await axiosInstance.delete(
-    `/v1/lps/${lpid}/comments/${commentId}`
-  );
-  return data;
 };
 
 export const patchLp = async ({

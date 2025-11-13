@@ -1,5 +1,8 @@
 import { useEffect, useRef } from "react";
-import { EllipsisVertical, Pencil, Trash2, Check } from "lucide-react";
+import { EllipsisVertical } from "lucide-react";
+import ModifyButton from "../../common/ModifyButton";
+import DeleteButton from "../../common/DeleteButton";
+import CheckButton from "../../common/CheckButton";
 
 interface CommentOptionProps {
   isOption: boolean;
@@ -8,8 +11,8 @@ interface CommentOptionProps {
   authorId: number;
   onChange: () => void;
   onDelete: () => void;
-  onModify?: () => void;
-  onEditComplete?: () => void;
+  onModify: () => void;
+  onEditComplete: () => void;
 }
 
 const CommentOption = ({
@@ -47,12 +50,7 @@ const CommentOption = ({
   if (isEditing) {
     return (
       <div className="relative flex justify-end ml-auto" ref={optionRef}>
-        <button
-          onClick={onEditComplete}
-          className="cursor-pointer transition flex items-center justify-center"
-        >
-          <Check size={20} />
-        </button>
+        <CheckButton onClick={onEditComplete} size={20} />
       </div>
     );
   }
@@ -77,18 +75,8 @@ const CommentOption = ({
           </button>
 
           <div className="absolute right-5 bg-black text-white rounded-md shadow-md p-2 flex flex-row  w-15 z-50">
-            <button
-              onClick={onModify}
-              className="hover:bg-gray-700 rounded p-1 flex items-center gap-1 text-sm w-8 h-8"
-            >
-              <Pencil size={15} />
-            </button>
-            <button
-              onClick={onDelete}
-              className="hover:bg-gray-700 rounded p-1 flex items-center gap-1 text-sm w-8 h-8"
-            >
-              <Trash2 size={15} />
-            </button>
+            <ModifyButton onClick={onModify} size={15} />
+            <DeleteButton onClick={onDelete} size={15} />
           </div>
         </>
       )}

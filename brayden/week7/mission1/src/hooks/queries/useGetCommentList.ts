@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { QUERY_KEY } from "../../constants/key";
-import { getComments } from "../../apis/lp";
+import { getComments } from "../../apis/comment";
 
 export const useGetCommentList = (lpId: number, order: "asc" | "desc") => {
   return useInfiniteQuery({

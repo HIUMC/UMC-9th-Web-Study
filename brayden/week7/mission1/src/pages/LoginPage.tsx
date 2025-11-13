@@ -4,13 +4,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import googleLogo from "../assets/googleLogo.png";
 import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
-import usePostSignIn from "../hooks/mutations/usePostSignIn";
+import usePostSignIn from "../hooks/mutations/usePostLogin";
 
 const LoginPage = () => {
   const { accessToken } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const { mutate: signInMutate, isPending } = usePostSignIn();
+  const { mutate: login, isPending } = usePostSignIn();
 
   const from = location.state?.from || "/my";
 
@@ -34,7 +34,7 @@ const LoginPage = () => {
   };
 
   const handleSubmit = () => {
-    signInMutate(values, {
+    login(values, {
       onSuccess: () => {
         navigate("/", { replace: true });
       },

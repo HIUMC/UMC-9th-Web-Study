@@ -2,10 +2,11 @@ import { useRef, useState } from "react";
 
 interface ImgSelectorProps {
   onChange?: (file: File | null) => void;
-  defaultImg: string;
+  defaultImg?: string;
+  className?: string;
 }
 
-const ImgSelector = ({ onChange, defaultImg }: ImgSelectorProps) => {
+const ImgSelector = ({ onChange, defaultImg, className }: ImgSelectorProps) => {
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -22,7 +23,7 @@ const ImgSelector = ({ onChange, defaultImg }: ImgSelectorProps) => {
     }
   };
   return (
-    <div className="flex flex-col items-center">
+    <div className={`flex flex-col items-center ${className}`}>
       {/* 클릭 가능한 이미지 */}
       <img
         src={preview || defaultImg}

@@ -5,11 +5,11 @@ import Modal from "../ModalComponent/Modal";
 import { useState } from "react";
 import InputComponent from "../ModalComponent/InputComponent";
 import ImgSelector from "../ModalComponent/ImgSelector";
-import usePostCreateLp from "../../hooks/mutations/usePostCreateLp";
 import Tag from "../common/Tag";
 import AddButton from "../common/AddButton";
-import usePostImgUpload from "../../hooks/mutations/usePostImgUpload";
 import LpImg from "../../assets/LpImg.png";
+import usePostImg from "../../hooks/mutations/usePostImg";
+import usePostLp from "../../hooks/mutations/usePostLp";
 
 export default function FloatingButton() {
   const navigate = useNavigate();
@@ -32,8 +32,8 @@ export default function FloatingButton() {
     setIsOpen(true);
   };
 
-  const { mutate: createLp } = usePostCreateLp();
-  const { mutate: uploadImg, isPending: isUploading } = usePostImgUpload();
+  const { mutate: createLp } = usePostLp();
+  const { mutate: uploadImg, isPending: isUploading } = usePostImg();
 
   const closeModal = () => {
     setIsOpen(false);
@@ -50,6 +50,7 @@ export default function FloatingButton() {
     setContent(e.target.value);
   const handleTag = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTagInput(e.target.value);
+
   const handleAddTag = () => {
     if (!tagInput.trim()) return;
     if (tags.includes(tagInput)) return;
@@ -130,6 +131,7 @@ export default function FloatingButton() {
                   value={tagInput}
                   inputComment="LP Tag"
                   onChange={handleTag}
+                  onEnterPress={handleAddTag}
                 />
                 <AddButton onClick={handleAddTag} buttonText="Add" />
               </div>

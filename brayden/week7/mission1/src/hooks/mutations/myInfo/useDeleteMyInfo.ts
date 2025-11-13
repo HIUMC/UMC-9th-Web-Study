@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import { deleteMyInfo } from "../../apis/auth";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
+import { deleteMyInfo } from "../../../apis/auth";
 
 function useDeleteMyInfo() {
   const navigate = useNavigate();

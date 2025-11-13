@@ -26,7 +26,7 @@ const CommentList = ({ lpId, order }: CommentListProps) => {
   if (isPending) return <CommentSkeletonList count={5} />;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 text-white">
       {data?.pages
         ?.map((page) => page.data.data)
         ?.flat()

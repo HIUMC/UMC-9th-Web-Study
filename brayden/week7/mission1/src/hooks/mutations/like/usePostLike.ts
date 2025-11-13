@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import { postLike } from "../../apis/lp";
-import { queryClient } from "../../App";
-import { QUERY_KEY } from "../../constants/key";
+import { postLike } from "../../../apis/lp";
+import { queryClient } from "../../../App";
+import { QUERY_KEY } from "../../../constants/key";
 
 function usePostLike() {
   return useMutation({
