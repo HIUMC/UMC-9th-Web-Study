@@ -40,16 +40,12 @@ const Homepage = () => {
 
   return (
     <>
-      {isPending && (
+      {/* {isPending && (
         <div className="flex flex-row justify-center items-center bg-black text-white h-full">
           <Loader2 className="animate-spin h-20 w-20"/>
         </div>
-      )}
-      {isError && (
-        <div className="flex flex-row justify-center items-center bg-black text-white h-full">
-          <h1>데이터를 불러올 수 없습니다.</h1>
-        </div>
-      )}
+      )} */}
+      
       <div className="flex flex-row bg-black text-white h-full">
         <div className="h-full w-full mx-14 mt-4">
           <div className="flex flex-row justify-end p-4">
@@ -57,6 +53,11 @@ const Homepage = () => {
             <button className={`px-4 py-2 rounded-md border border-gray-200 ${order === PAGINATION_ORDER.asc ? "bg-white text-black" : "bg-black text-white"}`} onClick={() => handleOrderChange(PAGINATION_ORDER.asc)}>오래된순</button>
           </div>
           <div className="flex flex-wrap">
+            {isError && (
+              <div className="flex flex-row justify-center items-center bg-black text-white h-full">
+                <h1>데이터를 불러올 수 없습니다.</h1>
+              </div>
+            )}
             {lps?.pages?.map((page) => page.data.data)?.flat()?.map((lp) => (
               <LpCard key={lp.data?.id} lp={lp} />
             ))}

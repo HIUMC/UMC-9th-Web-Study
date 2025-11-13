@@ -34,7 +34,7 @@ const Navbar = ({onToggleSidebar}) => {
   return (
     <div className="flex items-center justify-between bg-[#1d1d1d] h-[60px]">
       <div className="flex flex-row items-center">
-        <button className="" onClick={onToggleSidebar}>
+        <button className="md:hidden" onClick={onToggleSidebar}>
           <img className="scale-90 cursor-pointer ml-2" src={hamburgerLogo} alt="" />
         </button>
         <Link to="/" className="font-bold text-[#FF1E9D] ml-5 text-xl cursor-pointer">돌려돌려LP판</Link>
