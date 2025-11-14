@@ -1,0 +1,168 @@
+@import "tailwindcss"
+
+@font-face {
+  font-family: "NunitoSans";
+  src: url("/fonts/Nunito-VariableFont_wght.ttf") format("truetype");
+  font-weight: 200 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  font-family: "NunitoSans";
+}
+
+@theme {
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+  --color-bg-white: #F5F6FA;
+  --color-bg-dark: #1B2431;
+  --color-gray-50: #f5f6fa;
+  --color-gray-100: #EAEAEA;
+  --color-gray-200: #D5D5D5;
+  --color-gray-300: #B9B9B9;
+  --color-gray-400: #A6A6A6;
+  --color-gray-500: #979797;
+  --color-gray-600: #646464;
+  --color-gray-700: #5C5C5C;
+  --color-gray-800: #565656;
+  --color-gray-900: #404040;
+  --color-primary-50: #c0d2f0;
+  --color-primary-100: #7CB7F5;
+  --color-primary-200: #6C99FF;
+  --color-primary-300: #5A8CFF;
+  --color-primary-400: #4D88EF;
+  --color-primary-500: #4880FF;
+  --color-primary-600: #1685FB;
+  --color-primary-700: #4379EE;
+  --color-primary-800: #4C60E1;
+  --color-primary-900: #283988;
+  --color-dark-blue-100: #4B5668;
+  --color-dark-blue-200: #313D4F;
+  --color-dark-blue-400: #273142;
+  --color-dark-blue-500: #2D384B;
+  --color-dark-blue-600: #12163C;
+  --color-dark-blue-900: #202224;
+  --color-purple-100: #E3B9FF;
+  --color-purple-200: #DBA5FF;
+  --color-purple-300: #D456FD;
+  --color-purple-400: #BA29FF;
+  --color-purple-500: #8280FF;
+  --color-purple-600: #7551E9;
+  --color-purple-800: #6226EF;
+  --color-red-200: #E98F8F;
+  --color-red-300: #F57C7C;
+  --color-red-400: #FD5454;
+  --color-red-500: #EF3826;
+  --color-red-600: #FF0000;
+  --color-red-700: #EA0234;
+  --color-dark-gray-400: #2E2E2E;
+  --color-dark-gray-500: #141414;
+  --color-pink-50: #ffe2e6;
+  --color-pink-100: #FFE5F0;
+  --color-pink-200: #FFBDD8;
+  --color-pink-300: #FF84B7;
+  --color-pink-400: #FF5DA0;
+  --color-pink-500: #FC3E81;
+  --color-pink-600: #FC3E81;
+  --color-pink-700: #E951BF;
+  --color-pink-800: #A32147;
+  --color-pink-900: #882853;
+  --color-orange-100: #FD9A56;
+  --color-orange-200: #FD9E28;
+  --color-orange-300: #FF7F27;
+  --color-orange-400: #FF9066;
+  --color-orange-500: #FF8743;
+  --color-orange-600: #E99151;
+  --color-orange-700: #D37B64;
+  --color-yellow-300: #FFD56D;
+  --color-yellow-400: #FEC53D;
+  --color-yellow-500: #FCBE2D;
+  --color-yellow-600: #E9C157;
+  --color-green-50: #D0F1FA;
+  --color-green-100: #BDEEE1;
+  --color-green-200: #4AD991;
+  --color-green-300: #54DDAC;
+  --color-green-400: #1CCAB8;
+  --color-green-500: #00B69B;
+}
+
+@utility hero {
+  font-size: 46px;
+  font-weight: 800;
+}
+
+@utility title-37 {
+  font-size: 37px;
+  font-weight: 1000;
+}
+
+@utility title-32 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+@utility title-28 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+@utility title-24 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+@utility title-22 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+@utility title-20 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+@utility title-18 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+@utility title-16 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+@utility title-14 {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+@utility title-12 {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@utility title-10 {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+@utility body-16 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+@utility body-14 {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@utility body-12 {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+@utility caption {
+  font-size: 14px;
+  font-weight: 500;
+}

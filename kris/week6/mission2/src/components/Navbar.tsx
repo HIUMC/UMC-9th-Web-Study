@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { ResponseMyInfoDto } from "../types/auth";
 import { getMyInfo } from "../apis/auth";
 import hamburgerLogo from "../assets/hamburger-button.svg";
+import { Search } from "lucide-react";
 
 
 
@@ -31,7 +32,7 @@ const Navbar = ({onToggleSidebar}) => {
   }
  
   return (
-    <div className="flex items-center justify-between bg-[#222222] h-[60px]">
+    <div className="flex items-center justify-between bg-[#1d1d1d] h-[60px]">
       <div className="flex flex-row items-center">
         <button className="" onClick={onToggleSidebar}>
           <img className="scale-90 cursor-pointer ml-2" src={hamburgerLogo} alt="" />
@@ -39,6 +40,9 @@ const Navbar = ({onToggleSidebar}) => {
         <Link to="/" className="font-bold text-[#FF1E9D] ml-5 text-xl cursor-pointer">돌려돌려LP판</Link>
       </div>
       <div className="flex items-center space-x-6 mr-2 text-white">
+        <div>
+          <Search/>
+        </div>
         {accessToken && <>
         <p>{data?.data.name}님 반갑습니다.</p>
         <button className="bg-black text-white text-sm font-medium rounded-sm px-4 py-1 mr-3 cursor-pointer" onClick={handleLogout}>로그아웃</button>
