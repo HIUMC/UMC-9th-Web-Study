@@ -41,19 +41,19 @@ function usePostLike() {
       return {previousLp, newLp}
     
     },
-        // error: 요청 실패시 발생한 에러
-        // variables: mutate에 전달한 값
-        // context: onMutate에서 반환한 값
-        onError: (error, newLp, context) => {
-          console.log(error, newLp)
-          queryClient.setQueryData([QUERY_KEY.lps, newLp.lpId], context?.previousLp?.data.id);
-        },
-        // 요청이 끝난 후 항상 실행됨
-        onSettled: async (data, error, variables, context) => {
-          await queryClient.invalidateQueries({
-            queryKey: [QUERY_KEY.lps, variables.lpId],
-          });
-        }
+    // error: 요청 실패시 발생한 에러
+    // variables: mutate에 전달한 값
+    // context: onMutate에서 반환한 값
+    onError: (error, newLp, context) => {
+      console.log(error, newLp)
+      queryClient.setQueryData([QUERY_KEY.lps, newLp.lpId], context?.previousLp?.data.id);
+    },
+    // 요청이 끝난 후 항상 실행됨
+    onSettled: async (data, error, variables, context) => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.lps, variables.lpId],
+      });
+    },
   })
 }
 

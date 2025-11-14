@@ -3,6 +3,7 @@ import type { RequestSigninDto } from "../types/auth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { LOCAL_STORAGE_KEY } from "../constants/key";
 import { postLogout, postSignin } from "../apis/auth";
+import { useMutation } from "@tanstack/react-query";
 
 interface AuthContextType {
   accessToken: string | null;
@@ -30,42 +31,46 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
     getRefreshTokenFromStorage()
   )
 
-  const login = async (signinData: RequestSigninDto) => {
-    try {
-      const { data } = await postSignin(signinData);
+  const loginMutation = useMutation({
+    mutationFn: postSignin,
+    onSuccess: (data) => {
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data.data;
 
-      if(data) {
-        const newAccessToken = data.accessToken;
-        const newRefreshToken = data.refreshToken;
+      setAccessTokenInStorage(newAccessToken);
+      setRefreshTokenInStorage(newRefreshToken);
 
-        setAccessTokenInStorage(newAccessToken);
-        setRefreshTokenInStorage(newRefreshToken);
-
-        setAccessToken(newAccessToken);
-        setRefreshToken(newRefreshToken);
-
-        alert("로그인 성공")
-      }
-    } catch (error) {
-      console.error("로그인 오류", error)
-      throw error
+      setAccessToken(newAccessToken);
+      setRefreshToken(newRefreshToken);
+      
+      alert("로그인 성공")
+    },
+    onError: (error) => {
+      console.error("로그인 에러", error)
+      alert("로그인 실패")
     }
-  }
+  })
 
-  const logout = async () => {
-    try {
-      await postLogout();
+  const login = async (signinData: RequestSigninDto) => {
+    await loginMutation.mutateAsync(signinData);
+  };
+
+  const logoutMutation = useMutation({
+    mutationFn: postLogout,
+    onSuccess: () => {
       removeAccessTokenFromStorage()
       removeRefreshTokenFromStorage()
-
       setAccessToken(null)
       setRefreshToken(null)
-
       alert('로그아웃 성공')
-    } catch (error) {
-      console.log('로그아웃 오류', error)
+    },
+    onError: (error) => {
+      console.log('로그아웃 에러', error)
       alert('로그아웃 실패')
     }
+  })
+
+  const logout = async () => {
+    await logoutMutation.mutateAsync();
   }
 
   return (

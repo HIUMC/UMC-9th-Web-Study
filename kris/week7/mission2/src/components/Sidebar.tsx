@@ -1,7 +1,7 @@
 import { Search, User, X } from "lucide-react"
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"
-import { deleteUser } from "../apis/auth";
+import { Link } from "react-router-dom"
+import useDeleteUser from "../hooks/mutations/useDeleteUser";
 
 type SidebarProps = {
   isOpen: boolean;
@@ -11,14 +11,13 @@ type SidebarProps = {
 export const Sidebar = ({isOpen, onClose}: SidebarProps) => {
   const [isUserDeleteModalOpen, setIsUserDeleteModalOpen] = useState(false);
 
-  const navigate = useNavigate();
+  const {mutate: deleteUser} = useDeleteUser();
 
   const handleOpenDeleteUserModal = () => {
     setIsUserDeleteModalOpen(true);
   }
 
   const handleDeleteUser = () => {
-    navigate("/");
     deleteUser();
   }
 

@@ -27,7 +27,17 @@ function usePatchMyInfo() {
       };
       queryClient.setQueryData([QUERY_KEY.myInfo], newMyInfo);
       return { previousMyInfo };
-    }
+    },
+    onError: (error, newInfo, context) => {
+      console.log(error, newInfo)
+      queryClient.setQueryData([QUERY_KEY.myInfo], context?.previousMyInfo);
+      alert("정보 수정 실패");
+    },
+    onSettled: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.myInfo],
+      });
+    },
   })
 }
 

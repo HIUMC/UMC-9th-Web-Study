@@ -132,7 +132,7 @@ export const AddLpModal = () => {
             ))}
           </div>
           <div>
-            <button className={`${(nameInput.trim() && contentInput.trim()) ? enabledButtonStyle : disabledButtonStyle} w-full h-[40px] mt-2 rounded-md flex flex-col justify-center items-center text-white`} onClick={handleCreateLp}>
+            <button className={`${(nameInput.trim() && contentInput.trim()) && tags.length ? enabledButtonStyle : disabledButtonStyle} w-full h-[40px] mt-2 rounded-md flex flex-col justify-center items-center text-white`} onClick={handleCreateLp}>
               <p>Add LP</p>
             </button>
           </div>

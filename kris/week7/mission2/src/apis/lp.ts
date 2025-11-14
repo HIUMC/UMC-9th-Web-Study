@@ -1,4 +1,4 @@
-import type { InfiniteCommentDto, PaginationDto } from "../types/common";
+import type { CommonResponse, InfiniteCommentDto, PaginationDto } from "../types/common";
 import type { LpComment, LpDetails, RequestCreateLpDto, RequestLpDto, ResponseCreateLpDto, ResponseImageUploadDto, ResponseLikeLpDto, ResponseLpCommentDto, ResponseLpCommentEditDto, ResponseLpDeleteDto, ResponseLpListDto, ResponseLpUpdateDto } from "../types/lp";
 import { axiosInstance } from "./axios";
 
@@ -56,6 +56,11 @@ export const patchLp = async({lpId}: RequestLpDto, body: RequestCreateLpDto): Pr
 
 export const patchLpComment = async({lpId, commentId}: RequestLpDto, content: string): Promise<ResponseLpCommentEditDto> => {
   const {data} = await axiosInstance.patch(`/v1/lps/${lpId}/comments/${commentId}`, { content });
+  return data;
+}
+
+export const deleteLp = async({lpId}: RequestLpDto): Promise<CommonResponse<boolean>> => {
+  const {data} = await axiosInstance.delete(`/v1/lps/${lpId}`);
   return data;
 }
 

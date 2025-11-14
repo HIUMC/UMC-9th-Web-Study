@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import type { LpDetails } from "../types/lp";
 import { getTimesAgo } from "../utils/getTimesAgo";
+import defaultLpImage from "../assets/lp_default.png";
 
 interface LpCardProps {
   lp: LpDetails
@@ -11,7 +12,7 @@ const LpCard = ({lp}: LpCardProps) => {
     <Link to={`/lp/${lp.id}`} className="w-[200px] m-2 hover:scale-110 transition-transform cursor-pointer overflow-hidden relative">
       <img 
         className="w-full h-[200px] object-cover"
-        src={lp.thumbnail}
+        src={lp.thumbnail || defaultLpImage}
         alt={lp.title}
       />
       <div className="absolute inset-0 flex flex-col justify-end opacity-0 bg-black/40 hover:opacity-100 p-2 transition-opacity">

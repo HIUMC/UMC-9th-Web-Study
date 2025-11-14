@@ -1,7 +1,7 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import useGetLpDetails from "../hooks/queries/useGetLpDetails"
 import {  HeartIcon, Loader2, PencilIcon, Trash, Image, Check, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import type { ResponseMyInfoDto } from "../types/auth";
 import { getMyInfo } from "../apis/auth";
@@ -12,7 +12,7 @@ import { CommentCard } from "../components/CommentCard";
 import { CommentCardSkeletonlist } from "../components/CommentCardSkeletonList";
 import { getTimesAgo } from "../utils/getTimesAgo";
 import useGetMyInfo from "../hooks/queries/useGetMyInfo";
-import { deleteLike, postLike, postUploads } from "../apis/lp";
+import { deleteLike, deleteLp, postLike, postUploads } from "../apis/lp";
 import usePostLike from "../hooks/mutations/usePostLike";
 import useDeleteLike from "../hooks/mutations/useDeleteLike";
 import usePostLpComment from "../hooks/mutations/usePostLpComment";
@@ -31,7 +31,7 @@ export const LpDetailsPage = () => {
   const [contentInput, setContentInput] = useState(data?.data.content || "");
   const [thumbnailInput, setThumbnailInput] = useState(data?.data.thumbnail || "");
   const [tagInput, setTagInput] = useState("");
-  const [newTags, setNewTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   
   const {data: comments, isFetching, hasNextPage, isPending: isCommentsPending, fetchNextPage, isError: isCommentsError} = useGetInfiniteLpComments(Number(lpId), 5, commentOrder);
   
@@ -66,6 +66,9 @@ export const LpDetailsPage = () => {
     getInfo();
   }, [accessToken])
 
+  const refHTML = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+
   const {ref, inView} = useInView({
     threshold: 0,
   })
@@ -75,6 +78,13 @@ export const LpDetailsPage = () => {
       !isFetching && hasNextPage && fetchNextPage();
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage])
+
+  useEffect(() => {
+    setNameInput(data?.data.title || "");
+    setContentInput(data?.data.content || "");
+    setThumbnailInput(data?.data.thumbnail || "");
+    setTags(data?.data.tags.map((tag) => tag.name) || []);
+  }, [data])
 
   const handleAddComment = () => {
     if(!commentText.trim()) {
@@ -91,23 +101,26 @@ export const LpDetailsPage = () => {
 
   const handleEditLp = () => {
     setIsEditing(!isEditing);
-    setNewTags(data?.data.tags.map((tag) => tag.name) || []);
+
   }
 
   const handleAddTag = (tagName: string) => {
-    if(newTags.includes(tagName)) {
+    if(tags.includes(tagName)) {
       alert("이미 추가한 태그입니다.");
       return;
     }
-    setNewTags((prev) => [...prev, tagName]);
+    setTags((prev) => [...prev, tagName]);
   }
 
   const handleDeleteTag = (tagName: string) => {
-    setNewTags((prev) => prev.filter((tag) => tag !== tagName));
+    setTags((prev) => prev.filter((tag) => tag !== tagName));
   }
 
   const handleClickThumbnail = () => {
     if(!isEditing) return;
+    if(refHTML.current) {
+      refHTML.current.click();
+    }
   }
 
   const handleChangeThumbnail = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,13 +142,23 @@ export const LpDetailsPage = () => {
   }
 
   const handleSubmitUpdateLp = () => {
-    // patchLp({
-    //   title: nameInput || "",
-    //   content: contentInput,
-    //   thumbnail: thumbnailInput,
-
-    // }
+    patchLp( {
+      title: nameInput || "",
+      content: contentInput,
+      thumbnail: thumbnailInput,
+      tags: tags,
+      published: true,
+    })
     setIsEditing(false);
+  }
+
+  const handleDeleteLp = () => {
+    if(confirm("정말로 LP를 삭제하시겠습니까?") == true) {
+      navigate("/");
+      deleteLp({lpId: Number(lpId)});
+    } else {
+      return;
+    }
   }
   
   return (
@@ -163,7 +186,7 @@ export const LpDetailsPage = () => {
           </div>
           <div className="flex flex-row w-full px-20 py-4 justify-between items-center">
             {isEditing ? (
-              <input type="text" className="w-full border-1 border-white px-3 py-1 my-1 text-xl rounded-md mr-4" value={data?.data.title} />
+              <input type="text" className="w-full border-1 border-white px-3 py-1 my-1 text-xl rounded-md mr-4" value={nameInput} onChange={(e) => setNameInput(e.target.value)} />
             ) : (
               <p className="text-xl font-bold">{data?.data.title}</p>
             )}
@@ -177,14 +200,15 @@ export const LpDetailsPage = () => {
                 <>
                   {isEditing ? (
                     <>
-                      <Image/>
+                      <Image className="cursor-pointer" onClick={handleClickThumbnail}/>
                       <Check className="cursor-pointer" onClick={handleSubmitUpdateLp}/>
                       <Trash className="cursor-pointer"/>
+                      <input type="file" ref={refHTML} className="hidden" onChange={handleChangeThumbnail} />
                     </>
                   ) : (
                     <>
                       <PencilIcon className="cursor-pointer" onClick={handleEditLp} />
-                      <Trash className="cursor-pointer"/>
+                      <Trash className="cursor-pointer" onClick={handleDeleteLp}/>
                     </>
                   )}
                 </>
@@ -192,12 +216,12 @@ export const LpDetailsPage = () => {
             </div>
           </div>
           <div className="relative w-[450px] h-[450px] my-8 flex items-center justify-center overflow-hidden shadow-2xl bg-[#505050]">
-            <img className="w-[400px] h-[400px] m-8 rounded-full border-2 border-black object-cover" src={data?.data.thumbnail} alt="" />
+            <img className={`w-[400px] h-[400px] m-8 rounded-full border-2 border-black object-cover ${isEditing && "cursor-pointer"}`} src={thumbnailInput} alt="" onClick={handleClickThumbnail}/>
             <div className="w-[60px] h-[60px] absolute bg-white rounded-full border-2 border-black"></div>
           </div>
           <div className="flex flex-row w-full px-20 py-4 justify-between items-center">
             {isEditing ? (
-              <input type="text" className="w-full border-1 border-white px-3 py-1 my-1 text-sm rounded-md" value={data?.data.content} onChange={(e) => setContentInput(e.target.value)} />
+              <input type="text" className="w-full border-1 border-white px-3 py-1 my-1 text-sm rounded-md" value={contentInput} onChange={(e) => setContentInput(e.target.value)} />
             ) : (
               <p>{data?.data.content}</p>
             )}
@@ -209,12 +233,15 @@ export const LpDetailsPage = () => {
               </div>
           )}
           <div className="flex flex-row w-full px-20 py-4 justify-center items-center">
-            {data?.data.tags.map((tag) => (
+            {!isEditing && data?.data.tags.map((tag) => (
               <div key={tag.id} className="bg-gray-600 text-white px-3 py-1 rounded-full mr-2 flex flex-row justify-center items-center">
                 <p>#{tag.name}</p>
-                {isEditing && (
-                  <X className="ml-1 scale-75 cursor-pointer" onClick={() => handleDeleteTag(tag.name)}/>
-                )}
+              </div>
+            ))}
+            {isEditing && tags.map((tag, index) => (
+              <div key={index} className="bg-gray-600 text-white px-3 py-1 rounded-full mr-2 flex flex-row justify-center items-center">
+                <p>#{tag}</p>
+                <X className="ml-1 scale-75 cursor-pointer" onClick={() => handleDeleteTag(tag)}/>
               </div>
             ))}
           </div>
