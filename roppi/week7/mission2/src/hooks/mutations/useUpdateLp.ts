@@ -2,14 +2,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateLp } from "../../apis/lp";
 import { QUERY_KEY } from "../../constants/key";
 
-function useUpdateLp() {
+function useUpdateLp(lpId: number) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: updateLp,
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.lps, variables.lpId], 
+       queryKey: ["lp", lpId],
       });
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.lps] });
     },
@@ -20,4 +20,4 @@ function useUpdateLp() {
   });
 }
 
-export default useUpdateLp;
+export default useUpdateLp; 

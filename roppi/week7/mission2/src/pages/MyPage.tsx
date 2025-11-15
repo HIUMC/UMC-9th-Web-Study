@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import useUpdateMyInfo from "../hooks/mutations/useUpdateMyInfo";
@@ -7,11 +7,11 @@ import { QUERY_KEY } from "../constants/key";
 import { getMyInfo } from "../apis/auth";
 
 const MyPage = () => {
-  const { logout, accessToken } = useAuth();
+  const { logout  } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
-  const [avatar, setAvatar] = useState<File | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
   const fileRef = useRef<HTMLInputElement | null>(null);
 
   const navigate = useNavigate();
@@ -21,13 +21,16 @@ const MyPage = () => {
   const { data, isLoading } = useQuery({
     queryKey: [QUERY_KEY.myInfo],
     queryFn: getMyInfo,
-    // enabled: !!accessToken,
-    onSuccess: (res) => {
-      setName(res.data.name);
-      setBio(res.data.bio || "");
-      console.log(res.data.name)
-    },
   });
+
+  useEffect(()=> {
+    if(data) {
+      setName(data.data.name);
+      setBio(data.data.bio || "");
+      setAvatarUrl(data.data.avatar || "") //서버에서 가져오는 data.data.avatar는 이미 업로드된 이미지의 URL
+      console.log("세팅")
+    }
+  },[data])
 
   const handleLogout = async () => {
     await logout();
@@ -36,17 +39,20 @@ const MyPage = () => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setAvatar(file);
+    if (file) {
+      setAvatarUrl(URL.createObjectURL(file)); // 미리보기용
+    }
   };
 
   // 프로필 저장
   const handleSave = () => {
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("bio", bio || "");
-    if (avatar) formData.append("avatar", avatar);
+    const myData = {
+      name : name,
+      bio: bio,
+      avatar: avatarUrl,
+    }
 
-    updateMyInfo(formData, {
+    updateMyInfo(myData, {
       onSuccess: () => setIsEditing(false),
     });
   };
@@ -58,7 +64,7 @@ const MyPage = () => {
       {!isEditing ? (
         <>
           <img
-src={
+    src={
     data.data.avatar
       ? data.data.avatar
       : "/default-avatar.png"}
@@ -96,7 +102,7 @@ src={
             className="cursor-pointer relative"
           >
             <img
-              src={avatar ? URL.createObjectURL(avatar) : data.data.avatar || "/default-avatar.png"}
+              src={avatarUrl || "/default-avatar.png"}
               className="w-24 h-24 rounded-full border object-cover"
             />
             <input

@@ -1,4 +1,4 @@
-import type {  RequestSigninDto, RequestSignupDto, ResponseMyInfoDto, ResponseSigninDto, ResponseSignupDto, UploadAvatarResponse } from "../types/auth"
+import type {  MyPageDto, RequestSigninDto, RequestSignupDto, ResponseMyInfoDto, ResponseSigninDto, ResponseSignupDto, UploadAvatarResponse } from "../types/auth"
 import { axiosInstance } from "./axios";
 
 export const postSignup = async (body : RequestSignupDto) : Promise<ResponseSignupDto> => {
@@ -47,7 +47,7 @@ export const postLogout = async () => {
 
 
 export const updateMy = async (
-  updateMypage: FormData
+  updateMypage: MyPageDto
 ): Promise<ResponseMyInfoDto> => {
   const { data } = await axiosInstance.patch(`/v1/users`, updateMypage);
     console.log(data)

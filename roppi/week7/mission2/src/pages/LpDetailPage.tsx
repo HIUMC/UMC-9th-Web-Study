@@ -6,7 +6,8 @@ import { useInView } from "react-intersection-observer";
 import { timeAgo } from "../utils/timeAgo";
 import deleteIcon from "../assets/delete.png";
 import editIcon from "../assets/edit.png";
-
+import checkIcon from '../assets/checkmark-16.png'
+import imgIcon from '../assets/gallery.png'
 import Comment from "../components/Comments/Comment";
 import CommentSkeletonList from "../components/Comments/LpcardSkeletonList";
 import OrderBtn from "../components/OrderBtn";
@@ -29,6 +30,7 @@ const LpDetailPage = () => {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
+  const [editThumbnail, setEditThumbnail] = useState("");  
 
   const { data: lpData, isLoading, isError } = useGetLpDetail(lpId);
   const { data: me } = useGetMyInfo(accessToken);
@@ -47,8 +49,9 @@ const LpDetailPage = () => {
     console.log("싫어요")
   }
 
-
-// 댓글
+  
+  
+  // 댓글
   const {
     data: comments,
     fetchNextPage,
@@ -58,10 +61,10 @@ const LpDetailPage = () => {
     isFetchingNextPage,
   } = useGetLpComments(lpId, order);
   const { mutate: postCommentMutate } = usePostComment();
-  const updateLpMutation = useUpdateLp();
+  const updateLpMutation = useUpdateLp(lpId);
   const deleteLpMutation = useDeleteLp();
-
- const handleCommentSubmit = () => {
+  
+  const handleCommentSubmit = () => {
     if (!commentText.trim()) return alert("댓글을 입력해주세요!");
     postCommentMutate(
       { lpId, content: commentText },
@@ -74,6 +77,27 @@ const LpDetailPage = () => {
     );
   };
 
+
+  // 수정 버튼 클릭 핸들러
+  const handleUpdateLp = () => {
+
+    updateLpMutation.mutate(({lpId, data : {
+      title: editTitle,
+      content: editContent,
+      thumbnail: lpData.data?.thumbnail ?? "default-thumbnail.jpg",
+      tags: lpData.data?.tags ?? ['0'],
+      published: lpData.data?.published ?? false,
+    }}),{
+      onSuccess: () => {
+        alert("수정 완료");
+        setIsEditOpen(false);
+      },
+      onError: (err: any) => {
+        console.error("LP 수정 실패:", err.response?.data);
+        alert("수정 실패! 서버에서 요청을 처리할 수 없습니다.");
+    },}
+   )
+  }
   // 삭제 버튼 클릭 핸들러
 const handleDeleteLp = () => {
   if (!window.confirm("정말로 이 LP를 삭제하시겠습니까?")) return;
@@ -116,85 +140,54 @@ const handleDeleteLp = () => {
             <span className="text-[9px]">{timeAgo(lpData.createdAt)}</span>
           </div>
 
-          <div className="flex justify-between">
-            <span className="text-lg font-semibold">{lpData.title}</span>
-            <div className="flex gap-1 items-center">
+          <div className="flex justify-between gap-3">
+            { isEditOpen ? 
+          (<>
+          <input className="w-full"
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}  
+          />
+          </>) : (
+          <span className="text-lg font-semibold">{lpData.title}</span>
+          )  
+          }
+
+          <div className="flex gap-2 items-center">
+              { isEditOpen ? 
+                (<>
+                <img src={imgIcon} 
+                  className="cursor-pointer w-6"
+                  // onClick={}
+                />
+                  <img src={checkIcon}
+                  className="cursor-pointer"
+                  onClick={handleUpdateLp}
+                  />
+
+                </>) : (
               <img className="w-6 h-6 cursor-pointer" src={editIcon} 
-               onClick={() => {
-                  setEditTitle(lpData.title);
-                  setEditContent(lpData.content);
-                  setIsEditOpen(true);
-                }}
-              />
+                      onClick={() => {
+                          setEditTitle(lpData.title);
+                          setEditContent(lpData.content);
+                          setIsEditOpen(true);
+                        }}
+                      /> 
+                    )  
+                }
+      
               <img className="w-6 h-5 cursor-pointer" src={deleteIcon} 
                 onClick={handleDeleteLp}
               />
             </div>
           </div>
-
-          {isEditOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
-          <div className="bg-[#202020] p-6 rounded shadow-lg flex flex-col gap-4 w-[400px] text-white">
-            <h3 className="font-bold text-center">LP 수정</h3>
-            <input
-              value={editTitle}
-              onChange={(e) => setEditTitle(e.target.value)}
-              className="w-full bg-[#303030] rounded px-3 py-2 text-sm"
-            />
-            <textarea
-              value={editContent}
-              onChange={(e) => setEditContent(e.target.value)}
-              className="w-full bg-[#303030] rounded px-3 py-2 text-sm"
-            />
-            <div className="flex gap-4 justify-end">
-              <button
-                onClick={() => {
-                  const formData = new FormData();
-                  formData.append("title", editTitle);
-                  formData.append("content", editContent);
-
-             updateLpMutation.mutate(
-  {
-    lpId,
-    data: {
-      title: editTitle,
-      content: editContent,
-      thumbnail: lpData.data?.thumbnail ?? "default-thumbnail.jpg",
-      tags: lpData.data?.tags ?? ['0'],
-      published: lpData.data?.published ?? false,
-    },
-  },
-  {
-    onSuccess: () => {
-      alert("수정 완료");
-      setIsEditOpen(false);
-    },
-    onError: (err: any) => {
-      console.error("LP 수정 실패:", err.response?.data);
-      alert("수정 실패! 서버에서 요청을 처리할 수 없습니다.");
-    }
-  }
-);
-
-
-                }}
-                className="px-4 py-1 bg-pink-500 rounded hover:opacity-90"
-              >
-                저장
-              </button>
-              <button
-                onClick={() => setIsEditOpen(false)}
-                className="px-4 py-1 bg-gray-500 rounded hover:opacity-90"
-              >
-                취소
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
           <img src={lpData.thumbnail} className="rounded max-h-100 object-cover	" />
+          { isEditOpen ?
+                    <input className="w-full"
+                value={editContent}
+                onChange={(e) => setEditContent(e.target.value)}  
+          /> :
           <p className="text-sm text-gray-200">{lpData.content}</p>
+          }
 
           <Heart isLiked={isLiked} handleLike={isLiked ? handleDislikeLp : handleLikeLp} />
           
