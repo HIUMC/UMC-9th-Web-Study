@@ -52,13 +52,15 @@ const HomePage = () => {
         )
     }
     return (
-        <div className="container mx-auto bg-fuchsia-100 w-full">
-            <input 
-                className="border-2 border-amber-500 p-4 rounded-sm" 
-                value={search} 
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="검색어를 입력하세요."
-            />
+        <div className="container mx-auto bg-fuchsia-100 w-full ">
+            <div className="w-full p-4 md:w-1/2 lg:w-1/3">
+                <input 
+                    className="w-full p-3 bg-fuchsia-50 border-2 border-amber-400 rounded-lg shadow-sm placeholder-gray-500 " 
+                    value={search} 
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="검색어를 입력하세요."
+                />
+            </div>
             <div className="">
                 <div className="flex justify-end pt-4 mr-10">
                     <button 
