@@ -8,15 +8,20 @@ import LpCardSkeletonList from "../components/LpCard/LpCardSkeletonList";
 import FloatingButton from "../components/FloatingButton";
 import { Modal } from "../components/Modal";
 import LpAdd from "../components/LpAdd";
+import useDebounce from "../hooks/useDebounce";
+import { SEARCH_DEBOUNCE_DELAY } from "../constants/delay";
 
 const HomePage = () => {
 
     
     const [search,setSearch] = useState("");
+    // 디바운스
+    const debouncedValue = useDebounce(search, SEARCH_DEBOUNCE_DELAY);
+
     const [order,setOrder] = useState(PAGINATION_ORDER.desc)
     const [isLpAddOpen,setIsLpAddOpen] = useState(false);
 
-    const {data:lps, isFetching, hasNextPage, isPending, fetchNextPage, isError} = useGetInfiniteLpList(10, search, order);
+    const {data:lps, isFetching, hasNextPage, isPending, fetchNextPage, isError} = useGetInfiniteLpList(10, debouncedValue, order);
 
 
     // ref, inView
@@ -48,6 +53,12 @@ const HomePage = () => {
     }
     return (
         <div className="container mx-auto bg-fuchsia-100 w-full">
+            <input 
+                className="border-2 border-amber-500 p-4 rounded-sm" 
+                value={search} 
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="검색어를 입력하세요."
+            />
             <div className="">
                 <div className="flex justify-end pt-4 mr-10">
                     <button 

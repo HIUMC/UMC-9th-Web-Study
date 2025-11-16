@@ -71,7 +71,7 @@ const LpDetailPage = () => {
             // 업로드 성공 시 반환된 URL(data.imageUrl)을 state에 저장
             console.log("이미지 업로드 성공! 서버 응답:", data);
             setImagePreview(data.data.imageUrl)
-            setThumbnailUrl(data.data.imageUrl); // 👈 핵심: 서버 URL 저장
+            setThumbnailUrl(data.data.imageUrl); // 핵심: 서버 URL 저장
         },
         onErrorCallback: (error) => {
             console.error("이미지 업로드 실패:", error);
