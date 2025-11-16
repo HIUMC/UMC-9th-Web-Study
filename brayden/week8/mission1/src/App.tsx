@@ -28,7 +28,7 @@ const publicRoutes: RouteObject[] = [
     errorElement: <NotFoundPage />,
     children: [
       {
-        index: true,
+        index: true, // "/" -> HomePage로 이동(기본 페이지 설정) == path : "/", element : <HomePage />
         element: <HomePage />,
       },
       {

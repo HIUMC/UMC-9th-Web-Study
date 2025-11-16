@@ -8,6 +8,7 @@ import SortButton from "../components/common/SortButton";
 import { useOutletContext } from "react-router-dom";
 import SearchComponent from "../components/basicLayout/SearchComponent";
 import useDebounce from "../hooks/useDebounce";
+import { useThrottleFn } from "../hooks/queries/useThrottle";
 
 const HomePage = () => {
   const [search, setSearch] = useState("");
@@ -31,16 +32,28 @@ const HomePage = () => {
     fetchNextPage,
   } = useGetInfiniteLpList(12, debouncedSearch, order as PAGINATION_ORDER);
 
+  console.log("isPending : ", isPending);
+  console.log("isFetching : ", isFetching);
+  console.log("hasNextPage : ", hasNextPage);
+
   // ref, inView
   // ref -> 특정한 html 요소 감시
   // inView -> ref가 보이면 true
   const { ref, inView } = useInView({ threshold: 0 });
 
+  const throttledFetchNextPage = useThrottleFn(fetchNextPage, 2000);
+
   useEffect(() => {
     if (inView && !isFetching && hasNextPage) {
-      fetchNextPage();
+      throttledFetchNextPage();
     }
-  }, [inView, isFetching, hasNextPage, fetchNextPage]);
+  }, [inView, isFetching, hasNextPage, throttledFetchNextPage]);
+
+  // useEffect(() => {
+  //   if (inView && !isFetching && hasNextPage) {
+  //     fetchNextPage();
+  //   }
+  // }, [inView, isFetching, hasNextPage, fetchNextPage]);
 
   const handleSortChange = (newOrder: "asc" | "desc") => {
     setOrder(newOrder);
