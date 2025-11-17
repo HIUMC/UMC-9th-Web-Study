@@ -1,0 +1,153 @@
+import { useState, useRef, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import useUpdateMyInfo from "../hooks/mutations/useUpdateMyInfo";
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEY } from "../constants/key";
+import { getMyInfo } from "../apis/auth";
+
+const MyPage = () => {
+  const { logout  } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
+  const fileRef = useRef<HTMLInputElement | null>(null);
+
+  const navigate = useNavigate();
+  const { mutate: updateMyInfo } = useUpdateMyInfo();
+
+  // 내 정보 조회
+  const { data, isLoading } = useQuery({
+    queryKey: [QUERY_KEY.myInfo],
+    queryFn: getMyInfo,
+  });
+
+  useEffect(()=> {
+    if(data) {
+      setName(data.data.name);
+      setBio(data.data.bio || "");
+      setAvatarUrl(data.data.avatar || "") //서버에서 가져오는 data.data.avatar는 이미 업로드된 이미지의 URL
+      console.log("세팅")
+    }
+  },[data])
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setAvatarUrl(URL.createObjectURL(file)); // 미리보기용
+    }
+  };
+
+  // 프로필 저장
+  const handleSave = () => {
+    const myData = {
+      name : name,
+      bio: bio,
+      avatar: avatarUrl,
+    }
+
+    updateMyInfo(myData, {
+      onSuccess: () => setIsEditing(false),
+    });
+  };
+
+  if (isLoading || !data) return <div className="text-white">로딩중...</div>;
+
+  return (
+    <div className="flex flex-col justify-center items-center gap-10 text-white mt-10">
+      {!isEditing ? (
+        <>
+          <img
+    src={
+    data.data.avatar
+      ? data.data.avatar
+      : "/default-avatar.png"}
+                  className="w-24 h-24 rounded-full border object-cover"
+          />
+          <h1 className="text-2xl font-bold">{data.data.name ? data.data.name : ""}</h1>
+          <p className="text-gray-400">{data.data.bio ? data.data.bio : "자기소개가 없습니다."}</p>
+
+          <div className="flex gap-5">
+            <button
+              className="px-5 py-2 font-bold cursor-pointer border bg-[#e52582] rounded-md"
+              onClick={() => setIsEditing(true)}
+            >
+              프로필 수정
+            </button>
+            <button
+              className="px-5 py-2 font-bold cursor-pointer border bg-[#e52582] rounded-md"
+              onClick={handleLogout}
+            >
+              로그아웃
+            </button>
+            <button
+              className="px-5 py-2 font-bold cursor-pointer border bg-[#e52582] rounded-md"
+              onClick={() => navigate("/")}
+            >
+              홈으로
+            </button>
+          </div>
+        </>
+      ) : (
+        <div className="flex flex-col gap-4 items-center w-80">
+          {/* 프로필 이미지 선택 */}
+          <div
+            onClick={() => fileRef.current?.click()}
+            className="cursor-pointer relative"
+          >
+            <img
+              src={avatarUrl || "/default-avatar.png"}
+              className="w-24 h-24 rounded-full border object-cover"
+            />
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileRef}
+              onChange={handleFileChange}
+              className="hidden"
+            />
+          </div>
+
+          {/* 이름 */}
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="이름"
+            className="w-full bg-[#303030] border border-gray-600 rounded px-3 py-2 text-sm"
+          />
+
+          {/* 자기소개 */}
+          <textarea
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            placeholder="자기소개 (선택)"
+            className="w-full bg-[#303030] border border-gray-600 rounded px-3 py-2 text-sm h-20"
+          />
+
+          <div className="flex gap-3">
+            <button
+              onClick={handleSave}
+              className="px-4 py-2 bg-pink-500 rounded hover:opacity-90"
+            >
+              저장
+            </button>
+            <button
+              onClick={() => setIsEditing(false)}
+              className="px-4 py-2 bg-gray-600 rounded hover:opacity-90"
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MyPage;
