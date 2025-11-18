@@ -32,10 +32,10 @@ export const Sidebar = ({isOpen, onClose}: SidebarProps) => {
         onClick={onClose}
         aria-hidden={!isOpen}
       />
-      <aside className={`fixed transition-transform duration-200 md:relative flex flex-col md:translate-x-0 md:justify-between bg-[#222222] text-white w-[200px] h-full z-40 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`} aria-hidden={!isOpen}>
+      <aside className={`fixed transition-transform duration-200 md:fixed flex flex-col md:translate-x-0 justify-between bg-[#222222] text-white w-[200px] h-[calc(100dvh-60px)] z-40 top-[60px] left-0 ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`} aria-hidden={!isOpen}>
         <div>
           <Link to="/search" onClick={onClose} className="flex flex-row my-3 px-5 py-3">
-            <Search/>
+            <Search className="cursor-pointer"/>
             <p className="ml-3">찾기</p>
           </Link>
           <Link to="/my" onClick={onClose} className="flex flex-row my-3 px-5 py-3">
