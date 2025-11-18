@@ -7,6 +7,7 @@ import LpCardSkeletonList from "../components/LpCardSkeletonList";
 import LpCard from "../components/LpCard";
 import useDebounce from "../hooks/useDebounce";
 import { SearchDropdown } from "../components/SearchDropdown";
+import useThrottle from "../hooks/useThrottle";
 
 const Homepage = () => {
   const [order, setOrder] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.desc);
@@ -34,15 +35,23 @@ const Homepage = () => {
   // inView: 그 요소가 화면에 보이면 true
   const { ref, inView } = useInView({
     threshold: 0,
-    delay: 300,
   });
 
+  const throttledInView = useThrottle(inView, 200);
+  const prevThrottledInView = useRef(false);
+
   useEffect(() => {
-    if (inView && !isFetching && hasNextPage) {
+    if (
+      throttledInView &&
+      !prevThrottledInView.current &&
+      !isFetching &&
+      hasNextPage
+    ) {
       fetchNextPage();
       console.log("다음 페이지 불러오기");
     }
-  }, [inView, isFetching, hasNextPage, fetchNextPage]);
+    prevThrottledInView.current = throttledInView;
+  }, [throttledInView, isFetching, hasNextPage, fetchNextPage]);
 
   // [[1, 2], [3, 4]].flat() => [1, 2, 3, 4]
 
