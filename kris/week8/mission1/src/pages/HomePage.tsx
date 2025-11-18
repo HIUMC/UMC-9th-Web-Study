@@ -1,16 +1,13 @@
-import { useEffect, useState } from "react";
-import useGetLpList from "../hooks/queries/useGetLpList";
-import { Sidebar } from "../components/Sidebar";
+import { useEffect, useRef, useState } from "react";
 import { PAGINATION_ORDER } from "../enums/common";
-import { Link } from "react-router-dom";
-import { Loader2, LoaderCircle, X } from "lucide-react";
+import { X } from "lucide-react";
 import useGetInfiniteLpList from "../hooks/queries/useGetInfiniteLpList";
 import { useInView } from "react-intersection-observer";
-import LpCardSkeleton from "../components/LpCardSkeleton";
 import LpCardSkeletonList from "../components/LpCardSkeletonList";
 import LpCard from "../components/LpCard";
 import useDebounce from "../hooks/useDebounce";
 import { SearchDropdown } from "../components/SearchDropdown";
+import useThrottle from "../hooks/useThrottle";
 
 const Homepage = () => {
   const [order, setOrder] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.desc);
@@ -28,7 +25,7 @@ const Homepage = () => {
     isPending,
     fetchNextPage,
     isError,
-  } = useGetInfiniteLpList(10, debouncedSearchInput, order);
+  } = useGetInfiniteLpList(20, debouncedSearchInput, order);
 
   const handleOrderChange = (newOrder: PAGINATION_ORDER) => {
     setOrder(newOrder);
@@ -38,25 +35,28 @@ const Homepage = () => {
   // inView: 그 요소가 화면에 보이면 true
   const { ref, inView } = useInView({
     threshold: 0,
-    delay: 300,
   });
 
+  const throttledInView = useThrottle(inView, 200);
+  const prevThrottledInView = useRef(false);
+
   useEffect(() => {
-    if (inView) {
-      !isFetching && hasNextPage && fetchNextPage();
+    if (
+      throttledInView &&
+      !prevThrottledInView.current &&
+      !isFetching &&
+      hasNextPage
+    ) {
+      fetchNextPage();
+      console.log("다음 페이지 불러오기");
     }
-  }, [inView, isFetching, hasNextPage, fetchNextPage]);
+    prevThrottledInView.current = throttledInView;
+  }, [throttledInView, isFetching, hasNextPage, fetchNextPage]);
 
   // [[1, 2], [3, 4]].flat() => [1, 2, 3, 4]
 
   return (
     <>
-      {/* {isPending && (
-        <div className="flex flex-row justify-center items-center bg-black text-white h-full">
-          <Loader2 className="animate-spin h-20 w-20"/>
-        </div>
-      )} */}
-
       <div className="flex flex-col bg-black text-white h-full">
         <div className="flex flex-col relative my-6 mx-20">
           <input
