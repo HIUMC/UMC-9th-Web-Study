@@ -37,7 +37,7 @@ const Homepage = () => {
     threshold: 0,
   });
 
-  const throttledInView = useThrottle(inView, 200);
+  const throttledInView = useThrottle(inView, 150);
   const prevThrottledInView = useRef(false);
 
   useEffect(() => {
@@ -48,7 +48,6 @@ const Homepage = () => {
       hasNextPage
     ) {
       fetchNextPage();
-      console.log("다음 페이지 불러오기");
     }
     prevThrottledInView.current = throttledInView;
   }, [throttledInView, isFetching, hasNextPage, fetchNextPage]);

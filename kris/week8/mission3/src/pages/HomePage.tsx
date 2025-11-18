@@ -7,6 +7,7 @@ import LpCardSkeletonList from "../components/LpCardSkeletonList";
 import LpCard from "../components/LpCard";
 import useDebounce from "../hooks/useDebounce";
 import { SearchDropdown } from "../components/SearchDropdown";
+import useThrottle from "../hooks/useThrottle";
 
 const Homepage = () => {
   const [order, setOrder] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.desc);
@@ -34,21 +35,29 @@ const Homepage = () => {
   // inView: 그 요소가 화면에 보이면 true
   const { ref, inView } = useInView({
     threshold: 0,
-    delay: 300,
   });
 
+  const throttledInView = useThrottle(inView, 150);
+  const prevThrottledInView = useRef(false);
+
   useEffect(() => {
-    if (inView && !isFetching && hasNextPage) {
+    if (
+      throttledInView &&
+      !prevThrottledInView.current &&
+      !isFetching &&
+      hasNextPage
+    ) {
       fetchNextPage();
     }
-  }, [inView, isFetching, hasNextPage, fetchNextPage]);
+    prevThrottledInView.current = throttledInView;
+  }, [throttledInView, isFetching, hasNextPage, fetchNextPage]);
 
   // [[1, 2], [3, 4]].flat() => [1, 2, 3, 4]
 
   return (
     <>
       <div className="flex flex-col bg-black text-white h-full">
-        <div className="flex flex-col relative my-6 mx-20">
+        <div className="flex flex-col relative my-6 mx-24 items-center">
           <input
             type="text"
             className="h-[40px] w-full rounded-md bg-[#4f4f4f] px-3 text-white"
@@ -91,7 +100,7 @@ const Homepage = () => {
             오래된순
           </button>
         </div>
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap gap-4 justify-center mx-16">
           {isError && (
             <div className="flex flex-row justify-center items-center bg-black text-white h-full">
               <h1>데이터를 불러올 수 없습니다.</h1>
