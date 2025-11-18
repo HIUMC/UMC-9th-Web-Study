@@ -14,9 +14,8 @@ return useInfiniteQuery({
   queryFn: ({ pageParam }) =>
     getLpList({ cursor: pageParam, limit, search, order }),
   initialPageParam: 0,
-  getNextPageParam: (lastPage) => lastPage.data.nextCursor, // 핵심
+  getNextPageParam: (lastPage) => lastPage.data.nextCursor, 
   staleTime: 0,
   gcTime: 1000 * 60 * 3,
 });
-
 }

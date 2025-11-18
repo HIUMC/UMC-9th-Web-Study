@@ -42,7 +42,7 @@ const Home = () => {
 useEffect(() => {
   if (throttledInView && hasNextPage && !isFetching) {
     setTimeout(() => {
-      fetchNextPage();  // 딱 1페이지만 fetch됨
+      fetchNextPage(); 
     }, 1000);
   }
 }, [throttledInView]);
