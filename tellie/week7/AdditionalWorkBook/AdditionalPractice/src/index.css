@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+/* Text Styles */
+@layer utilities {
+  /* Heading Styles */
+  .text-heading-1 {
+    @apply text-4xl font-bold leading-tight;
+  }
+
+  .text-heading-2 {
+    @apply text-3xl font-bold leading-tight;
+  }
+
+  .text-heading-3 {
+    @apply text-2xl font-semibold leading-snug;
+  }
+
+  .text-heading-4 {
+    @apply text-xl font-semibold leading-snug;
+  }
+
+  /* Body Text Styles */
+  .text-body-large {
+    @apply text-lg font-normal leading-relaxed;
+  }
+
+  .text-body-medium {
+    @apply text-base font-normal leading-normal;
+  }
+
+  .text-body-small {
+    @apply text-sm font-normal leading-normal;
+  }
+
+  /* Caption & Label Styles */
+  .text-caption {
+    @apply text-xs font-normal leading-tight;
+  }
+
+  .text-label {
+    @apply text-sm font-medium leading-normal;
+  }
+
+  .text-button {
+    @apply text-base font-semibold leading-none tracking-wide;
+  }
+}
+
+/* Color Variations */
+@layer utilities {
+  /* Primary Colors */
+  .text-primary {
+    @apply text-blue-600;
+  }
+
+  .bg-primary {
+    @apply bg-blue-600;
+  }
+
+  .border-primary {
+    @apply border-blue-600;
+  }
+
+  /* Secondary Colors */
+  .text-secondary {
+    @apply text-purple-600;
+  }
+
+  .bg-secondary {
+    @apply bg-purple-600;
+  }
+
+  .border-secondary {
+    @apply border-purple-600;
+  }
+
+  /* Success Colors */
+  .text-success {
+    @apply text-green-600;
+  }
+
+  .bg-success {
+    @apply bg-green-600;
+  }
+
+  .border-success {
+    @apply border-green-600;
+  }
+
+  /* Warning Colors */
+  .text-warning {
+    @apply text-yellow-600;
+  }
+
+  .bg-warning {
+    @apply bg-yellow-600;
+  }
+
+  .border-warning {
+    @apply border-yellow-600;
+  }
+
+  /* Error/Danger Colors */
+  .text-error {
+    @apply text-red-600;
+  }
+
+  .bg-error {
+    @apply bg-red-600;
+  }
+
+  .border-error {
+    @apply border-red-600;
+  }
+
+  /* Neutral Colors */
+  .text-muted {
+    @apply text-gray-600;
+  }
+
+  .text-disabled {
+    @apply text-gray-400;
+  }
+
+  .bg-surface {
+    @apply bg-gray-50;
+  }
+
+  .bg-card {
+    @apply bg-white;
+  }
+
+  .border-divider {
+    @apply border-gray-200;
+  }
+}

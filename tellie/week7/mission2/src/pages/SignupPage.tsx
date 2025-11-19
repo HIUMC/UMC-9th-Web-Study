@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod/src/index.js';
-import BackButton from '../components/Backbutton';
+import BackButton from '../components/BackButton';
 import Navbar from '../components/Navbar';
 import { postSignup } from '../apis/auth';
 import { useState } from 'react';
