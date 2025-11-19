@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import Modal from "../ModalComponent/Modal";
-import useDeleteMyInfo from "../../hooks/mutations/useDeleteMyInfo";
+import useDeleteMyInfo from "../../hooks/mutations/myInfo/useDeleteMyInfo";
 
 const DeleteUserButton = () => {
   const { accessToken } = useAuth();

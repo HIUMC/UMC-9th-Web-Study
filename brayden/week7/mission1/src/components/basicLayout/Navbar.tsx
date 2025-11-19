@@ -2,31 +2,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import hamburgerIconSvg from "../../assets/hamburger-button.svg";
 import { Search } from "lucide-react";
-import type { ResponseMyInfoDto } from "../../types/auth";
-import { useEffect, useState } from "react";
-import { getMyInfo } from "../../apis/auth";
+import usePostLogout from "../../hooks/mutations/usePostLogout";
+import useGetMyInfo from "../../hooks/queries/useGetMyInfo";
 
-interface NavbarPropWs {
+interface NavbarProps {
   toggleSidebar: () => void;
 }
 
 const Navbar = ({ toggleSidebar }: NavbarProps) => {
-  const { accessToken, logout } = useAuth();
+  const { accessToken } = useAuth();
   const navigate = useNavigate();
-  const [data, setData] = useState<ResponseMyInfoDto | null>(null);
-
-  useEffect(() => {
-    if (!accessToken) return;
-    const getData = async () => {
-      const response = await getMyInfo();
-      setData(response);
-    };
-    getData();
-  }, [accessToken]);
+  const { mutate: logout } = usePostLogout();
+  const { data: myData } = useGetMyInfo(accessToken);
 
   const handleLogout = async () => {
-    await logout();
-    navigate("/");  
+    logout();
+    navigate("/");
   };
 
   return (
@@ -68,7 +59,7 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
         ) : (
           <>
             <span className="text-sm bg-black text-white px-3 py-1 rounded transition">
-              {data?.data.name}님 반갑습니다.
+              {myData?.data.name}님 반갑습니다.
             </span>
             <button
               onClick={handleLogout}
