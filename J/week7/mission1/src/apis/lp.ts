@@ -16,7 +16,7 @@ export const getLpDetail = async (lpid: string): Promise<Lp> => {
 }
 
 export const postComment = async(lpid: string, body: RequestCommentDto): Promise<ResponseCommentDto> => {
-    const {data} = await axiosInstance.post(`v1/lps/${lpid}/comments`, body);
+    const {data} = await axiosInstance.post(`/v1/lps/${lpid}/comments`, body);
     return data;
 }
 

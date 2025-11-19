@@ -273,10 +273,11 @@ export const LpDetailPage = () => {
         };
     }, [openMenuId]);
 
+    // lpDetailData가 업데이트될 때 editLpTags도 업데이트 (수정 모드가 아닐 때만)
     useEffect(() => {
         if (lpDetailData && !isEditingLp) {
             try {
-                const tags = lpDetailData.tags?.map((t: Tag) => t.name) ?? [];
+                const tags = lpDetailData.tag?.map((t: Tag) => t.name) ?? [];
                 setEditLpTags(tags);
                 setEditLpTitle(lpDetailData.title ?? "");
                 setEditLpContent(lpDetailData.content ?? "");
@@ -393,7 +394,7 @@ export const LpDetailPage = () => {
                                 setIsEditingLp(false);
                                 setEditLpTitle(lpDetailData.title);
                                 setEditLpContent(lpDetailData.content);
-                                setEditLpTags(lpDetailData.tags?.map((t: Tag) => t.name) ?? []);
+                                setEditLpTags(lpDetailData.tag?.map((t: Tag) => t.name) ?? []);
                                 setEditLpThumbnail(lpDetailData.thumbnail ?? null);
                                 setThumbnailFile(null);
                                 setThumbnailUrl("");
@@ -414,7 +415,7 @@ export const LpDetailPage = () => {
                                                 setIsEditingLp(true);
                                                 setEditLpTitle(lpDetailData?.title ?? "");
                                                 setEditLpContent(lpDetailData?.content ?? "");
-                                                setEditLpTags(lpDetailData?.tags?.map((t: Tag) => t.name) ?? []);
+                                                setEditLpTags(lpDetailData?.tag?.map((t: Tag) => t.name) ?? []);
                                                 setEditLpThumbnail(lpDetailData?.thumbnail ?? null);
                                                 setThumbnailFile(null);
                                                 setThumbnailUrl("");
@@ -443,7 +444,7 @@ export const LpDetailPage = () => {
                     
                         <div className="text-gray-200 text-base leading-relaxed">{lpDetailData.content}</div>
                         <div className="flex justify-center gap-2 flex-wrap">
-                            {lpDetailData.tag?.map((tag: Tag) => (
+                            {lpDetailData.tags?.map((tag: Tag) => (
                                 <span key={tag.id} className="bg-gray-700 text-white px-2 py-1 rounded-full">
                                     #{tag.name}
                                 </span>

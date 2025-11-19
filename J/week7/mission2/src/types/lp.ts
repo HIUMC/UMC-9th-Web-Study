@@ -31,7 +31,7 @@ export type Lp = {
     authorized: number;
     createdAt: Date;
     updatedAt: Date;
-    tag: Tag[];
+    tags: Tag[];
     likes: Likes[];
 }
 
