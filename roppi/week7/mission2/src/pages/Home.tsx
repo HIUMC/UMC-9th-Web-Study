@@ -7,14 +7,12 @@ import { useInView } from "react-intersection-observer";
 import LpcardSkeletonList from "../components/LpCard/LpCardSkeletonList";
 import LpCard from "../components/LpCard/LpCard";
 import AddBtn from "../components/Home/AddBtn";
-import LpImg from '../assets/LP.png'
 import OrderBtn from "../components/Home/OrderBtn";
-import TagInputSection from "../components/TagInputSection";
 import AddLpForm from "../components/Home/AddLpForm";
 
 const Home = () => {
   const [search, setSearch] = useState("");
-  const [order, setOrder] = useState<"asc" | "desc">("asc");
+  const [order, setOrder] = useState<"asc" | "desc">("desc");
   const [isModal, setIsModal] = useState(false);
   const [file, setFile] = useState<File | null>(null); 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
