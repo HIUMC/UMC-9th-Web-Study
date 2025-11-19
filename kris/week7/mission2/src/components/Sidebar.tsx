@@ -2,6 +2,7 @@ import { Search, User, X } from "lucide-react"
 import { useState } from "react";
 import { Link } from "react-router-dom"
 import useDeleteUser from "../hooks/mutations/useDeleteUser";
+import { useAuth } from "../context/AuthContext";
 
 type SidebarProps = {
   isOpen: boolean;
@@ -13,12 +14,15 @@ export const Sidebar = ({isOpen, onClose}: SidebarProps) => {
 
   const {mutate: deleteUser} = useDeleteUser();
 
+  const {logout} = useAuth();
+
   const handleOpenDeleteUserModal = () => {
     setIsUserDeleteModalOpen(true);
   }
 
   const handleDeleteUser = () => {
     deleteUser();
+    logout();
   }
 
   return (
