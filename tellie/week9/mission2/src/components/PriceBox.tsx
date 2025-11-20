@@ -10,7 +10,7 @@ const PriceBox = () => {
     };
 
     return (
-        <div className='p-12 flex justify-between'>
+        <div className='p-12 flex flex-col items-center justify-center space-y-4'>
             <button onClick={handleInitializeCart}
                 className='border p-4 rounded-md cursor-pointer hover:bg-gray-100'
             >
