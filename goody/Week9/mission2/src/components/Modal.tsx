@@ -11,18 +11,21 @@ const Modal = () => {
         dispatch(closeModal());
     }
   return (
-    <div className={`fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 z-70 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`} 
+    <div className={`fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity duration-300 z-70 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`} 
         onClick={() => dispatch(closeModal())}>
-            <div className={`fixed top-1/2 left-1/2 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out z-50 ${isOpen ? "translate-y-0" : "-translate-y-full"}`}>
-                <div className="flex flex-col gap-4">
-                    <span className="text-gray-800 font-bold text-2xl p-4">정말 삭제하시겠습니까?</span>
-                    <div className="flex justify-end gap-3 p-2">
+            <div 
+                className={`fixed w-60 bg-white shadow-xl rounded-sm transform transition-transform duration-300 ease-in-out z-50 ${isOpen ? "translate-y-0" : "-translate-y-full"}`}
+                onClick={(e) => e.stopPropagation()}
+                >
+                <div className="flex flex-col gap-3">
+                    <span className="flex items-center justify-center text-gray-800 font-bold text-xl p-2 mt-2">정말 삭제하시겠습니까?</span>
+                    <div className="flex justify-end gap-3 py-3 px-6">
                         <button 
-                            className="border bg-red-600 text-white cursor-pointer"
+                            className="border border-red-600 bg-red-600 px-3 py-2 rounded-md text-white cursor-pointer"
                             onClick={handleDeleteAll}
                             >네</button>
                         <button 
-                            className="border bg-gray-300 text-gray-600 cursor-pointer"
+                            className="border bg-gray-300 px-3 py-2 rounded-md text-gray-600 cursor-pointer"
                             onClick={() => dispatch(closeModal())}
                             >아니오</button>
                     </div>
