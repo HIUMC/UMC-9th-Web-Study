@@ -8,7 +8,7 @@ import SortButton from "../components/common/SortButton";
 import { useOutletContext } from "react-router-dom";
 import SearchComponent from "../components/basicLayout/SearchComponent";
 import useDebounce from "../hooks/useDebounce";
-import { useThrottleFn } from "../hooks/queries/useThrottle";
+import useThrottle from "../hooks/useThrottle";
 
 const HomePage = () => {
   const [search, setSearch] = useState("");
@@ -32,6 +32,9 @@ const HomePage = () => {
     fetchNextPage,
   } = useGetInfiniteLpList(12, debouncedSearch, order as PAGINATION_ORDER);
 
+  // const lastFetchTime = useRef(0);
+  // const COOLDOWN = 2000; // 2초
+
   console.log("isPending : ", isPending);
   console.log("isFetching : ", isFetching);
   console.log("hasNextPage : ", hasNextPage);
@@ -41,18 +44,32 @@ const HomePage = () => {
   // inView -> ref가 보이면 true
   const { ref, inView } = useInView({ threshold: 0 });
 
-  const throttledFetchNextPage = useThrottleFn(fetchNextPage, 2000);
-
-  useEffect(() => {
-    if (inView && !isFetching && hasNextPage) {
-      throttledFetchNextPage();
-    }
-  }, [inView, isFetching, hasNextPage, throttledFetchNextPage]);
+  // const throttledFetchNextPage = useThrottleFn(fetchNextPage, 2000);
 
   // useEffect(() => {
   //   if (inView && !isFetching && hasNextPage) {
-  //     fetchNextPage();
+  //     throttledFetchNextPage();
   //   }
+  // }, [inView, isFetching, hasNextPage, throttledFetchNextPage]);
+
+  const throttledFetchNextPage = useThrottle(inView, 2000);
+
+  useEffect(() => {
+    if (throttledFetchNextPage) {
+      if (!isFetching && hasNextPage) {
+        fetchNextPage();
+      }
+    }
+  }, [throttledFetchNextPage, isFetching, hasNextPage, fetchNextPage]);
+
+  // useEffect(() => {
+  //   if (!inView || isFetching || !hasNextPage) return;
+
+  //   const now = Date.now();
+  //   if (now - lastFetchTime.current < COOLDOWN) return;
+
+  //   lastFetchTime.current = now;
+  //   fetchNextPage();
   // }, [inView, isFetching, hasNextPage, fetchNextPage]);
 
   const handleSortChange = (newOrder: "asc" | "desc") => {
@@ -94,7 +111,7 @@ const HomePage = () => {
           ?.map((lp) => (
             <LpCard key={lp.id} lp={lp} /> // ✅ key는 항상 고유 ID
           ))}
-        {isFetching && <LpCardSkeletonList count={20} />}
+        {isFetching && !isPending && <LpCardSkeletonList count={20} />}
         <div ref={ref} className="h-2"></div>
       </div>
     </div>
