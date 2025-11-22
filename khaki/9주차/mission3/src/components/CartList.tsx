@@ -1,0 +1,16 @@
+import CartItem from "./CartItem";
+import { useCartActions, useCartInfo } from "../hooks/useCartStore";
+
+export const CartList = () => {
+  const { cartItems } = useCartInfo();
+
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <ul>
+        {cartItems.map((item, idx) => (
+          <CartItem key={item.id} lp={item} />
+        ))}
+      </ul>
+    </div>
+  );
+};
