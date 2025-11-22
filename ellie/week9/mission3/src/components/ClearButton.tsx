@@ -1,13 +1,12 @@
-import { useDispatch } from "react-redux";
-import { openModal } from "../slices/modalSlice";
+import { useModalActions } from "../hooks/useModalStore";
 
 const DeleteAllButton = () => {
-  const dispatch = useDispatch();
+  const { openModal } = useModalActions();
 
   return (
     <div>
       <button
-        onClick={() => dispatch(openModal())}
+        onClick={() => openModal()}
         className="border p-4 rounded-md cursor-pointer"
       >
         장바구니 초기화

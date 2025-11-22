@@ -1,6 +1,4 @@
 import { useCartActions } from "../hooks/useCartStore";
-import { useDispatch } from "../hooks/useCustomRedux";
-import { decrease, increase, removeItem } from "../slices/cartSlice";
 import type { Lp } from "../types/cart";
 
 interface CartItemProps {
