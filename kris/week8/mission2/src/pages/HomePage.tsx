@@ -37,7 +37,7 @@ const Homepage = () => {
     threshold: 0,
   });
 
-  const throttledInView = useThrottle(inView, 150);
+  const throttledInView = useThrottle(inView, 200);
   const prevThrottledInView = useRef(false);
 
   useEffect(() => {
