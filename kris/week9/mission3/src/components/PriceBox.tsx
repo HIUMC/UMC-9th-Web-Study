@@ -13,9 +13,9 @@ const PriceBox = () => {
   };
 
   return (
-    <div className="p-12 flex justify-between">
+    <div className="mx-6 p-2 flex justify-between items-center">
       <button
-        className="border p-4 rounded-md cursor-pointer"
+        className="border p-4 rounded-md cursor-pointer h-12 flex items-center justify-center"
         onClick={handleInitializeCart}
       >
         초기화

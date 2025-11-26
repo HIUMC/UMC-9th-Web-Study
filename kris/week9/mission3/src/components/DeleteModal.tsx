@@ -21,9 +21,12 @@ const DeleteModal = () => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black opacity-50 flex items-center justify-center z-30" />
+      <div
+        className="fixed inset-0 bg-black opacity-50 flex items-center justify-center z-30"
+        onClick={handleCloseModal}
+      />
       <div className="bg-white p-6 rounded-lg z-50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <h2 className="text-semibold text-lg mb-4">
+        <h2 className="font-semibold text-lg mb-4">
           정말 장바구니를 초기화하시겠습니까?
         </h2>
         <div className="flex flex-row justify-center gap-4">
