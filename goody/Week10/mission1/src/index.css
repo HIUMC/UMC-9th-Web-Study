@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@layer components {
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem; /* 선택사항: 모바일에서 좌우 여백 */
+    padding-right: 1rem;
+    text-align : center;
+    padding-top: 30px;
+  }
+}
