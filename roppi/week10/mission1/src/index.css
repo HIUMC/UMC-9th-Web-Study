@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@tailwind utilities;
+
+@layer base {
+  h1, h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+}
+
+body {
+  margin: 0
+}
