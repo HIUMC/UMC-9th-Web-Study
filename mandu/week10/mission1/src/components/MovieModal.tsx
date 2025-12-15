@@ -68,7 +68,7 @@ const MovieModal = ({ movie, isOpen, onClose, language }: MovieModalProps) => {
           {/* 닫기 버튼 (X) */}
           <button
             onClick={onClose}
-            className="absolute right-4 top-4 z-10 rounded-full text-black transition-colors hover:bg-black/70"
+            className="absolute cursor-pointerright-4 top-4 z-10 rounded-full text-black transition-colors hover:bg-black/70"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
