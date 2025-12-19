@@ -1,3 +1,4 @@
+import { memo, useCallback } from "react";
 import type { Movie } from "../types/movie";
 
 interface MovieCardProps {
@@ -5,13 +6,13 @@ interface MovieCardProps {
   onClick?: (movie: Movie) => void;
 }
 
-const MovieCard = ({ movie, onClick }: MovieCardProps) => {
+const MovieCard = memo(({ movie, onClick }: MovieCardProps) => {
   const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
   const fallbackImageUrl = "https://via.placeholder.com/500x750?text=No+Image";
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     onClick && onClick(movie);
-  };
+  }, [onClick, movie]);
 
   return (
     <div
@@ -38,6 +39,6 @@ const MovieCard = ({ movie, onClick }: MovieCardProps) => {
       </div>
     </div>
   );
-};
+});
 
 export default MovieCard;

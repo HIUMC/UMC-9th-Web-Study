@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import type { Movie } from "../types/movie";
 
 interface MovieModalProps {
@@ -21,12 +22,10 @@ const MovieModal = ({ movie, onClose }: MovieModalProps) => {
       aria-modal="true"
     >
       <div className="relative mx-4 max-h-[90vh] w-full max-w-4xl rounded-lg bg-white shadow-lg">
-        <button
+        <X
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-white transition-all hover:bg-black/70"
-        >
-          X
-        </button>
+          className="cursor-pointer text-white scale-80 absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full p-2 bg-black/50 transition-all hover:bg-black/70"
+        ></X>
         <div className="relative h-64 w-full overflow-hidden">
           <img
             src={
@@ -58,23 +57,21 @@ const MovieModal = ({ movie, onClose }: MovieModalProps) => {
                   alt={movie.title}
                   className="w-full rounded-lg shadow-lg"
                 />
-                <div className="absolute -top-3 -right-3 flex h-16 w-16 items-center justify-center rounded-full bg-blue-600 shadow-lg">
-                  <div className="text-center">
-                    <div className="text-xl font-bold text-white">
-                      {movie.vote_average.toFixed(1)}
-                    </div>
-                    <div className="text-xs text-blue-200">
-                      ({movie.vote_count})
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <div>
-              <div>
-                <h3 className="mb-1 text-sm font-semibold text-gray-400">
-                  개봉일
-                </h3>
+              <div className="">
+                <div className="flex flex-row items-center gap-2 mb-2">
+                  <div className="text-xl font-bold text-blue-600">
+                    {movie.vote_average.toFixed(1)}
+                  </div>
+                  <div className="text-xs text-blue-200">
+                    ({movie.vote_count})
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col items-center mb-3">
+                <h3 className="text-sm font-semibold text-gray-700">개봉일</h3>
                 <p className="text-lg">
                   {movie.release_date
                     ? new Date(movie.release_date).toLocaleDateString("ko-KR", {
@@ -86,19 +83,28 @@ const MovieModal = ({ movie, onClose }: MovieModalProps) => {
                 </p>
               </div>
               {movie.popularity && (
-                <div>
-                  <h3 className="mb-1 text-sm font-semibold text-gray-400">
+                <div className="flex flex-col items-center mb-3">
+                  <h3 className="mb-2 text-sm font-semibold text-gray-700">
                     인기도
                   </h3>
-                  <p className="text-lg">{movie.popularity.toFixed(0)}</p>
+                  <div className="w-full">
+                    <div className="w-full h-2 bg-gray-200 rounded-md overflow-hidden">
+                      <div
+                        className="h-full bg-blue-600 rounded-md transition-all duration-300"
+                        style={{
+                          width: `${Math.min(100, movie.popularity / 10)}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
-              <div>
-                <h3 className="mb-2 text-sm font-semibold text-gray-400">
+              <div className="flex flex-col items-center">
+                <h3 className="mb-2 text-sm font-semibold text-gray-700">
                   줄거리
                 </h3>
-                <p className="leading-relaxed text-gray-300">
-                  {movie.overview || "줄거리 정보가 없습니다."}
+                <p className="text-gray-500 text-center">
+                  {movie.overview || "줄거리 정보 없음"}
                 </p>
               </div>
             </div>

@@ -16,7 +16,7 @@ export default function UseMemoPage() {
 
   return (
     <>
-      <div>
+      <div className="flex flex-col gap-4 h-dvh">
         <h1>useMemo</h1>
         <label>
           숫자 입력:

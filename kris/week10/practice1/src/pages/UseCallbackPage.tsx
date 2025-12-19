@@ -21,9 +21,12 @@ export default function UseCallbackPage() {
     [count]
   );
 
-  const handleText = useCallback((text: string) => {
-    setText(text);
-  }, []);
+  const handleText = useCallback(
+    (text: string) => {
+      setText(text);
+    },
+    [text]
+  );
 
   return (
     <>

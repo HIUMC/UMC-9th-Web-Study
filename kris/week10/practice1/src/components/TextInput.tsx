@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface ITextInput {
   onChange: (text: string) => void;
 }
@@ -12,4 +14,4 @@ const TextInput = ({ onChange }: ITextInput) => {
     />
   );
 };
-export default TextInput;
+export default memo(TextInput);
