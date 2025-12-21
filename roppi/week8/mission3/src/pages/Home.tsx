@@ -9,7 +9,6 @@ import OrderBtn from "../components/Home/OrderBtn";
 import AddLpForm from "../components/Home/AddLpForm";
 import useDebounce from "../hooks/useDebounce";
 import useThrottle from "../hooks/useThrottle";
-import { queryClient } from "../App";
 
 const Home = () => {
   const [search, setSearch] = useState("");
