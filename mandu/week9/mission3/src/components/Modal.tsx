@@ -25,13 +25,13 @@ const Modal = () => {
         <p className="font-bold p-4">정말 삭제하시겠습니까?</p>
         <div className="flex justify-between gap-2">
           <button
-            className="p-3 bg-gray-300 rounded-md cursor-pointer"
+            className="p-3 bg-gray-300 rounded-md cursor-pointer transition-colors hover:bg-gray-500"
             onClick={handleClose}
           >
             아니요
           </button>
           <button
-            className="px-5  bg-red-600 text-white rounded-md cursor-pointer"
+            className="px-5  bg-red-600 text-white rounded-md cursor-pointer transition-colors hover:bg-red-700"
             onClick={handleInitialState}
           >
             네
